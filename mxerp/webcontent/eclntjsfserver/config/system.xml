@@ -1,0 +1,199 @@
+<!--
+    System configuration.
+ -->
+
+<system>
+
+    <!--
+      *************************************************************************
+      Name of SAXParserFactory that is used internally for all SAXParsing.
+      If not specified then a default SAX Parser will be selected (crimson).
+      If using CaptainCasa together with other frameworks (e.g. Spring)
+      you might use the Xerces parser as default.
+      Background: the parser that is included in the JRE has some ugly
+      bugs, so we open up the usage of the parser. 
+      *************************************************************************
+     -->
+    <!-- Example:
+    <saxparserfactory name="org.apache.xerces.jaxp.SAXParserFactoryImpl"/>
+     -->
+     
+    <!--
+      *************************************************************************
+      Included pages are buffered once being read from the web context.
+      You can switch off this buffering by setting active to false.
+      Default value if not defined is true.
+      *************************************************************************
+     -->    
+    <!--
+    <layoutbuffer active="true"/>
+     -->    
+    
+    <!--
+      *************************************************************************
+      Default templates that are used for building the .html / .jnlp
+      file when resolving a .ccapplet/.ccwebstart request. If not specified
+      then default values will be chosen.
+      *************************************************************************
+     -->
+    <!--
+    <starttemplates 
+        ccapplet="org/eclnt/jsfserver/starter/applettemplate.html"
+        ccwebstart="org/eclnt/jsfserver/starter/webstarttemplate.jnlp"
+    />
+     -->
+     
+    <!--
+      *************************************************************************
+      Default libraries that are loaded via the default .ccapplet / .ccwebstart
+      procedure. This is the default for the cclibs value that normally
+      is appended to the .ccapplet/.ccwebstart URL.
+      *************************************************************************
+     -->
+    <!--
+    <ccappletccwebstart 
+        cclibs="all"
+        splashimage="eclnt/images/splash.png">
+        <clientparam name="loglevel" value="INFO"/>
+        <clientparam name="xxx" value="yyy"/>
+    </ccappletccwebstart>
+     -->
+     
+    <!--
+      *************************************************************************
+      Configuration of so called stream store.
+      *************************************************************************
+     -->
+    <!--
+    Example: "default" - file based, in servlet temp diractory
+    <streamstore 
+        name="org.eclnt.jsfserver.streamstore.StreamStoreFile" 
+    />
+    
+    Example: "default" - with explicit directory location
+    <streamstore 
+        name="org.eclnt.jsfserver.streamstore.StreamStoreFile" 
+        rootdir="c:/streamstoredir"
+    />
+    
+    Example: "default" - vai JDBC; you need to provide a JDBC
+    provider as well (class implementing IJDBCConnectionProvider).
+    <streamstore 
+        name="org.eclnt.jsfserver.streamstore.StreamStoreJDBC" 
+    />
+	<jdbcconnectionprovider
+        name="demostreamstore.DemoConnectionProvider" 
+	/>
+     -->
+     
+    <!--
+      *************************************************************************
+      Configuration of extended calendar functions
+      *************************************************************************
+     -->
+    <!--
+     <extcalendarmgr 
+        name="org.eclnt.jsfserver.calendar.ExtCalendarMgr"
+     />
+     -->
+     
+    <!--
+      *************************************************************************
+      Configuration of general fixgrid attributes
+          optional: persistence = class name of IFIXGRIDPersistence(2) implementation
+          optional: exportcharagersetcsv, exportcharactersetxml = Export format for csv and xml export
+      *************************************************************************
+     -->
+    <!--
+     <fixgrid
+        persistence="org.eclnt.jsfserver.util.fixgridpersistence.DefaultFIXGRIDPersistence"
+        exportcharactersetcsv="UTF-8"
+        exportcharactersetxml="UTF-8"
+     />
+     -->
+     
+    <!--
+      *************************************************************************
+      Configuration of access to user
+          optional: name of class providing IUserAccess interface
+      *************************************************************************
+     -->
+    
+     <useraccess
+        name="managedbeans.utils.UserAccess"
+     />
+          
+    <!--
+      *************************************************************************
+      List of class names of IDynamicPageProvider implementations.
+      *************************************************************************
+     -->
+    <!--
+     <dynamicpages>
+         <dynamicpageprovider name="xxxx.yyyy"/>
+     </dynamicpages>
+     />
+     -->
+     
+    <!--
+      *************************************************************************
+      Encode name of jsessionid: sometimes it is required that the
+      URL encoding that includes the sessionid into the URL is done
+      not by the servlet container but by own functions. In this case by
+      default ";jsessionid=xxxx" is appended to a URL. You can change the
+      name of the word "jsessionid" corresponding to your environment.
+      *************************************************************************
+     -->
+    <!--
+     <encodenamejsessionid name="jsessionid"/>
+     />
+     -->
+     
+    <!--
+     *************************************************************************
+     Session state management (serialization)
+     usecontainer: default "false", if set to "true" then the save-state
+     management of the container will be used for saving the component tree.
+     Otherwise the CaptainCasa state management will be used (which is 
+     optimized for sticky sessions)
+     *************************************************************************
+     -->
+    <!--
+     <sessionstatemanagement usecontainer="false"
+     />
+     -->
+     
+    <!--
+     **************************************************************************
+     Non JSF requests are requests from controls, that are executed in parallel
+     to the normal JSF requests. Example: AUTOCOMPLETE, FILEUPLOAD,...
+     These requests send a an encoded query string ("strange" characters encoded
+     as escaped characters). On server side it is not 100% clear if the 
+     servlet container runtime directly interprets them as UTF8 characters or
+     as ISO-8859-1 characters (which seems to be the default).
+     Set the value explicitutf8conversion to "false" when no explicit conversion
+     from ISO-8859-1 to UTF8 is required within your server environment.
+     **************************************************************************
+     -->
+    <!--
+     <nonjsfrequests explicitutf8conversion="true"/>
+     -->
+
+	<!--
+	 **************************************************************************
+	 Memory optimization in server side component management.
+	 
+	 storeoriginaltagattributes - By default original attribute values are kept
+	 in a map, so that they can be accessed lated on using the method
+	 "getOriginalAttributeString". This is tpyically only required if you
+	 have own components that for some reason need to access the original 
+	 value of an expression before it is converted due to workplace or page
+	 bean management.
+	 **************************************************************************
+	 -->     
+    <!--
+     <memoryoptimization storeoriginaltagattributes="true"
+     />
+     -->
+     
+</system>

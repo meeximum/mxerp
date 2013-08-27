@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp spec="1.0" codebase="$$codebase" href="$$name">
+
+    <information>
+        <title>CaptainCasa Enterprise Client</title>
+        <vendor>CaptainCasa GmbH</vendor>
+	    <icon href="eclnt/images/splash.png" kind="splash"/> 
+    </information>
+   
+    <security>
+        <all-permissions />
+    </security>
+    
+   	<resources>
+   	    <j2se version="1.6+" java-vm-args="-dsa -Xnoclassgc -Xmx256m"/>    
+   	    <jar href="eclnt/lib/eclnt.jar"/>  
+   	    
+        <!-- ONLY REQUIRED WHEN USING JRVIEWER COMPONENT! (JasperReports) -->
+        <!-- @@jasperbegin@@
+        <jar href="eclnt/lib/jasperreports.jar"/>  
+        <jar href="eclnt/lib/commons-beanutils.jar"/>  
+        <jar href="eclnt/lib/commons-collections.jar"/>  
+        <jar href="eclnt/lib/commons-digester.jar"/>  
+        <jar href="eclnt/lib/commons-javaflow.jar"/>  
+        <jar href="eclnt/lib/commons-logging.jar"/>  
+        <jar href="eclnt/lib/commons-logging-api.jar"/>  
+        @@jasperend@@ -->
+        <!-- @@jasperpdfbegin@@
+        <jar href="eclnt/lib/iText.jar"/>  
+        @@jasperpdfend@@ -->
+        <!-- @@jasperxlsbegin@@
+        <jar href="eclnt/lib/poi.jar"/>  
+        @@jasperxlsend@@ -->
+        
+        <!-- ONLY REQUIRED WHEN USING PDFRENDERER COMPONENT! -->
+        <!-- @@pdfrendererbegin@@
+        <jar href="eclnt/lib/PDFRenderer.jar"/>  
+        @@pdfrendererend@@ -->
+        
+        <!-- ONLY REQUIRED WHEN USING OPEN STREET MAP VIEWER COMPONENT! -->
+        <!-- @@osmbegin@@
+        <jar href="eclnt/lib/swingx-core.jar"/>  
+        <jar href="eclnt/lib/swingx-ws.jar"/>  
+        @@osmend@@ -->
+        
+        <!-- ONLY REQUIRED WHEN USING SIMPLEHTMLEDITOR COMPONENT! -->
+        <!-- @@simplehtmleditorbegin@@
+        <jar href="eclnt/lib/eclnt_simplyhtml.jar"/>  
+        @@simplehtmleditorend@@ -->
+        
+        <!-- ONLY REQUIRED WHEN USING JFREECHART COMPONENT! -->
+        <!-- @@jfreechartbegin@@
+        <jar href="eclnt/lib/jfreechart.jar"/>  
+        <jar href="eclnt/lib/jcommon.jar"/>  
+        @@jfreechartend@@ -->
+   	</resources>   
+    
+    <!-- ONLY REQUIRED WHEN USING BROWSER OR ACTIVEX COMPONENT! -->
+    <!-- @@nativebegin@@
+    <resources os="Windows" arch="x86">
+        <jar href="eclnt/lib/swt.jar"/>  
+        <nativelib href="eclnt/lib/swt.jar"/>  
+    </resources>
+    <resources os="Windows" arch="x86_64">
+        <jar href="eclnt/lib/swt64.jar"/>  
+        <nativelib href="eclnt/lib/swt64.jar"/>  
+    </resources>
+    <resources os="Windows" arch="amd64">
+        <jar href="eclnt/lib/swt64.jar"/>  
+        <nativelib href="eclnt/lib/swt64.jar"/>  
+    </resources>
+    @@nativeend@@ -->
+    
+    <!-- -->
+    <application-desc main-class="org.eclnt.client.page.PageWebStart">
+		<argument>$$codebase</argument>
+		<argument>faces/index.jsp</argument>
+    </application-desc>
+    <!-- -->
+    
+    <!-- @@appletdescbegin@@
+    <applet-desc name="CaptainCasa Page Applet" main-class="org.eclnt.client.page.PageApplet" width="1024" height="768">
+    </applet-desc>
+    @@appletdescend@@ -->
+    
+</jnlp>

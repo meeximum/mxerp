@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='UTF-8'?>
+
+<!--
+Must be set to "false" for runtime purposes - always ccokies are
+used for session identification in applet scenarios. Negative result:
+two browsers may share the same session!
+-->
+
+<Context cookies='false'>
+</Context>

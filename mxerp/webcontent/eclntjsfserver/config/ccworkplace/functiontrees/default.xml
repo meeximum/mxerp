@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workplaceFunctionTreeInfoNode>
+    <text>Default Functions</text>
+    <subNodes>
+        <text> Functions 1</text>
+        <embeddedTreeName>functions1</embeddedTreeName>
+    </subNodes>
+    <subNodes>
+        <text> Functions 2</text>
+        <embeddedTreeName>functions2</embeddedTreeName>
+    </subNodes>
+    <subNodes>
+        <text> Functions 3</text>
+        <embeddedTreeName>functions3</embeddedTreeName>
+    </subNodes>
+</workplaceFunctionTreeInfoNode>

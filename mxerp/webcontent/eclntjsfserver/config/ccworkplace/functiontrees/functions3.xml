@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workplaceFunctionTreeInfoNode>
+    <subNodes>
+        <text>Folder 5</text>
+        <folderOpened>true</folderOpened>
+        <subNodes>
+            <text>Function h</text>
+            <workpageStartInfo>
+                <id>/page8.jsp</id>
+                <jspPage>/page8.jsp</jspPage>
+            </workpageStartInfo>
+        </subNodes>
+    </subNodes>
+</workplaceFunctionTreeInfoNode>
+

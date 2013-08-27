@@ -1,0 +1,235 @@
+<style extends="default" >
+<tag name="t:rowtitlebar" variant="default" >
+  <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#e93145,#bf1e2b,vertical);rectangle(100%-250,0,100,100%,#ffffff00,#ffffffff,horizontal);rectangle(100%-150,0,150,100%,#ffffff)" />
+  <set attribute="font" value="size:18;weight:bold" />
+  <set attribute="foreground" value="#fffffff0" />
+  <set attribute="padding" value="3" />
+</tag>
+<tag name="t:button" variant="default" >
+  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
+  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="focusable" value="false" />
+  <set attribute="focusdrawborder" value="false" />
+  <set attribute="font" value="weight:bold" />
+  <set attribute="foreground" value="#393939" />
+</tag>
+<tag name="t:button" variant="header" >
+  <set attribute="background" value="#ffffff" />
+  <set attribute="bgpaint" value="border(1,1,100%-1,100%-1,#000000,2);rectangle(2,2,100%-4,100%-4,#ffffff)" />
+  <set attribute="border" value="left:7;right:7;top:4;bottom:4;color:#00000000" />
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="focusable" value="false" />
+  <set attribute="focusdrawborder" value="false" />
+  <set attribute="font" value="size:16;weight:bold" />
+  <set attribute="foreground" value="#000000" />
+</tag>
+<tag name="t:button" variant="header_active" >
+  <set attribute="background" value="#ffffff" />
+  <set attribute="bgpaint" value="border(1,1,100%-1,100%-1,#000000,2);rectangle(2,2,100%-4,100%-4,#ffcc0060)" />
+  <set attribute="border" value="left:7;right:7;top:4;bottom:4;color:#00000000" />
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="focusable" value="false" />
+  <set attribute="focusdrawborder" value="false" />
+  <set attribute="font" value="size:16;weight:bold" />
+  <set attribute="foreground" value="#000000" />
+</tag>
+<tag name="t:button" variant="touch" >
+  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
+  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#393939" />
+  <set attribute="height" value="36" />
+  <set attribute="width" value="36" />
+</tag>
+<tag name="t:button" variant="scrollup" >
+  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
+  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#393939" />
+  <set attribute="height" value="36" />
+  <set attribute="image" value="/images/arrow_up.png" />
+  <set attribute="width" value="36" />
+</tag>
+<tag name="t:button" variant="scrolldown" >
+  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
+  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#393939" />
+  <set attribute="height" value="36" />
+  <set attribute="image" value="/images/arrow_down.png" />
+  <set attribute="width" value="36" />
+</tag>
+<tag name="t:button" variant="scrollleft" >
+  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
+  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#393939" />
+  <set attribute="height" value="36" />
+  <set attribute="image" value="/images/arrow_left.png" />
+  <set attribute="width" value="36" />
+</tag>
+<tag name="t:button" variant="scrollright" >
+  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
+  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#393939" />
+  <set attribute="height" value="36" />
+  <set attribute="image" value="/images/arrow_right.png" />
+  <set attribute="width" value="36" />
+</tag>
+<tag name="t:rowbodypane" variant="default" >
+  <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#FFFFFFc0)" />
+  <set attribute="padding" value="5" />
+  <set attribute="rowdistance" value="5" />
+</tag>
+<tag name="t:rowbodypane" variant="embedded" >
+  <set attribute="padding" value="0" />
+  <set attribute="rowdistance" value="5" />
+</tag>
+<tag name="t:pane" variant="headline" >
+  <set attribute="background" value="#0000000a" />
+  <set attribute="bgpaint" value="rrectangle(0,0,100%,100%,#00000000,#00000020,vertical)" />
+  <set attribute="padding" value="left:8;top:3;bottom:3;right:3" />
+</tag>
+<tag name="t:textpane" variant="TRANSPARENT" >
+  <set attribute="font" value="size:14;weight:bold" />
+</tag>
+<tag name="t:label" variant="default" >
+  <set attribute="font" value="weight:bold" />
+</tag>
+<tag name="t:link" variant="tableconfiguration" >
+  <set attribute="font" value="size:10" />
+</tag>
+<tag name="t:label" variant="highlight" >
+  <set attribute="font" value="size:20;weight:bold" />
+</tag>
+<tag name="t:formattedfield" variant="highlight" >
+  <set attribute="font" value="size:20;weight:bold" />
+</tag>
+<tag name="t:field" variant="highlight" >
+  <set attribute="font" value="size:20;weight:bold" />
+</tag>
+<tag name="t:label" variant="headline" >
+  <set attribute="font" value="size:14;weight:bold" />
+  <set attribute="foreground" value="#000000F0" />
+</tag>
+<tag name="t:label" variant="header" >
+  <set attribute="align" value="center" />
+  <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#ffffff);rectangle(0,0,100%,100%,#00000000,#00000020,vertical)" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#000000c0" />
+</tag>
+<tag name="t:label" variant="header2" >
+  <set attribute="align" value="center" />
+  <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#ffffff);rectangle(0,0,100%,100%,#00000000,#00000060,vertical)" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#000000c0" />
+</tag>
+<tag name="t:link" variant="tableconfiguration" >
+  <set attribute="font" value="size:10" />
+</tag>
+<tag name="t:fixgrid" variant="default" >
+  <set attribute="background" value="#ffffff" />
+  <set attribute="bordercolor" value="#00000030" />
+  <set attribute="borderheight" value="1" />
+  <set attribute="borderwidth" value="1" />
+  <set attribute="drawoddevenrows" value="false" />
+  <set attribute="objectbinding" value="#{tobedfined}" />
+  <set attribute="rowheight" value="20" />
+  <set attribute="sbvisibleamount" value="10" />
+  <set attribute="scrollbartype" value="dark" />
+  <set attribute="selectioncolor1" value="#ffcc0060" />
+  <set attribute="selectioncolor2" value="#ffcc0060" />
+</tag>
+<tag name="t:gridcol" variant="default" >
+  <set attribute="align" value="center" />
+  <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#ffffff);rectangle(0,0,100%,100%,#00000000,#00000020,vertical)" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#000000c0" />
+</tag>
+<tag name="t:gridcol" variant="red" >
+  <set attribute="align" value="center" />
+  <set attribute="background" value="#ff3333" />
+  <set attribute="font" value="size:12;weight:bold" />
+</tag>
+<tag name="t:arraygrid" variant="default" >
+  <set attribute="background" value="#ffffff" />
+  <set attribute="bordercolor" value="#00000030" />
+  <set attribute="borderheight" value="1" />
+  <set attribute="borderwidth" value="1" />
+  <set attribute="drawoddevenrows" value="false" />
+  <set attribute="objectbinding" value="#{tobedfined}" />
+  <set attribute="rowheight" value="20" />
+  <set attribute="sbvisibleamount" value="10" />
+  <set attribute="selectioncolor1" value="#ffcc0010" />
+  <set attribute="selectioncolor2" value="#ffcc0040" />
+</tag>
+<tag name="t:tabbedpane" variant="default" >
+  <set attribute="background" value="#00000010" />
+  <set attribute="backgroundunselected" value="#fafafa" />
+  <set attribute="borderdarkshadowcolor" value="#00000000" />
+  <set attribute="borderlightcolor" value="#00000000" />
+  <set attribute="bordershadowcolor" value="#00000000" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#000000c0" />
+  <set attribute="onetablineonly" value="true" />
+  <set attribute="onlydrawselectedtab" value="true" />
+  <set attribute="tabshadingbackground1" value="#00000030" />
+  <set attribute="tabshadingbackground2" value="#00000000" />
+  <set attribute="tabstyle" value="rounded" />
+</tag>
+<tag name="t:tabbedpanetab" variant="default" >
+  <set attribute="padding" value="5" />
+  <set attribute="rowdistance" value="2" />
+</tag>
+<tag name="t:foldablepane" variant="default" >
+  <set attribute="background" value="#00000010" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="headerbgpaint" value="rectangle(0,0,100%,100%,#ffffff);rectangle(0,0,100%,100%,#00000000,#00000020,vertical)" />
+  <set attribute="image" value="/images/search_minus.gif" />
+  <set attribute="imageto" value="/images/search_plus.gif" />
+  <set attribute="innerpadding" value="10" />
+  <set attribute="padding" value="1" />
+  <set attribute="titlepadding" value="0" />
+</tag>
+<tag name="t:treenode" variant="header" >
+  <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#ffffff);rectangle(0,0,100%,100%,#00000000,#00000020,vertical)" />
+  <set attribute="font" value="size:12;weight:bold" />
+  <set attribute="foreground" value="#000000c0" />
+</tag>
+<tag name="t:icon" variant="default" >
+  <set attribute="focusable" value="false" />
+  <set attribute="focusdrawborder" value="false" />
+</tag>
+<tag name="t:textarea" variant="default" >
+  <set attribute="selectallwhenfocussed" value="false" />
+</tag>
+<tag name="t:outlookbar" variant="default" >
+  <set attribute="bgpaintdefault" value="rectangle(0,0,100%,100%,#e93145,#bf1e2b,vertical)" />
+  <set attribute="bgpaintrollover" value="rectangle(0,0,100%,100%,#e9314590,#bf1e2b90,vertical)" />
+  <set attribute="bgpaintselected" value="rectangle(0,0,100%,100%,#e93145,#bf1e2b,vertical)" />
+  <set attribute="font" value="size:16;weight:bold" />
+  <set attribute="fontselected" value="size:18;weight:bold" />
+  <set attribute="foregrounddefault" value="#000000" />
+  <set attribute="foregroundselected" value="#fffffff0" />
+</tag>
+<tag name="t:outlookbaritem" variant="default" >
+  <set attribute="focusable" value="false" />
+  <set attribute="focusdrawborder" value="false" />
+</tag>
+<tag name="t:tabbedline" variant="WP_WORKPAGESELECTOR" >
+  <set attribute="bgpaintdefault" value="rectangle(0,0,100%,100%,#e93145,#bf1e2b,vertical)" />
+  <set attribute="bgpaintrollover" value="rectangle(0,0,100%,100%,#e9314590,#bf1e2b90,vertical)" />
+  <set attribute="bgpaintselected" value="rectangle(0,0,100%,100%,#e93145,#bf1e2b,vertical)" />
+  <set attribute="font" value="size:10;weight:bold" />
+  <set attribute="fontselected" value="size:12;weight:bold" />
+  <set attribute="foregrounddefault" value="#000000" />
+  <set attribute="foregroundselected" value="#fffffff0" />
+</tag>
+</style>
