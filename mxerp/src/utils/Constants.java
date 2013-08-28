@@ -11,4 +11,6 @@ public class Constants {
 	public static final String ECLNT_HEIGHT = "eclnt-height";
 	public static final String ECLNT_IP = "eclnt-ip";
 	public static final String ECLNT_USERNAME = "eclnt-username";
+	
+	public static final String ASTERIX = "*";
 }

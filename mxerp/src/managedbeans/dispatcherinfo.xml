@@ -1,4 +1,5 @@
 <dispatcherinfo>
+	<managedpackage name="managedbeans.commons" />
 	<managedpackage name="managedbeans.masterdata" />
 	<managedpackage name="managedbeans.trees" />
 </dispatcherinfo>

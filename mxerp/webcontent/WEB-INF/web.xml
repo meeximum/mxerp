@@ -43,6 +43,9 @@
 	<listener>
 		<listener-class>org.eclnt.jsfserver.util.HttpSessionListenerDelegator</listener-class>
 	</listener>
+	<listener>
+		<listener-class>listeners.GeneralContextListener</listener-class>
+	</listener>
 	<servlet>
 		<servlet-name>Faces Servlet</servlet-name>
 		<servlet-class>javax.faces.webapp.FacesServlet</servlet-class>
