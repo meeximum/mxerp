@@ -1,0 +1,739 @@
+form 
+{
+	margin:0;
+	padding:0;
+}
+
+.classa
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    text-decoration: underline;
+}
+.classa_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    text-decoration: underline;
+    background-color: #FFFFE0;
+}
+.classa_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #808080;
+    text-decoration: none;
+}
+
+.classbody
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    margin-left:0;
+    margin-top:0;
+    margin-right:0;
+    margin-bottom:0;
+    overflow:auto;
+    background-color:#f6f4e9;    
+}
+
+.classbutton
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:12px; 
+    font-weight:bold; 
+    border: 1px solid #a0a0a0;
+    border-radius: 6px;
+    cursor: pointer;
+    cursor: hand;
+    background: -ms-linear-gradient(top,#9bb1c9,#5d7fac);
+    background: -moz-linear-gradient(top,#9bb1c9,#5d7fac);
+    background: -webkit-linear-gradient(top,#9bb1c9,#5d7fac);
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:10px;
+    padding-right:10px;
+    color:#FFFFFF;
+}
+.classbuttoninner
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:12px; 
+    cursor:pointer;
+    color:#000000;
+}
+.classbuttonplain
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:12px; 
+    border-width:0;
+    background-color:transparent;
+    cursor:pointer;
+}
+.classbutton_selected
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:12px; 
+    cursor:pointer;
+    background-color: #FFFFE0;
+}
+.classbutton_disabled
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:12px; 
+}
+
+.classicon
+{
+    white-space: nowrap;    
+    font-size:8px; 
+    border: 0px solid #bbbbbb;
+    cursor: pointer;
+    cursor: hand;
+    background: transparent;
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:3px;
+    padding-right:3px;
+}
+
+.classcheckbox
+{
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    color:#FFFFFF;
+}
+.classcheckboxlabel
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #FFFFFF;
+    height:1;
+}
+.classcheckbox_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #FFFFE0;
+    color:#FFFFFF;
+}
+.classcheckbox_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #F0F0F0;
+    color:#F0F0F0;
+}
+
+.classcombobox
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    border-radius: 6px;
+}
+.classcombobox_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #FFFFE0;
+}
+.classcombobox_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #F0F0F0;
+}
+
+.classcombofield_field
+{
+    font-family:Trebuchet MS;
+    font-size:12px;
+    padding-top:3px;
+    padding-bottom:1px;
+    padding-left:2px;
+    padding-right:2px;
+    background-color: #FFFFFF;
+    border: 1px solid #808080;
+    border-radius: 6px 0 0 6px;
+}
+.classcombofield_button
+{
+    white-space: nowrap;    
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    font-weight:bold; 
+    border: 1px solid #a0a0a0;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    cursor: hand;
+    color:#FFFFFF;
+    background-color: #5d7fac;
+    background-image:url(../../../eclntjsfserver/images/htcombofieldicon.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    width:18px;
+    height:24px;
+}
+.classcombofield_buttoninner
+{
+    white-space: nowrap;    
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    cursor:pointer;
+}
+
+.classfield
+{
+    font-family:Trebuchet MS;
+    font-size:12px;
+    padding-top:3px;
+    padding-bottom:1px;
+    padding-left:2px;
+    padding-right:2px;
+    background-color: #FFFFFF;
+    border: 1px solid #808080;
+    border-radius: 6px;
+}
+.classfield_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #FFFFE0;
+}
+.classfield_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #F0F0F0;
+}
+
+.classfileupload
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+}
+.classfileupload_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #FFFFE0;
+}
+.classfileupload_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #F0F0F0;
+}
+
+.classfixgrid
+{
+    background-color:#f0f0f0;
+    font-size:12px; 
+    border:0;
+}
+.classfixgridheaderlabel
+{
+    background: -ms-linear-gradient(top,#3b5b79,#162536);
+    background: -moz-linear-gradient(top,#3b5b79,#162536);
+    background: -webkit-linear-gradient(top,#3b5b79,#162536);
+    font-size:12px; 
+    padding-top:4px;
+    padding-bottom:4px;
+    color:#F0F0F0;
+    font-weight:bold
+}
+.classfixgridbottomcell
+{
+}
+.classfixgridbottomindex
+{
+    font-size:9px;
+    height:100%; 
+}
+.classfixgridbuttonprevious
+{
+    font-size:12px; 
+    border:0;
+    width:20;
+    height:100%;
+    background-image:url(../../../eclntjsfserver/images/control_playbackwards.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    cursor:pointer;
+}
+.classfixgridbuttonpprevious
+{
+    font-size:12px; 
+    border:0;
+    width:40;
+    height:100%;
+    background-image:url(../../../eclntjsfserver/images/control_rewind.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    cursor:pointer;
+}
+.classfixgridbuttonnext
+{
+    font-size:12px; 
+    border:0;
+    width:20;
+    height:100%;
+    background-image:url(../../../eclntjsfserver/images/control_play.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    cursor:pointer;
+}
+.classfixgridbuttonnnext
+{
+    font-size:12px; 
+    border:0;
+    width:40;
+    height:100%;
+    background-image:url(../../../eclntjsfserver/images/control_fastforward.png);
+    background-position:center;
+    background-repeat:no-repeat;
+    cursor:pointer;
+}
+
+.classlabel
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    white-space: nowrap;    
+}
+.classlabel_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    background-color: #FFFFE0;
+    white-space: nowrap;    
+}
+.classlabel_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #FFFFFF;
+    white-space: nowrap;    
+}
+
+.classarraygridcelllabel
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    white-space: nowrap;    
+    padding-left:3;
+    padding-right:3;
+}
+.classarraygridcelllabel_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    background-color: #FFFFE0;
+    white-space: nowrap;    
+    padding-left:3;
+    padding-right:3;
+}
+
+.classarraygridcellselector
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:12px; 
+    border-width:0;
+    background-color:transparent;
+    cursor:pointer;
+    width:35;
+}
+.classarraygridcellselector_selected
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:12px; 
+    font-weight: bold;
+    border-width:0;
+    background-color:#FFFFE0;
+    cursor:pointer;
+    width:35;
+}
+
+.classgridcolselectorlabel
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    white-space: nowrap;    
+    width:35;
+}
+
+.classlink
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    text-decoration: underline;
+    white-space: nowrap;    
+}
+.classlink_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    background-color: #FFFFE0;
+    text-decoration: underline;
+    white-space: nowrap;    
+}
+.classlink_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #808080;
+    text-decoration: none;
+    white-space: nowrap;    
+}
+
+.classroundedpane
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    background-color:#FFFFFF;
+    border: 1px solid #a0a0a0;
+    border-radius: 6px;
+    padding: 10px;
+}
+.classtoolpane
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    padding:5px;
+    background: -ms-linear-gradient(top,#3b5b79,#162536);
+    background: -moz-linear-gradient(top,#3b5b79,#162536);
+    background: -webkit-linear-gradient(top,#3b5b79,#162536);
+}
+
+.classpane
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+}
+.classpane_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    background-color: #FFFFE0;
+}
+.classpane_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+}
+
+.classpopupouter
+{
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	background-color:#808080;
+	filter:alpha(opacity=40);
+	opacity:.4;
+	-moz-opacity:0.4;
+    overflow:auto; 
+}
+.classpopupinner
+{
+    position:absolute;
+    left:200;
+    top:200;
+    width:150;
+    height:150;
+    background-color:#f6f4e9;    
+    border: 1px solid #C0C0C0;
+    overflow:auto; 
+}
+.classpopupinnercontent
+{
+    padding:10;
+}
+
+.classradiobutton
+{
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    color:#FFFFFF;
+}
+.classradiobuttonlabel
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #FFFFFF;
+    height:1;
+}
+.classradiobutton_selected
+{
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    color:#FFFFFF;
+}
+.classradiobutton_disabled
+{
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    color:#FFFFFF;
+}
+
+.classrow
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+}
+
+.classrowheader
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    background: -ms-linear-gradient(top,#c3cdd9,#8196b1);
+    background: -moz-linear-gradient(top,#c3cdd9,#8196b1);
+    background: -webkit-linear-gradient(top,#c3cdd9,#8196b1);
+    padding:3px;
+}
+
+.classscrollpane
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    overflow:auto;
+}
+
+.classspan
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+}
+.classspan_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+    background-color: #FFFFE0;
+}
+.classspan_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color: #000000;
+}
+
+.classstatusbar
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    xxbackground: -ms-linear-gradient(top,#b1bac9,#2b3036);
+    xxbackground: -moz-linear-gradient(top,#b1bac9,#2b3036);
+    xxbackground: -webkit-linear-gradient(top,#b1bac9,#2b3036);
+    background-color:#5b6066;
+}
+.classstatusbartextmessage
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color:#FFFFFF;
+    text-align:left;
+    white-space: nowrap;    
+}
+.classstatusbartextsuccess
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color:#E0FFE0;
+    text-align:right;
+    white-space: nowrap;    
+}
+.classstatusbartextwarning
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    color:#FFFFE0;
+    text-align:right;
+    white-space: nowrap;    
+}
+.classstatusbartexterror
+{
+    font-family:Trebuchet MS;
+    font-size:12px;
+    font-weight:bold; 
+    color:#FFC0C0;
+    text-align:right;
+    white-space: nowrap;    
+}
+
+.classtable
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+}
+
+.classsubmitblocker
+{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color:#808080;
+    filter:alpha(opacity=50);
+    opacity:.5;
+    -moz-opacity:0.5;
+    z-index: 100;
+}
+
+.classtabbedpanebutton_selected
+{
+    white-space: nowrap;    
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    font-weight:bold; 
+    border: 1px solid #a0a0a0;
+    border-bottom: 0px;
+    border-radius: 6px 6px 0px 0px;
+    cursor: pointer;
+    cursor: hand;
+    background: -ms-linear-gradient(top,#9bb1c9,#5d7fac);
+    background: -moz-linear-gradient(top,#9bb1c9,#5d7fac);
+    background: -webkit-linear-gradient(top,#9bb1c9,#5d7fac);
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:10px;
+    padding-right:10px;
+    color:#FFFFFF;
+}
+
+.classtabbedpanebutton_unselected
+{
+    white-space: nowrap;    
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    font-weight:bold; 
+    border: 1px solid #a0a0a0;
+    border-bottom: 0px;
+    border-radius: 6px 6px 0px 0px;
+    cursor: pointer;
+    cursor: hand;
+    background: -ms-linear-gradient(top,#f0f0f0,#d0d0d0);
+    background: -moz-linear-gradient(top,#f0f0f0,#d0d0d0);
+    background: -webkit-linear-gradient(top,#f0f0f0,#d0d0d0);
+    padding-top:3px;
+    padding-bottom:3px;
+    padding-left:10px;
+    padding-right:10px;
+    color:#808080;
+}
+
+.classtabbedpanetabpane
+{
+    border: 1px solid #a0a0a0;
+    border-radius: 6px;
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left:10px;
+    padding-right:10px;
+    height: 100%;
+    width: 100%;
+}
+
+.classtabbedpanebuttontable
+{
+    padding-left:30px;
+    padding-right:30px;
+    height: 0%;
+}	
+
+.classtd_selected
+{
+    background-color: #FFFFE0;
+}
+	
+.classtextarea
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    border: 1px solid #808080;
+    border-radius: 6px;
+}
+.classtextarea_selected
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #FFFFE0;
+}
+.classtextarea_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    border: 1px solid #C0C0C0;
+    background-color: #F0F0F0;
+}
+
+.classtitlebarback
+{
+    background-color:#000040;
+}
+.classtitlebartext
+{
+    font-family:Trebuchet MS;
+    font-size:16px; 
+    font-weight:bold;
+    color: #FFFFFF;
+    white-space: nowrap;    
+    padding-left: 10;
+}		
+
+.classbuttonidtextselection
+{
+    white-space: nowrap;    
+    font-family:Trebuchet MS;
+    font-size:12px; 
+    font-weight:bold; 
+    border: 1px solid #a0a0a0;
+    border-radius: 6px;
+    cursor: pointer;
+    cursor: hand;
+    xxxbackground: -ms-linear-gradient(top,#9bb1c9,#5d7fac);
+    xxxbackground: -moz-linear-gradient(top,#9bb1c9,#5d7fac);
+    xxxbackground: -webkit-linear-gradient(top,#9bb1c9,#5d7fac);
+    xxpadding-top:3px;
+    xxxpadding-bottom:3px;
+    xxxpadding-left:10px;
+    xxxpadding-right:10px;
+    xxxcolor:#FFFFFF;
+    background-image:url(../../../eclntjsfserver/images/control_play.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    width:30px;
+    height:20px;
+}
+

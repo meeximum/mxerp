@@ -1,7 +1,13 @@
 package db;
 
+import java.util.List;
+
+import junit.framework.Assert;
+
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
+import org.apache.cayenne.exp.Expression;
+import org.apache.cayenne.query.SelectQuery;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -23,8 +29,11 @@ public class PartnerTest {
 
 	@Test
 	public void testDB() {
-		
-		
+		Expression expression = Accounts.SIC_CODE.eq("1001");
+		SelectQuery<Accounts> query = new SelectQuery<Accounts>(Accounts.class, expression);
+		List<Accounts> accounts = context.performQuery(query);
+ 		Assert.assertEquals(true, accounts.size()>0);
+ 		System.out.println(accounts.get(0).getName());
 		
 	}
 

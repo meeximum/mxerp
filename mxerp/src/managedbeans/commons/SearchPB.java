@@ -47,553 +47,562 @@ import org.joor.Reflect;
 import utils.Helper;
 //TODO: dynamic handling of operators
 //TODO: metadata for ignoring fields and referencing to dropdowns
+
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.SearchPB}")
 public class SearchPB extends WorkpageDispatchedPageBean implements Serializable {
 
-  private enum Operator {
-    eq, like, gt, gte, lt, lte, between;
-    
-    public String getDescription() {
-      return Helper.getLiteral(this.name());
-    }
-
-  }
-  
-  private String savedSearchName;
-
-  public String getSavedSearchName() {
-    return savedSearchName;
-  }
-
-  public void setSavedSearchName(String value) {
-    this.savedSearchName = value;
-  }
-
-  private int fetchLimit = 30;
-
-  public int getFetchLimit() {
-    return fetchLimit;
-  }
-
-  public void setFetchLimit(int value) {
-    this.fetchLimit = value;
-  }
-
-  private FIXGRIDListBinding<GridResultItem> gridResult = new FIXGRIDListBinding<GridResultItem>();
-
-  public FIXGRIDListBinding<GridResultItem> getGridResult() {
-    return gridResult;
-  }
-
-  public void setGridResult(FIXGRIDListBinding<GridResultItem> value) {
-    this.gridResult = value;
-  }
-
-  public class GridResultItem extends FIXGRIDItem implements java.io.Serializable {
-    CayenneDataObject data;
-
-    public CayenneDataObject getData() {
-      return data;
-    }
-
-    public GridResultItem(CayenneDataObject data) {
-      super();
-      this.data = data;
-    }
-
-  }
-
-  private ValidValuesBinding fieldsVVB;
-
-  private ValidValuesBinding opsVVB = new ValidValuesBinding() {
-    {
-      for(Operator operator : Operator.values()){
-        addValidValue(operator.name(), operator.getDescription());
-      }
-    }
-  };
-
-  // ------------------------------------------------------------------------
-  // constructors & initialization
-  // ------------------------------------------------------------------------
-
-  public SearchPB(IWorkpageDispatcher workpageDispatcher) throws Exception {
-    super(workpageDispatcher);
-
-    // read class by reflection    
-
-  }
-
-  public String getPageName() {
-    return "/ui/commons/search.jsp";
-  }
-
-  public String getRootExpressionUsedInPage() {
-    return "#{d.SearchPB}";
-  }
-
-  // ------------------------------------------------------------------------
-  // public usage
-  // ------------------------------------------------------------------------
-  public void onChangeSelection(ActionEvent event) {
-    try {
-      BaseComponent base = (BaseComponent) event.getSource();
-      COLSYNCHEDROWComponent parent = (COLSYNCHEDROWComponent) base.getParent();
-      String id = parent.getAttributeValueAsString("configinfo");
-      SelectionRowObject selectionRowObject = getSelectionRowObjects().get(id);
-      selectionRowObject.recreateSelectionRow();
-    } catch (Exception ex) {
-      logger.error(ex);
-      Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
-    }
-  }
-  
-  public void onAddSearchField(ActionEvent event) {
-    try {
-      BaseComponent base = (BaseComponent) event.getSource();
-      String field = base.getAttributeValueAsString("configinfo");
-      addSelectionRowForSpecificField(field);
-    } catch (Exception ex) {
-      logger.error(ex);
-      Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
-    }
-  }
-
-  public void onReset(ActionEvent event) {
-    try {
-      init();
-    } catch (Exception ex) {
-      logger.error(ex);
-      Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
-    }
-  }
-
-  public void onSaveSearch(ActionEvent event) {
-  }
-
-  public void onInit(ActionEvent event) throws Exception {
-    init();
-  }
-
-  public void onSearch(ActionEvent event) throws Exception {
-    getGridResult().getItems().clear();
-    List<CayenneDataObject> result = select();
-
-    for (CayenneDataObject row : result) {
-      getGridResult().getItems().add(new GridResultItem(row));
-    }
-
-    Statusbar.outputMessage(String.format("Es wurden %s Datens√§tze gefunden", result.size()));
-  }
-
-  public void onAddSelectionRow(ActionEvent event) {
-    try {
-      BaseComponent base = (BaseComponent) event.getSource();
-      COLSYNCHEDROWComponent parent = (COLSYNCHEDROWComponent) base.getParent();
-      String id = parent.getAttributeValueAsString("configinfo");
-      duplicateSelectionRow(id);
-    } catch (Exception ex) {
-      logger.error(ex);
-      Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
-    }
-  }
-
-  public void onRemoveSelectionRow(ActionEvent event) {
-    BaseComponent base = (BaseComponent) event.getSource();
-    COLSYNCHEDROWComponent parent = (COLSYNCHEDROWComponent) base.getParent();
-    String id = parent.getAttributeValueAsString("configinfo");
-    removeSelectionRow(id);
-  }
-
-  public ValidValuesBinding getFieldsVVB() {
-    return fieldsVVB;
-  }
-
-  public ValidValuesBinding getOpsVVB() {
-    return opsVVB;
-  }
-
-  public ROWDYNAMICCONTENTBinding getResultGrid() throws Exception {
-    return generateResultGrid();
-  }
-
-  public ROWDYNAMICCONTENTBinding getSelectionPanel() throws Exception {
-    return generateSelectionPanel();
-  }
-
-  // ------------------------------------------------------------------------
-  // private usage
-  // ------------------------------------------------------------------------
-  private ObjEntity objEntity;
-  private Class<CayenneDataObject> entityClazz;
-
-  @SuppressWarnings("unchecked")
-  private void init() throws Exception {
-    objEntity = getContext().getEntityResolver().getObjEntity("PpAfkoPordershead");
-    assert objEntity != null;
-    fieldsVVB = new ValidValuesBinding();
-    for (ObjAttribute objAttribute : objEntity.getAttributes()) {
-      fieldsVVB.addValidValue(objAttribute.getName(), objAttribute.getName());
-    }
-    entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
-    assert entityClazz != null;
-
-    selectionRowObjects.clear();
-    addSelectionRow(0);
-
-    getGridResult().getItems().clear();
-  }
-
-  private void addSelectionRow(int index) throws Exception {
-    String id = UUID.randomUUID().toString().replaceAll("-", "");
-    selectionRowObjects.put(index, id, new SelectionRowObject(id));
-  }
-
-  private void addSelectionRowForSpecificField(String field) throws Exception {
-    String id = UUID.randomUUID().toString().replaceAll("-", "");
-    SelectionRowObject selectionRowObject = new SelectionRowObject(id);
-    selectionRowObject.setField(field);
-    selectionRowObject.setOperator(Operator.eq);
-    selectionRowObject.focus();
-    selectionRowObjects.put(0, id, selectionRowObject);
-  }
-
-  private void duplicateSelectionRow(String idToCopy) throws Exception {
-    SelectionRowObject selectionRowObjectToCopy = getSelectionRowObjects().get(idToCopy);
-    int index = selectionRowObjects.indexOf(idToCopy);
-    String newId = UUID.randomUUID().toString().replaceAll("-", "");
-    SelectionRowObject newSelectionRowObject = new SelectionRowObject(newId, selectionRowObjectToCopy.getField(), selectionRowObjectToCopy.getOperator());
-    newSelectionRowObject.setField(selectionRowObjectToCopy.getField());
-    newSelectionRowObject.setOperator(selectionRowObjectToCopy.getOperator());
-    newSelectionRowObject.focus();
-    selectionRowObjects.put(index + 1, newId, newSelectionRowObject);
-  }
-
-  private void removeSelectionRow(String id) {
-    if (getSelectionRowObjects().size() > 1)
-      getSelectionRowObjects().remove(id);
-  }
-
-  private List<CayenneDataObject> select() {
-    Map<String, List<Expression>> expressionsMap = new HashMap<String, List<Expression>>();
-    for (SelectionRowObject selectionRowObject : getSelectionRowObjects().values()) {
-      String key = selectionRowObject.getField();
-      if (StringUtils.isBlank(key))
-        continue;
-      if (expressionsMap.containsKey(key) == false) {
-        expressionsMap.put(key, new ArrayList<Expression>());
-      }
-      expressionsMap.get(key).add(selectionRowObject.buildExpression());
-    }
-
-    List<Expression> expressions = new ArrayList<Expression>(expressionsMap.size());
-    for (String key : expressionsMap.keySet()) {
-      Expression expression = ExpressionFactory.joinExp(Expression.OR, expressionsMap.get(key));
-      expressions.add(expression);
-    }
-
-    Expression expression = ExpressionFactory.joinExp(Expression.AND, expressions);
-
-    SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);
-    query.setFetchLimit(fetchLimit);
-    return getContext().select(query);
-  }
-
-  private COLSYNCHEDROWNode createSelectionRow(final SelectionRowObject selectionRowObject) throws Exception {
-    String id = selectionRowObject.getId(); 
-    String type = selectionRowObject.getTypeOfField();
-    Operator operator = selectionRowObject.getOperator();
-    
-    COLSYNCHEDROWNode colSynchedRow = new COLSYNCHEDROWNode();
-    colSynchedRow.setConfiginfo(id);
-    // field
-    {
-      COMBOBOXNode combobox = new COMBOBOXNode();
-      combobox.setValidvaluesbinding("#{d.SearchPB.fieldsVVB}");
-      combobox.setValue("#{d.SearchPB.selectionRowObjects." + id + ".field}");
-      combobox.setFlush(true);
-      combobox.setActionListener("#{d.SearchPB.onChangeSelection}");
-      combobox.setWidth(150);
-      colSynchedRow.addSubNode(combobox);
-    }
-
-    // operator
-    {
-      COMBOBOXNode combobox = new COMBOBOXNode();
-      combobox.setValidvaluesbinding("#{d.SearchPB.opsVVB}");
-      combobox.setValue("#{d.SearchPB.selectionRowObjects." + id + ".operatorAsString}");
-      combobox.setFlush(true);
-      combobox.setActionListener("#{d.SearchPB.onChangeSelection}");
-      combobox.setWidth(100);
-      colSynchedRow.addSubNode(combobox);
-    }
-
-    // valueLow
-    {
-      colSynchedRow.addSubNode(createComponentNodeForSelectionRow(id, type, "valueLow"));
-    }
-    
-    // valueHigh
-    if(operator==Operator.between) {
-      colSynchedRow.addSubNode(createComponentNodeForSelectionRow(id, type, "valueHigh"));
-    } else {
-      COLDISTANCENode coldistance = new COLDISTANCENode();
-      coldistance.setWidth(0);
-      colSynchedRow.addSubNode(coldistance);
-    }
-
-    // plus
-    {
-      ICONNode icon = new ICONNode();
-      icon.setImage("/eclntjsfserver/images/bullet_toggle_plus.png");
-      icon.setActionListener("#{d.SearchPB.onAddSelectionRow}");
-      colSynchedRow.addSubNode(icon);
-    }
-
-    // minus
-    {
-      ICONNode icon = new ICONNode();
-      icon.setImage("/eclntjsfserver/images/bullet_toggle_minus.png");
-      icon.setActionListener("#{d.SearchPB.onRemoveSelectionRow}");
-      colSynchedRow.addSubNode(icon);
-    }
-
-    return colSynchedRow;
-  }
-
-  private ROWDYNAMICCONTENTBinding generateSelectionPanel() throws Exception {
-
-    List<ComponentNode> components = new ArrayList<ComponentNode>();
-    ROWDYNAMICCONTENTBinding content = new ROWDYNAMICCONTENTBinding();
-
-    COLSYNCHEDPANENode colSynchedPane = new COLSYNCHEDPANENode();
-    colSynchedPane.setColdistance(5);
-    colSynchedPane.setRowdistance(5);
-
-    for (SelectionRowObject selectionRowObject : getSelectionRowObjects().values()) {
-      COLSYNCHEDROWNode colSynchedRow = selectionRowObject.getColSynchedRow();
-      colSynchedPane.addSubNode(colSynchedRow);
-    }
-
-    components.add(colSynchedPane);
-
-    content.setContentNodes(components);
-
-    return content;
-  }
-
-  private ROWDYNAMICCONTENTBinding generateResultGrid() throws Exception {
-
-    List<ComponentNode> components = new ArrayList<ComponentNode>();
-    ROWDYNAMICCONTENTBinding content = new ROWDYNAMICCONTENTBinding();
-
-    FIXGRIDNode fixgrid = new FIXGRIDNode();
-    fixgrid.setObjectbinding("#{d.SearchPB.gridResult}");
-    fixgrid.setSelectorcolumn("1");
-    fixgrid.setWidth("100%");
-
-    for (ObjAttribute objAttribute : objEntity.getAttributes()) {
-      
-      GRIDCOLNode gridcol = new GRIDCOLNode();
-      gridcol.setText(objAttribute.getDbAttributeName());
-      gridcol.setWidth(100);
-      
-      ComponentNode value = createComponentNodeForResultColumn(objAttribute);
-      gridcol.addSubNode(value);
-
-      ICONNode icon = new ICONNode();
-      icon.setImage("/eclntjsfserver/images/magnifier.png");
-      icon.setConfiginfo(objAttribute.getName());
-      icon.setActionListener("#{d.SearchPB.onAddSearchField}");
-      gridcol.addSubNode(icon);
-
-      fixgrid.addSubNode(gridcol);
-
-    }
-    components.add(fixgrid);
-
-    ICONNode icon = new ICONNode();
-    icon.setActionListener("#{d.SearchPB.gridResult.onEditColumnDetails}");
-    icon.setImage("/images/setting_tool_16_16.png");
-    icon.setRowalignmenty("top");
-    components.add(icon);
-
-    content.setContentNodes(components);
-    return content;
-  }
-
-  private ComponentNode createComponentNodeForResultColumn(ObjAttribute objAttribute) {
-    String type = objAttribute.getType();      
-    ComponentNode value = null;
-    if("java.util.Date".equals(type)) {
-      LABELNode label = new LABELNode();
-      label.setText(".{data." + objAttribute.getName() + "}");
-      label.setFormat("datetime");
-      label.setFormatmask("short");        
-      value = label;
-    } else if("java.lang.Boolean".equals(type)) {
-      CHECKBOXNode checkbox = new CHECKBOXNode();
-      checkbox.setSelected(".{data." + objAttribute.getName() + "}");
-      checkbox.setAlign("center");
-      checkbox.setEnabled(false);
-      value = checkbox;
-    } else if("java.lang.Integer".equals(type)) {
-      LABELNode label = new LABELNode();
-      label.setText(".{data." + objAttribute.getName() + "}");
-      label.setFormat("int");  
-      label.setAlign("right");
-      value = label;
-    } else {
-      LABELNode label = new LABELNode();
-      label.setText(".{data." + objAttribute.getName() + "}");
-      value = label;
-    }
-    return value;
-  }
-  
-  private ComponentNode createComponentNodeForSelectionRow(String id, String type, String value) {   
-    ComponentNode component = null;
-    if("java.util.Date".equals(type)) {
-      CALENDARFIELDNode calendar = new CALENDARFIELDNode();
-      calendar.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
-      calendar.setTimezone("CET");
-      calendar.setFormat("datetime");
-      calendar.setFormatmask("short");  
-      calendar.setWidth(200);
-      component = calendar;
-    } else if("java.lang.Boolean".equals(type)) {
-      CHECKBOXNode checkbox = new CHECKBOXNode();
-      checkbox.setSelected("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
-      checkbox.setAlign("center");
-      component = checkbox;
-    } else if("java.lang.Integer".equals(type)) {
-      FORMATTEDFIELDNode field = new FORMATTEDFIELDNode();
-      field.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
-      field.setAlign("right");
-      field.setFormat("int");
-      field.setRestricttokeys("-0123456789");
-      field.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
-      field.setWidth(200);
-      component = field;
-    } else {
-      FIELDNode field = new FIELDNode();
-      field.setText("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
-      field.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
-      field.setWidth(200);
-      component = field;
-    }    
-    return component;
-  }
-
-  private ListOrderedMap selectionRowObjects = new ListOrderedMap();
-
-  @SuppressWarnings("unchecked")
-  public Map<String, SelectionRowObject> getSelectionRowObjects() {
-    return selectionRowObjects;
-  }
-
-  public class SelectionRowObject {
-    private String id;
-    private COLSYNCHEDROWNode colSynchedRow;
-    private String field;
-    private Operator operator;
-    private Object valueLow;
-    private Object valueHigh;
-    private long focus;
-
-    public COLSYNCHEDROWNode getColSynchedRow() {
-      return colSynchedRow;
-    }
-
-    public String getId() {
-      return id;
-    }
-
-    public String getField() {
-      return field;
-    }
-
-    public void setField(String field) {
-      this.field = field;
-    }
-
-    public Operator getOperator() {
-      return operator;
-    }    
-
-    public void setOperator(Operator operator) {
-      this.operator = operator;
-    }
-    
-    public String getOperatorAsString() {
-      return operator.name();
-    }    
-
-    public void setOperatorAsString(String operator) {
-      this.operator = Operator.valueOf(operator);
-    }
-
-    public Object getValueLow() {
-      return valueLow;
-    }
-
-    public void setValueLow(Object valueLow) {
-      this.valueLow = valueLow;
-    }
-
-    public Object getValueHigh() {
-      return valueHigh;
-    }
-
-    public void setValueHigh(Object valueHigh) {
-      this.valueHigh = valueHigh;
-    }
-
-    public long getFocus() {
-      return focus;
-    }
-
-    public SelectionRowObject(String id) throws Exception {
-      super();
-      this.id = id;
-      this.colSynchedRow = createSelectionRow(this);
-    }
-    
-    public SelectionRowObject(String id, String field, Operator operator) throws Exception {
-      super();
-      this.id = id;
-      this.field = field;
-      this.operator = operator;
-      this.colSynchedRow = createSelectionRow(this);
-    }
-
-    public void focus() {
-      this.focus = RequestFocusManager.getNewRequestFocusCounter();
-    }
-    
-    public void recreateSelectionRow() throws Exception {
-      this.valueLow = null;
-      this.valueHigh = null;
-      this.colSynchedRow = createSelectionRow(this);
-    }
-    
-    private String getTypeOfField() {
-      if(field==null) return null;
-      return objEntity.getAttributeMap().get(field).getType();
-    }
-
-    public Expression buildExpression() {      
-      String dbName = objEntity.getAttributeMap().get(field).getDbAttributeName();
-      Reflect refField = Reflect.on(SearchPB.this.entityClazz).field(dbName);
-      Reflect refMethod = null;
-      if(operator==Operator.between) {
-        refMethod = refField.call(operator.name(), valueLow, valueHigh);
-      } else {
-        refMethod = refField.call(operator.name(), operator==Operator.like ? "%" + valueLow + "%" : valueLow);
-      }   
-      Expression expression = refMethod.get();      
-      return expression;
-    }
-  }
+	private enum Operator {
+		eq, like, gt, gte, lt, lte, between;
+
+		public String getDescription() {
+			return Helper.getLiteral(this.name());
+		}
+
+	}
+	
+	private String entityName = "Accounts";
+
+	private String savedSearchName;
+
+	public String getSavedSearchName() {
+		return savedSearchName;
+	}
+
+	public void setSavedSearchName(String value) {
+		this.savedSearchName = value;
+	}
+
+	private int fetchLimit = 30;
+
+	public int getFetchLimit() {
+		return fetchLimit;
+	}
+
+	public void setFetchLimit(int value) {
+		this.fetchLimit = value;
+	}
+
+	private FIXGRIDListBinding<GridResultItem> gridResult = new FIXGRIDListBinding<GridResultItem>();
+
+	public FIXGRIDListBinding<GridResultItem> getGridResult() {
+		return gridResult;
+	}
+
+	public void setGridResult(FIXGRIDListBinding<GridResultItem> value) {
+		this.gridResult = value;
+	}
+
+	public class GridResultItem extends FIXGRIDItem implements java.io.Serializable {
+		CayenneDataObject data;
+
+		public CayenneDataObject getData() {
+			return data;
+		}
+
+		public GridResultItem(CayenneDataObject data) {
+			super();
+			this.data = data;
+		}
+
+	}
+
+	private ValidValuesBinding fieldsVVB;
+
+	private ValidValuesBinding opsVVB = new ValidValuesBinding() {
+		{
+			for (Operator operator : Operator.values()) {
+				addValidValue(operator.name(), operator.getDescription());
+			}
+		}
+	};
+
+	// ------------------------------------------------------------------------
+	// constructors & initialization
+	// ------------------------------------------------------------------------
+
+	public SearchPB(IWorkpageDispatcher workpageDispatcher) throws Exception {
+		super(workpageDispatcher);
+
+		// read class by reflection
+
+	}
+
+	public String getPageName() {
+		return "/ui/commons/search.jsp";
+	}
+
+	public String getRootExpressionUsedInPage() {
+		return "#{d.SearchPB}";
+	}
+
+	// ------------------------------------------------------------------------
+	// public usage
+	// ------------------------------------------------------------------------
+	public void onChangeSelection(ActionEvent event) {
+		try {
+			BaseComponent base = (BaseComponent) event.getSource();
+			COLSYNCHEDROWComponent parent = (COLSYNCHEDROWComponent) base.getParent();
+			String id = parent.getAttributeValueAsString("configinfo");
+			SelectionRowObject selectionRowObject = getSelectionRowObjects().get(id);
+			selectionRowObject.recreateSelectionRow();
+		} catch (Exception ex) {
+			logger.error(ex);
+			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
+		}
+	}
+
+	public void onAddSearchField(ActionEvent event) {
+		try {
+			BaseComponent base = (BaseComponent) event.getSource();
+			String field = base.getAttributeValueAsString("configinfo");
+			addSelectionRowForSpecificField(field);
+		} catch (Exception ex) {
+			logger.error(ex);
+			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
+		}
+	}
+
+	public void onReset(ActionEvent event) {
+		try {
+			init();
+		} catch (Exception ex) {
+			logger.error(ex);
+			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
+		}
+	}
+
+	public void onSaveSearch(ActionEvent event) {
+	}
+
+	public void onInit(ActionEvent event) throws Exception {
+		init();
+	}
+
+	public void onSearch(ActionEvent event) throws Exception {
+		getGridResult().getItems().clear();
+		List<CayenneDataObject> result = select();
+
+		for (CayenneDataObject row : result) {
+			getGridResult().getItems().add(new GridResultItem(row));
+		}
+
+		Statusbar.outputMessage(String.format("Es wurden %s Datens‰tze gefunden", result.size()));
+	}
+
+	public void onAddSelectionRow(ActionEvent event) {
+		try {
+			BaseComponent base = (BaseComponent) event.getSource();
+			COLSYNCHEDROWComponent parent = (COLSYNCHEDROWComponent) base.getParent();
+			String id = parent.getAttributeValueAsString("configinfo");
+			duplicateSelectionRow(id);
+		} catch (Exception ex) {
+			logger.error(ex);
+			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
+		}
+	}
+
+	public void onRemoveSelectionRow(ActionEvent event) {
+		BaseComponent base = (BaseComponent) event.getSource();
+		COLSYNCHEDROWComponent parent = (COLSYNCHEDROWComponent) base.getParent();
+		String id = parent.getAttributeValueAsString("configinfo");
+		removeSelectionRow(id);
+	}
+
+	public ValidValuesBinding getFieldsVVB() {
+		return fieldsVVB;
+	}
+
+	public ValidValuesBinding getOpsVVB() {
+		return opsVVB;
+	}
+
+	public ROWDYNAMICCONTENTBinding getResultGrid() throws Exception {
+		return generateResultGrid();
+	}
+
+	public ROWDYNAMICCONTENTBinding getSelectionPanel() throws Exception {
+		return generateSelectionPanel();
+	}
+
+	// ------------------------------------------------------------------------
+	// private usage
+	// ------------------------------------------------------------------------
+	private ObjEntity objEntity;
+	private Class<CayenneDataObject> entityClazz;
+
+	@SuppressWarnings("unchecked")
+	private void init() throws Exception {
+		objEntity = getContext().getEntityResolver().getObjEntity(entityName);
+		assert objEntity != null;
+		fieldsVVB = new ValidValuesBinding();
+		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
+			String description = Helper.getColumnNameForEntity(entityName, objAttribute.getDbAttributeName());
+			fieldsVVB.addValidValue(objAttribute.getName(), description);
+		}
+		entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
+		assert entityClazz != null;
+
+		selectionRowObjects.clear();
+		addSelectionRow(0);
+
+		getGridResult().getItems().clear();
+	}
+
+	private void addSelectionRow(int index) throws Exception {
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		selectionRowObjects.put(index, id, new SelectionRowObject(id));
+	}
+
+	private void addSelectionRowForSpecificField(String field) throws Exception {
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		SelectionRowObject selectionRowObject = new SelectionRowObject(id);
+		selectionRowObject.setField(field);
+		selectionRowObject.setOperator(Operator.eq);
+		selectionRowObject.focus();
+		selectionRowObjects.put(0, id, selectionRowObject);
+	}
+
+	private void duplicateSelectionRow(String idToCopy) throws Exception {
+		SelectionRowObject selectionRowObjectToCopy = getSelectionRowObjects().get(idToCopy);
+		int index = selectionRowObjects.indexOf(idToCopy);
+		String newId = UUID.randomUUID().toString().replaceAll("-", "");
+		SelectionRowObject newSelectionRowObject = new SelectionRowObject(newId, selectionRowObjectToCopy.getField(), selectionRowObjectToCopy.getOperator());
+		newSelectionRowObject.setField(selectionRowObjectToCopy.getField());
+		newSelectionRowObject.setOperator(selectionRowObjectToCopy.getOperator());
+		newSelectionRowObject.focus();
+		selectionRowObjects.put(index + 1, newId, newSelectionRowObject);
+	}
+
+	private void removeSelectionRow(String id) {
+		if (getSelectionRowObjects().size() > 1)
+			getSelectionRowObjects().remove(id);
+	}
+
+	private List<CayenneDataObject> select() {
+		Map<String, List<Expression>> expressionsMap = new HashMap<String, List<Expression>>();
+		for (SelectionRowObject selectionRowObject : getSelectionRowObjects().values()) {
+			if(selectionRowObject.valueLow==null) continue;
+			String key = selectionRowObject.getField();
+			if (StringUtils.isBlank(key))
+				continue;
+			if (expressionsMap.containsKey(key) == false) {
+				expressionsMap.put(key, new ArrayList<Expression>());
+			}
+			expressionsMap.get(key).add(selectionRowObject.buildExpression());
+			
+		}
+
+		List<Expression> expressions = new ArrayList<Expression>(expressionsMap.size());
+		for (String key : expressionsMap.keySet()) {
+			Expression expression = ExpressionFactory.joinExp(Expression.OR, expressionsMap.get(key));
+			expressions.add(expression);
+		}
+
+		Expression expression = ExpressionFactory.joinExp(Expression.AND, expressions);
+
+		SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);
+		query.setFetchLimit(fetchLimit);
+		return getContext().select(query);
+	}
+
+	private COLSYNCHEDROWNode createSelectionRow(final SelectionRowObject selectionRowObject) throws Exception {
+		String id = selectionRowObject.getId();
+		String type = selectionRowObject.getTypeOfField();
+		Operator operator = selectionRowObject.getOperator();
+
+		COLSYNCHEDROWNode colSynchedRow = new COLSYNCHEDROWNode();
+		colSynchedRow.setConfiginfo(id);
+		// field
+		{
+			COMBOBOXNode combobox = new COMBOBOXNode();
+			combobox.setValidvaluesbinding("#{d.SearchPB.fieldsVVB}");
+			combobox.setValue("#{d.SearchPB.selectionRowObjects." + id + ".field}");
+			combobox.setFlush(true);
+			combobox.setActionListener("#{d.SearchPB.onChangeSelection}");
+			combobox.setWidth(150);
+			colSynchedRow.addSubNode(combobox);
+		}
+
+		// operator
+		{
+			COMBOBOXNode combobox = new COMBOBOXNode();
+			combobox.setValidvaluesbinding("#{d.SearchPB.opsVVB}");
+			combobox.setValue("#{d.SearchPB.selectionRowObjects." + id + ".operatorAsString}");
+			combobox.setFlush(true);
+			combobox.setActionListener("#{d.SearchPB.onChangeSelection}");
+			combobox.setWidth(100);
+			colSynchedRow.addSubNode(combobox);
+		}
+
+		// valueLow
+		{
+			colSynchedRow.addSubNode(createComponentNodeForSelectionRow(id, type, "valueLow"));
+		}
+
+		// valueHigh
+		if (operator == Operator.between) {
+			colSynchedRow.addSubNode(createComponentNodeForSelectionRow(id, type, "valueHigh"));
+		} else {
+			COLDISTANCENode coldistance = new COLDISTANCENode();
+			coldistance.setWidth(0);
+			colSynchedRow.addSubNode(coldistance);
+		}
+
+		// plus
+		{
+			ICONNode icon = new ICONNode();
+			icon.setImage("/eclntjsfserver/images/bullet_toggle_plus.png");
+			icon.setActionListener("#{d.SearchPB.onAddSelectionRow}");
+			colSynchedRow.addSubNode(icon);
+		}
+
+		// minus
+		{
+			ICONNode icon = new ICONNode();
+			icon.setImage("/eclntjsfserver/images/bullet_toggle_minus.png");
+			icon.setActionListener("#{d.SearchPB.onRemoveSelectionRow}");
+			colSynchedRow.addSubNode(icon);
+		}
+
+		return colSynchedRow;
+	}
+
+	private ROWDYNAMICCONTENTBinding generateSelectionPanel() throws Exception {
+
+		List<ComponentNode> components = new ArrayList<ComponentNode>();
+		ROWDYNAMICCONTENTBinding content = new ROWDYNAMICCONTENTBinding();
+
+		COLSYNCHEDPANENode colSynchedPane = new COLSYNCHEDPANENode();
+		colSynchedPane.setColdistance(5);
+		colSynchedPane.setRowdistance(5);
+
+		for (SelectionRowObject selectionRowObject : getSelectionRowObjects().values()) {
+			COLSYNCHEDROWNode colSynchedRow = selectionRowObject.getColSynchedRow();
+			colSynchedPane.addSubNode(colSynchedRow);
+		}
+
+		components.add(colSynchedPane);
+
+		content.setContentNodes(components);
+
+		return content;
+	}
+
+	private ROWDYNAMICCONTENTBinding generateResultGrid() throws Exception {
+
+		List<ComponentNode> components = new ArrayList<ComponentNode>();
+		ROWDYNAMICCONTENTBinding content = new ROWDYNAMICCONTENTBinding();
+
+		FIXGRIDNode fixgrid = new FIXGRIDNode();
+		fixgrid.setObjectbinding("#{d.SearchPB.gridResult}");
+		fixgrid.setSelectorcolumn("1");
+		fixgrid.setWidth("100%");
+
+		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
+
+			GRIDCOLNode gridcol = new GRIDCOLNode();
+			gridcol.setText(Helper.getColumnNameForEntity(entityName, objAttribute.getDbAttributeName()));
+			gridcol.setWidth(100);
+			gridcol.setDynamicwidthsizing(true);
+
+			ComponentNode value = createComponentNodeForResultColumn(objAttribute);
+			gridcol.addSubNode(value);
+
+			ICONNode icon = new ICONNode();
+			icon.setImage("/eclntjsfserver/images/magnifier.png&buffer");
+			icon.setConfiginfo(objAttribute.getName());
+			icon.setActionListener("#{d.SearchPB.onAddSearchField}");
+			gridcol.addSubNode(icon);
+
+			fixgrid.addSubNode(gridcol);
+
+		}
+		components.add(fixgrid);
+
+		ICONNode icon = new ICONNode();
+		icon.setActionListener("#{d.SearchPB.gridResult.onEditColumnDetails}");
+		icon.setImage("/images/setting_tool_16_16.png&buffer");
+		icon.setRowalignmenty("top");
+		components.add(icon);
+
+		content.setContentNodes(components);
+		return content;
+	}
+
+	private ComponentNode createComponentNodeForResultColumn(ObjAttribute objAttribute) {
+		String type = objAttribute.getType();
+		ComponentNode value = null;
+		if ("java.util.Date".equals(type)) {
+			LABELNode label = new LABELNode();
+			label.setText(".{data." + objAttribute.getName() + "}");
+			label.setFormat("datetime");
+			label.setFormatmask("short");
+			value = label;
+		} else if ("java.lang.Boolean".equals(type)) {
+			CHECKBOXNode checkbox = new CHECKBOXNode();
+			checkbox.setSelected(".{data." + objAttribute.getName() + "}");
+			checkbox.setAlign("center");
+			checkbox.setEnabled(false);
+			value = checkbox;
+		} else if ("java.lang.Integer".equals(type)) {
+			LABELNode label = new LABELNode();
+			label.setText(".{data." + objAttribute.getName() + "}");
+			label.setFormat("int");
+			label.setAlign("right");
+			value = label;
+		} else {
+			LABELNode label = new LABELNode();
+			label.setText(".{data." + objAttribute.getName() + "}");
+			value = label;
+		}
+		return value;
+	}
+
+	private ComponentNode createComponentNodeForSelectionRow(String id, String type, String value) {
+		ComponentNode component = null;
+		if ("java.util.Date".equals(type)) {
+			CALENDARFIELDNode calendar = new CALENDARFIELDNode();
+			calendar.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+			calendar.setTimezone("CET");
+			calendar.setFormat("datetime");
+			calendar.setFormatmask("short");
+			calendar.setWidth(200);
+			component = calendar;
+		} else if ("java.lang.Boolean".equals(type)) {
+			CHECKBOXNode checkbox = new CHECKBOXNode();
+			checkbox.setSelected("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+			checkbox.setAlign("center");
+			component = checkbox;
+		} else if ("java.lang.Integer".equals(type)) {
+			FORMATTEDFIELDNode field = new FORMATTEDFIELDNode();
+			field.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+			field.setAlign("right");
+			field.setFormat("int");
+			field.setRestricttokeys("-0123456789");
+			field.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
+			field.setWidth(200);
+			component = field;
+		} else {
+			FIELDNode field = new FIELDNode();
+			field.setText("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+			field.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
+			field.setWidth(200);
+			component = field;
+		}
+		return component;
+	}
+
+	private ListOrderedMap selectionRowObjects = new ListOrderedMap();
+
+	@SuppressWarnings("unchecked")
+	public Map<String, SelectionRowObject> getSelectionRowObjects() {
+		return selectionRowObjects;
+	}
+
+	public class SelectionRowObject {
+		private String id;
+		private COLSYNCHEDROWNode colSynchedRow;
+		private String field;
+		private Operator operator;
+		private Object valueLow;
+		private Object valueHigh;
+		private long focus;
+
+		public COLSYNCHEDROWNode getColSynchedRow() {
+			return colSynchedRow;
+		}
+
+		public String getId() {
+			return id;
+		}
+
+		public String getField() {
+			return field;
+		}
+
+		public void setField(String field) {
+			this.field = field;
+		}
+
+		public Operator getOperator() {
+			return operator;
+		}
+
+		public void setOperator(Operator operator) {
+			this.operator = operator;
+		}
+
+		public String getOperatorAsString() {
+			return operator.name();
+		}
+
+		public void setOperatorAsString(String operator) {
+			this.operator = Operator.valueOf(operator);
+		}
+
+		public Object getValueLow() {
+			return valueLow;
+		}
+
+		public void setValueLow(Object valueLow) {
+			this.valueLow = valueLow;
+		}
+
+		public Object getValueHigh() {
+			return valueHigh;
+		}
+
+		public void setValueHigh(Object valueHigh) {
+			this.valueHigh = valueHigh;
+		}
+
+		public long getFocus() {
+			return focus;
+		}
+
+		public SelectionRowObject(String id) throws Exception {
+			super();
+			this.id = id;
+			this.colSynchedRow = createSelectionRow(this);
+		}
+
+		public SelectionRowObject(String id, String field, Operator operator) throws Exception {
+			super();
+			this.id = id;
+			this.field = field;
+			this.operator = operator;
+			this.colSynchedRow = createSelectionRow(this);
+		}
+
+		public void focus() {
+			this.focus = RequestFocusManager.getNewRequestFocusCounter();
+		}
+
+		public void recreateSelectionRow() throws Exception {
+			this.valueLow = null;
+			this.valueHigh = null;
+			this.colSynchedRow = createSelectionRow(this);
+		}
+
+		private String getTypeOfField() {
+			if (field == null)
+				return null;
+			return objEntity.getAttributeMap().get(field).getType();
+		}
+
+		public Expression buildExpression() {
+			String dbName = objEntity.getAttributeMap().get(field).getDbAttributeName();
+			Reflect refField = Reflect.on(SearchPB.this.entityClazz).field(dbName.toUpperCase());
+			Reflect refMethod = null;
+			if (operator == Operator.between) {
+				refMethod = refField.call(operator.name(), valueLow, valueHigh);
+			} else {
+				refMethod = refField.call(operator.name(), operator == Operator.like ? "%" + valueLow + "%" : valueLow);
+			}
+			Expression expression = refMethod.get();
+			return expression;
+
+		}
+	}
 }

@@ -23,7 +23,7 @@
 <t:formattedfield id="g_9" align="right" format="int" value="#{d.SearchPB.fetchLimit}" width="50" />
 </t:row>
 <t:row id="g_10" >
-<t:button id="g_11" actionListener="#{d.SearchPB.onSearch}" hotkey="10" image="/eclntjsfserver/images/magnifier.png" text="Suchen" />
+<t:button id="g_11" actionListener="#{d.SearchPB.onSearch}" hotkey="10" image="/eclntjsfserver/images/magnifier.png&amp;buffer" text="Suchen" />
 <t:coldistance id="g_12" />
 <t:button id="g_13" actionListener="#{d.SearchPB.onReset}" text="Zurücksetzen" />
 <t:coldistance id="g_14" width="100%" />
@@ -31,7 +31,7 @@
 <t:coldistance id="g_16" />
 <t:field id="g_17" text="#{d.SearchPB.savedSearchName}" width="150" />
 <t:coldistance id="g_18" />
-<t:button id="g_19" actionListener="#{d.SearchPB.onSaveSearch}" image="/eclntjsfserver/images/disk.png" text="Speichern" />
+<t:button id="g_19" actionListener="#{d.SearchPB.onSaveSearch}" image="/eclntjsfserver/images/disk.png&amp;buffer" text="Speichern" />
 </t:row>
 <t:rowline id="g_20" />
 <t:rowdynamiccontent id="g_21" contentbinding="#{d.SearchPB.resultGrid}" />

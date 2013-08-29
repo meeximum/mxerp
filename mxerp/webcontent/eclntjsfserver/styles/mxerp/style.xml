@@ -34,55 +34,6 @@
   <set attribute="font" value="size:16;weight:bold" />
   <set attribute="foreground" value="#000000" />
 </tag>
-<tag name="t:button" variant="touch" >
-  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
-  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
-  <set attribute="contentareafilled" value="false" />
-  <set attribute="font" value="size:12;weight:bold" />
-  <set attribute="foreground" value="#393939" />
-  <set attribute="height" value="36" />
-  <set attribute="width" value="36" />
-</tag>
-<tag name="t:button" variant="scrollup" >
-  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
-  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
-  <set attribute="contentareafilled" value="false" />
-  <set attribute="font" value="size:12;weight:bold" />
-  <set attribute="foreground" value="#393939" />
-  <set attribute="height" value="36" />
-  <set attribute="image" value="/images/arrow_up.png" />
-  <set attribute="width" value="36" />
-</tag>
-<tag name="t:button" variant="scrolldown" >
-  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
-  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
-  <set attribute="contentareafilled" value="false" />
-  <set attribute="font" value="size:12;weight:bold" />
-  <set attribute="foreground" value="#393939" />
-  <set attribute="height" value="36" />
-  <set attribute="image" value="/images/arrow_down.png" />
-  <set attribute="width" value="36" />
-</tag>
-<tag name="t:button" variant="scrollleft" >
-  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
-  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
-  <set attribute="contentareafilled" value="false" />
-  <set attribute="font" value="size:12;weight:bold" />
-  <set attribute="foreground" value="#393939" />
-  <set attribute="height" value="36" />
-  <set attribute="image" value="/images/arrow_left.png" />
-  <set attribute="width" value="36" />
-</tag>
-<tag name="t:button" variant="scrollright" >
-  <set attribute="bgpaint" value="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" />
-  <set attribute="border" value="left:13;right:13;top:3;bottom:3;color:#00000000" />
-  <set attribute="contentareafilled" value="false" />
-  <set attribute="font" value="size:12;weight:bold" />
-  <set attribute="foreground" value="#393939" />
-  <set attribute="height" value="36" />
-  <set attribute="image" value="/images/arrow_right.png" />
-  <set attribute="width" value="36" />
-</tag>
 <tag name="t:rowbodypane" variant="default" >
   <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#FFFFFFc0)" />
   <set attribute="padding" value="5" />

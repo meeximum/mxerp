@@ -48,20 +48,6 @@
 </t:row>
 </t:pane>
 </t:row>
-<t:row id="g_26" >
-<t:pane id="g_27" padding="5" rowdistance="5" width="100%" >
-<t:row id="g_28" >
-<t:textpane id="g_29" font="size:16" text="BUTTON - touch - scrollup - scrolldown: to be used for touch screens" />
-</t:row>
-<t:row id="g_30" >
-<t:button id="g_31" bgpaint="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" border="left:13;right:13;top:3;bottom:3;color:#00000000" contentareafilled="false" font="size:12;weight:bold" foreground="#393939" height="36" stylevariant="def_keepall_touch" width="36" />
-<t:button id="g_32" bgpaint="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" border="left:13;right:13;top:3;bottom:3;color:#00000000" contentareafilled="false" font="size:12;weight:bold" foreground="#393939" height="36" image="/images/arrow_up.png" stylevariant="def_keepall_scrollup" width="36" />
-<t:button id="g_33" bgpaint="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" border="left:13;right:13;top:3;bottom:3;color:#00000000" contentareafilled="false" font="size:12;weight:bold" foreground="#393939" height="36" image="/images/arrow_down.png" stylevariant="def_keepall_scrolldown" width="36" />
-<t:button id="g_34" bgpaint="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" border="left:13;right:13;top:3;bottom:3;color:#00000000" contentareafilled="false" font="size:12;weight:bold" foreground="#393939" height="36" image="/images/arrow_left.png" stylevariant="def_keepall_scrollleft" width="36" />
-<t:button id="g_35" bgpaint="roundedrectangle(0,0,100%,100%,22,22,#f2f4f6);roundedrectangle(0,0,100%,100%,18,18,#00000000,#00000020,vertical);roundedborder(0,0,100%,100%,18,18,#00000018,2)" border="left:13;right:13;top:3;bottom:3;color:#00000000" contentareafilled="false" font="size:12;weight:bold" foreground="#393939" height="36" image="/images/arrow_right.png" stylevariant="def_keepall_scrollright" width="36" />
-</t:row>
-</t:pane>
-</t:row>
 <t:row id="g_36" >
 <t:pane id="g_37" padding="5" rowdistance="5" width="100%" >
 <t:rowline id="g_38" />

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<jnlp spec="1.0" codebase="$$codebase" href="$$name">
+
+    <information>
+        <title>CaptainCasa Enterprise Client</title>
+        <vendor>CaptainCasa GmbH</vendor>
+	    <icon href="eclnt/images/splash.png" kind="splash"/> 
+    </information>
+   
+   	<resources>
+   	    <j2se version="1.6+" 
+   	          java-vm-args="-esa -Xnoclassgc"/>    
+   	    <jar href="eclnt/lib/eclnt.jar"/>  
+   	</resources>   
+    
+    <application-desc main-class="org.eclnt.client.page.PageWebStart">
+		<argument>$$codebase</argument>
+		<argument>faces/workplace/workplace.jsp</argument>
+    </application-desc>
+</jnlp>

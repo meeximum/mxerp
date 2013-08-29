@@ -1,0 +1,4 @@
+<resources>
+  <resource name="literals" package="resources"/>
+  <resource name="messages" package="resources"/>
+</resources>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<workplaceFunctionTreeInfoNode>
+    <subNodes>
+        <text>Folder 1</text>
+        <folderOpened>true</folderOpened>
+        <subNodes>
+            <text>Function a</text>
+            <workpageStartInfo>
+                <id>/page1.jsp</id>
+                <jspPage>/page1.jsp</jspPage>
+            </workpageStartInfo>
+        </subNodes>
+        <subNodes>
+            <text>Function b</text>
+            <workpageStartInfo>
+                <id>/page2.jsp</id>
+                <jspPage>/page2.jsp</jspPage>
+            </workpageStartInfo>
+        </subNodes>
+        <subNodes>
+            <text>Function c</text>
+            <workpageStartInfo>
+                <id>/page3.jsp</id>
+                <jspPage>/page3.jsp</jspPage>
+            </workpageStartInfo>
+        </subNodes>
+    </subNodes>
+    <subNodes>
+        <text>Folder 2</text>
+        <folderOpened>true</folderOpened>
+        <subNodes>
+            <text>Function d</text>
+            <workpageStartInfo>
+                <id>/page4.jsp</id>
+                <jspPage>/page4.jsp</jspPage>
+            </workpageStartInfo>
+        </subNodes>
+        <subNodes>
+            <text>Function e</text>
+            <workpageStartInfo>
+                <id>/page5.jsp</id>
+                <jspPage>/page5.jsp</jspPage>
+            </workpageStartInfo>
+        </subNodes>
+        <subNodes>
+            <text>Function f</text>
+            <workpageStartInfo>
+                <id>/page6.jsp</id>
+                <jspPage>/page6.jsp</jspPage>
+            </workpageStartInfo>
+        </subNodes>
+    </subNodes>
+</workplaceFunctionTreeInfoNode>
+

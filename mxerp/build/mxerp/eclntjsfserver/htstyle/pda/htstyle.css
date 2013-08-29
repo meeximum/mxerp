@@ -1,0 +1,565 @@
+.touchbutton
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:14pt; 
+    cursor:pointer;
+    background-color:#000000;
+    border:1 solid #606060;
+    color:#f0f0f0;
+    height:30pt;
+}
+.touchbuttoninner
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:14pt; 
+    cursor:pointer;
+    color:#f0f0f0;
+}
+
+
+
+
+.classa
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFC0;
+    text-decoration: underline;
+}
+.classa_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFC0;
+    text-decoration: underline;
+    background-color: #FFFFE0;
+}
+.classa_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFC0;
+    text-decoration: none;
+}
+
+.classbody
+{
+    backgfixgound-color:#FFFFFF;
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    margin-left:0;
+    margin-top:0;
+    margin-right:0;
+    margin-bottom:0;
+    __background-image:url(bodyback.jpg);
+    __background-repeat:no-repeat;
+    background-color:#606060;    
+}
+
+.classbutton
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:13pt; 
+    cursor:pointer;
+}
+.classbuttoninner
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:13pt; 
+    cursor:pointer;
+}
+.classbuttonplain
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:13pt; 
+    border-width:0;
+    background-color:transparent;
+    cursor:pointer;
+}
+.classbutton_selected
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:13pt; 
+    cursor:pointer;
+    background-color: #FFFFE0;
+}
+.classbutton_disabled
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:13pt; 
+}
+
+.classcheckbox
+{
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    color:#FFFFFF;
+}
+.classcheckboxlabel
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFFF;
+    height:1;
+}
+.classcheckbox_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #FFFFE0;
+    color:#FFFFFF;
+}
+.classcheckbox_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #F0F0F0;
+    color:#F0F0F0;
+}
+
+.classcombobox
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+}
+.classcombobox_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #FFFFE0;
+}
+.classcombobox_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #F0F0F0;
+}
+
+.classfield
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+}
+.classfield_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #FFFFE0;
+}
+.classfield_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #F0F0F0;
+}
+
+.classfileupload
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+}
+.classfileupload_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #FFFFE0;
+}
+.classfileupload_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #F0F0F0;
+}
+
+.classfixgrid
+{
+    background-color:#C0C0C0;
+    font-size:13pt; 
+    border:1 #808080 solid;
+}
+.classfixgridheaderlabel
+{
+    background-color:#404040;
+    font-size:13pt; 
+    padding:1pt;
+    color:#F0F0F0;
+    font-weight:bold
+}
+.classfixgridbottomcell
+{
+}
+.classfixgridbottomindex
+{
+    font-size:10pt;
+    height:20pt;
+    padding-right:50pt;
+}
+.classfixgridbuttonprevious
+{
+    font-size:13pt; 
+    border:0;
+    width:35;
+    height:35;
+    background-image:url(arrow_up.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    cursor:pointer;
+    background-color: #C0C0C0;
+}
+.classfixgridbuttonpprevious
+{
+    font-size:13pt; 
+    border:0;
+    width:35;
+    height:35;
+    background-image:url(arrow_up_double.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    cursor:pointer;
+    background-color: #C0C0C0;
+}
+.classfixgridbuttonnext
+{
+    font-size:13pt; 
+    border:0;
+    width:35;
+    height:35;
+    background-image:url(arrow_down.png);
+    background-repeat:no-repeat;
+    background-position:center;
+    cursor:pointer;
+    background-color: #C0C0C0;
+}
+.classfixgridbuttonnnext
+{
+    font-size:13pt; 
+    border:0;
+    width:35;
+    height:35;
+    background-image:url(arrow_down_double.png);
+    background-position:center;
+    background-repeat:no-repeat;
+    cursor:pointer;
+    background-color: #C0C0C0;
+}
+
+.classlabel
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFFF;
+    white-space: nowrap;    
+}
+.classlabel_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #000000;
+    background-color: #FFFFE0;
+    white-space: nowrap;
+}
+.classlabel_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFFF;
+    white-space: nowrap;    
+}
+
+.classarraygridcelllabel
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #000000;
+    white-space: nowrap;    
+    padding-left:0;
+    padding-right:0;
+}
+.classarraygridcelllabel_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #000000;
+    background-color: #FFFFE0;
+    white-space: nowrap;    
+    padding-left:0;
+    padding-right:0;
+}
+
+.classarraygridcellselector
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:13pt; 
+    border-width:0;
+    background-color:transparent;
+    cursor:pointer;
+    width:60;
+}
+.classarraygridcellselector_selected
+{
+    white-space: nowrap;    
+	font-family:Trebuchet MS;
+    font-size:13pt; 
+    font-weight: bold;
+    border-width:0;
+    background-color:#FFFFE0;
+    cursor:pointer;
+    width:60;
+}
+
+.classgridcolselectorlabel
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #000000;
+    white-space: nowrap;    
+    width:50;
+}
+
+.classlink
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFC0;
+    text-decoration: underline;
+    white-space: nowrap;    
+}
+.classlink_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFC0;
+    background-color: #FFFFE0;
+    text-decoration: underline;
+    white-space: nowrap;    
+}
+.classlink_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFC0;
+    text-decoration: none;
+    white-space: nowrap;    
+}
+
+.classpane
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+}
+.classpane_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    background-color: #FFFFE0;
+}
+.classpane_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+}
+
+.classpopupouter
+{
+	position:absolute;
+	left:0;
+	top:0;
+	width:100%;
+	height:100%;
+	background-color:#808080;
+	filter:alpha(opacity=40);
+	opacity:.4;
+	-moz-opacity:0.4;
+}
+.classpopupinner
+{
+    position:absolute;
+    left:200;
+    top:200;
+    width:150;
+    height:150;
+    background-color:#1f357e;    
+    background-image:url(bodyback.jpg);
+    background-repeat:no-repeat;
+    border: 1pt solid #C0C0C0;
+}
+.classpopupinnercontent
+{
+    padding:10;
+}
+
+.classradiobutton
+{
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    color:#FFFFFF;
+}
+.classradiobuttonlabel
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFFF;
+    height:1;
+}
+.classradiobutton_selected
+{
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    color:#FFFFFF;
+}
+.classradiobutton_disabled
+{
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    color:#FFFFFF;
+}
+
+.classrow
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+}
+
+.classscrollpane
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    overflow:auto;
+}
+
+.classspan
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFFF;
+}
+.classspan_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFFF;
+    background-color: #FFFFE0;
+}
+.classspan_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color: #FFFFFF;
+}
+
+.classstatusbar
+{
+    font-family:Trebuchet MS;
+    background-color:#404040;
+}
+.classstatusbartextmessage
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color:#FFFFFF;
+    text-align:left;
+    white-space: nowrap;    
+}
+.classstatusbartextsuccess
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color:#E0FFE0;
+    text-align:right;
+    white-space: nowrap;    
+}
+.classstatusbartextwarning
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    color:#FFFFE0;
+    text-align:right;
+    white-space: nowrap;    
+}
+.classstatusbartexterror
+{
+    font-family:Trebuchet MS;
+    font-size:13pt;
+    font-weight:bold; 
+    color:#FFC0C0;
+    text-align:right;
+    white-space: nowrap;    
+}
+
+.classtable
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+}
+
+.classsubmitblocker
+{
+    position:absolute;
+    left:0;
+    top:0;
+    width:100%;
+    height:100%;
+    background-color:#404040;
+    filter:alpha(opacity=20);
+    opacity:.3;
+    -moz-opacity:0.3;
+    z-index: 100;
+}
+
+.classtd_selected
+{
+    background-color: #FFFFE0;
+}
+	
+.classtextarea
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+}
+.classtextarea_selected
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #FFFFE0;
+}
+.classtextarea_disabled
+{
+    font-family:Trebuchet MS;
+    font-size:13pt; 
+    border: 1pt solid #C0C0C0;
+    background-color: #F0F0F0;
+}
+
+.classtitlebarback
+{
+    background-color:#000040;
+}
+.classtitlebartext
+{
+    font-family:Trebuchet MS;
+    font-size:14pt; 
+    font-weight:bold;
+    color: #FFFFFF;
+    white-space: nowrap;    
+}		

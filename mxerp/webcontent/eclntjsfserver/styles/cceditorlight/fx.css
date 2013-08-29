@@ -1,0 +1,390 @@
+.root
+{
+	-cceditorlighteditorlight-background-default: transparent;
+	-cceditorlighteditorlight-dark-selected-from: #607890;
+	-cceditorlighteditorlight-dark-selected-to: derive(#607890,-30%); 
+	-cceditorlighteditorlight-dark-selected: linear-gradient(to bottom, -cceditorlighteditorlight-dark-selected-from, -cceditorlighteditorlight-dark-selected-to);
+    -cceditorlighteditorlight-dark-default-from: derive(#f2f0df,-2%);
+    -cceditorlighteditorlight-dark-default-to: derive(-cceditorlight-dark-default-from,-10%); 
+    -cceditorlight-dark-default: linear-gradient(to bottom, -cceditorlight-dark-default-from, -cceditorlight-dark-default-to);
+    -cceditorlight-dark2-from: derive(#A9C1D9,70%);
+    -cceditorlight-dark2-to: #A9C1D9;
+    -cceditorlight-dark2: linear-gradient(to bottom, -cceditorlight-dark2-from, -cceditorlight-dark2-to);
+    -cceditorlight-button: -cceditorlight-dark-default;
+    -cceditorlight-header-to: derive(-cceditorlight-background-default,-10%);
+    -cceditorlight-header: linear-gradient(to bottom, -cceditorlight-background-default, -cceditorlight-header-to);
+}
+
+.cc_scrollpane_sp 
+{
+    -fx-background-color: transparent;
+}
+.cc_scrollpane
+{
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}
+
+.cc_button_sp 
+{
+	-fx-background-color: -cceditorlight-button;
+}
+.cc_button
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+	-fx-cursor: hand;
+	-fx-background-color: #00000000;
+	-fx-border-color: #c0c0c0;
+    -fx-border-width: 1;
+    -fx-padding: 3 10 5 10;
+}	
+
+.cc_buttonoutlookbar_sp
+{
+    -fx-background-color: -cceditorlight-dark-default;
+}
+.cc_buttonoutlookbar
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 5 10 5 10;
+    -fx-font-weight: normal;
+}   
+.cc_buttonoutlookbarselected_sp
+{
+    -fx-background-color: -cceditorlight-dark-selected;
+}
+.cc_buttonoutlookbarselected
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 5 10 5 10;
+    -fx-font-weight: bold;
+}   
+
+.cc_buttontabbedlinemenuicon_sp
+{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+.cc_buttontabbedlinemenuicon
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+.cc_buttontabbedline_sp
+{
+    -fx-background-color: -cceditorlight-dark-default;
+    -fx-background-insets: 0 0 -10 0;
+}
+.cc_buttontabbedline
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000020;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-insets: 0 0 -10 0;
+    -fx-font-weight: normal;
+}
+
+.cc_buttontabbedlineselected_sp
+{
+    -fx-background-color: -cceditorlight-dark-selected;
+    -fx-background-insets: 0 0 -10 0;
+}
+.cc_buttontabbedlineselected
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000020;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-insets: 0 0 -10 0;
+    -fx-font-weight: bold;
+}
+
+.cc_buttonbuttonandmenu_sp 
+{
+    -fx-background-color: -cceditorlight-button;
+}
+.cc_buttonbuttonandmenu
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 25 5 10;
+    -fx-background-image: url("buttonmenuicon.png");
+    -fx-background-position: right;
+    -fx-background-repeat: no-repeat;
+}
+
+.cc_menubar_sp 
+{
+}
+.cc_menubar
+{
+	-fx-background-color: -cceditorlight-header;
+}
+.cc_menubar .menu-button .label 
+{
+    -fx-text-fill: #000000;
+}
+.cc_menubar .menu-button:hover, .cc_menubar .menu-button:focused, .cc_menubar .menu-button:showing 
+{
+    -fx-background-color: -cceditorlight-dark2;
+}
+
+.cc_outest
+{
+    -fx-background-color: #808080;
+}
+
+.cc_tabpane_body_sp
+{
+	-fx-background-color: -cceditorlight-background-default;
+	-fx-border-color: #00000030;
+    -fx-border-width: 1;
+}   
+
+.cc_gridheaderlabel_sp 
+{
+    -fx-font-weight: bold;
+}
+.cc_gridheaderlabel
+{
+	-fx-padding: 2 2 2 2
+}   
+
+.cc_gridheaderlabelcontainer_sp 
+{
+    -fx-background-color: -cceditorlight-dark2;
+}
+.cc_gridheaderlabelcontainer
+{
+}   
+
+
+/********** HEADER **********/
+.cc_pane_header_sp 
+{
+    -fx-background-color:-cceditorlight-header;
+    -fx-padding: 3;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #a0a0a0;
+}
+.cc_pane_header
+{
+}   
+
+/********** FOLDABLEPANE **********/
+.cc_pane_foldable_outerpane_sp
+{
+	-fx-border-width: 1 1 1 1;
+	-fx-border-color: #00000030;
+}
+.cc_pane_foldable_headerpane_sp
+{
+	-fx-background-color: -cceditorlight-dark2;
+	-fx-padding: 2;
+    -fx-background-radius: 3 3 0 0;
+}
+.cc_button_foldable_title_sp
+{
+}
+.cc_button_foldable_title
+{
+	-fx-font-weight: bold;
+}
+.cc_pane_foldable_innerpane_sp
+{
+    -fx-padding: 10;
+}
+
+/********** FOLDABLEVERTICALPANE **********/
+.cc_pane_foldablevertical_outerpane_sp
+{
+    -fx-border-width: 1 1 1 1;
+    -fx-border-color: #00000030;
+}
+.cc_pane_foldablevertical_headerpane_sp
+{
+    -fx-background-color: -cceditorlight-dark2;
+    -fx-padding: 2;
+    -fx-background-radius: 3 3 0 0;
+}
+.cc_button_foldablevertical_title_sp
+{
+}
+.cc_button_foldablevertical_title
+{
+    -fx-font-weight: bold;
+}
+.cc_pane_foldablevertical_innerpane_sp
+{
+    -fx-padding: 10;
+}
+
+/********** TITLEBAR **********/
+.cc_pane_titlebar_sp 
+{
+	-fx-background-color:-cceditorlight-dark-selected;
+}
+.cc_pane_titlebar
+{
+}   
+.cc_label_titlebar_sp 
+{
+}
+.cc_label_titlebar
+{
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-padding: 4;
+    -fx-text-fill: #FFFFFF;
+}   
+
+/********** WP_WORKPAGESELECTOR *********/
+.cc_buttontabbedline_wp_workpageselector_sp
+{
+    -fx-background-color: -cceditorlight-dark-default;
+    -fx-background-insets: -10 0 0 0;
+}
+.cc_buttontabbedline_wp_workpageselector
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-padding: 5 4 5 4;
+    -fx-border-color: #00000040;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-insets: -10 0 0 0;
+    -fx-font-weight: normal;
+}
+.cc_buttontabbedlineselected_wp_workpageselector_sp
+{
+    -fx-background-color: -cceditorlight-dark-selected;
+    -fx-background-insets: -10 0 0 0;
+}
+.cc_buttontabbedlineselected_wp_workpageselector
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-padding: 5 4 5 4;
+    -fx-border-color: #00000020;
+    -fx-border-width: 0 0 0 1;
+    -fx-border-insets: -10 0 0 0;
+    -fx-font-weight: bold;
+}
+
+/********** WP_OUTLOOKBARITEM *********/
+.cc_buttonoutlookbar_wp_outlookbaritem_sp
+{
+    -fx-background-color: -cceditorlight-dark-default;
+}
+.cc_buttonoutlookbar_wp_outlookbaritem
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 3 10 3 10;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-alignment: baseline-left;
+    -fx-text-fill: #808080;
+}   
+.cc_buttonoutlookbarselected_wp_outlookbaritem_sp
+{
+    -fx-background-color: -cceditorlight-dark-selected;
+}
+.cc_buttonoutlookbarselected_wp_outlookbaritem
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: #00000000;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 3 10 3 10;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-alignment: baseline-left;
+    -fx-text-fill: #FFFFFF;
+}   
+
+/********** WP_TILESPLITPANESPLIT **********/
+.cc_splitpanesplit_wp_tilesplitpanesplit_sp 
+{
+}
+.cc_splitpanesplitt_wp_tilesplitpanesplit
+{
+	-fx-border-width: 1;
+	-fx-border-color: #a0a0a0;
+}   
+
+/********** TabArea **********/
+.tab-content-area 
+{
+    -fx-background-color: transparent;
+    -fx-padding: 0.0em; /* 0 */
+    -fx-border-width: 1;
+    -fx-border-color: #00000030;
+    -fx-border-radius: 3;
+}
+.tab:top 
+{
+}
+.tab
+{
+    -fx-background-insets: 0;
+    -fx-background-color: #00000020;
+    -fx-background-radius: 3 3 0 0;
+    -fx-border-color: #00000020;
+    -fx-border-width: 1 1 0 1;
+    -fx-border-radius: 3 3 0 0;
+    -fx-cursor: hand;
+    -fx-padding: 0em 0.5em 0em 0.5em; /* 1 6 1 6 */
+}
+.tab:selected 
+{
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
+    -fx-background-radius: 3 3 0 0;
+    -fx-border-color: #00000050;
+    -fx-border-width: 1 1 0 1;
+    -fx-border-radius: 3 3 0 0;
+}
+.tab-pane *.tab-header-background 
+{
+    -fx-background-color: transparent;
+    -fx-border-color: #00000030;
+    -fx-border-width: 0 0 0 0;
+    -fx-effect: null;
+}
+.tab-pane:top *.tab-header-area 
+{
+    -fx-padding: 0em 0.166667em 0em 0.833em; /* 5 2 0 10 */
+}
+.tab-pane .headers-region 
+{
+    -fx-effect: null;
+}
+

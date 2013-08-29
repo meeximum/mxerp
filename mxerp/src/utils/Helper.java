@@ -22,6 +22,11 @@ public class Helper {
 		return StringUtils.isEmpty(value) ? property : value;                                                        
 	} 
 	
+	public static String getColumnNameForEntity(String entity, String column) {  
+		String value = ResourceManager.getRuntimeInstance().readProperty("_" + entity.toLowerCase(), column.toLowerCase());  
+		return StringUtils.isEmpty(value) ? column : value;                                                        
+	}
+	
 	public static String getMessage(String property) {                                                   
 		String value = ResourceManager.getRuntimeInstance().readProperty(Constants.MESSAGES, property);  
 		return StringUtils.isEmpty(value) ? property : value;                                                        

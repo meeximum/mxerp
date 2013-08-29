@@ -1,0 +1,51 @@
+<html>
+
+<body leftmargin=0 rightmargin=0 topmargin=0 bottommargin=0 style="overflow: hidden">
+
+<script type="text/javascript">
+// this code is used by APPLETCONTEXTSHOWDOCUMENT - if this is configured to
+// use java script instead of directly contacting the context
+function ccOpenPageInTarget(ccTarget,ccURL)
+{
+    var ccWindow = window.open(ccURL,ccTarget);
+    ccWindow.focus();
+}
+</script>
+
+<applet code="org.eclnt.client.page.PageApplet.class" 
+        archive="eclnt/lib/eclnt.jar" width="100%" height="100%" MAYSCRIPT>
+    <param name="page" value='faces/index.jsp'>
+    <param name="image" value="eclnt/images/splash.png">
+    <param name="centerimage" value="true">
+    <param name="java_arguments" value="-Xmx256m">
+    <param name="java_version" value="1.6+">
+    <param name="separate_jvm" value="true">
+    <param name="MAYSCRIPT" value="true">
+    
+    <!-- This text appears in case the applet does not show up. -->
+    The applet could not be loaded - please install the Java runtime
+    plugin: <a href="http://www.java.com/download">http://www.java.com/download</a>
+    
+</applet>
+
+<!--
+Calling applet using the JNLP way....: 
+
+<applet code="org.eclnt.client.page.PageApplet.class" width="100%" height="100%" MAYSCRIPT>
+    <param name="jnlp_href" value="@@appletpagename@@_applet.jnlp">
+    <param name='page' value='faces/index.jsp'>
+    <param name="image" value="eclnt/images/splash.png">
+    <param name="centerimage" value="true">
+    <param name="java_arguments" value="-Xmx256m">
+    <param name="java_version" value="1.6+">
+    <param name="separate_jvm" value="true">
+    <param name="MAYSCRIPT" value="true">
+    
+    The applet could not be loaded - please install the Java runtime
+    plugin: <a href="http://www.java.com/download">http://www.java.com/download</a>
+    
+</applet>
+-->
+
+</body>
+</html>
