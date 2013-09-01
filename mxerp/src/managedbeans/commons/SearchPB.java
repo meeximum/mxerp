@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.UUID;
 
 import javax.faces.event.ActionEvent;
@@ -44,13 +45,17 @@ import org.eclnt.jsfserver.session.RequestFocusManager;
 import org.eclnt.workplace.IWorkpageDispatcher;
 import org.joor.Reflect;
 
+import services.variants.IVariants;
+import services.variants.Variant;
+import services.variants.Variant.GridValues;
+import utils.Constants;
 import utils.Helper;
 //TODO: dynamic handling of operators
 //TODO: metadata for ignoring fields and referencing to dropdowns
 
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.SearchPB}")
-public class SearchPB extends WorkpageDispatchedPageBean implements Serializable {
+public class SearchPB extends WorkpageDispatchedPageBean implements Serializable, IVariants {
 
 	private enum Operator {
 		eq, like, gt, gte, lt, lte, between;
@@ -60,8 +65,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		}
 
 	}
-	
-	private String entityName = "Accounts";
+
+	private String entityName;
 
 	private String savedSearchName;
 
@@ -73,7 +78,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		this.savedSearchName = value;
 	}
 
-	private int fetchLimit = 30;
+	private int fetchLimit = 100;
 
 	public int getFetchLimit() {
 		return fetchLimit;
@@ -121,11 +126,27 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	// constructors & initialization
 	// ------------------------------------------------------------------------
 
+	@SuppressWarnings("unchecked")
 	public SearchPB(IWorkpageDispatcher workpageDispatcher) throws Exception {
 		super(workpageDispatcher);
+		entityName = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITY);
 
-		// read class by reflection
+		objEntity = getContext().getEntityResolver().getObjEntity(entityName);
+		assert objEntity != null;
+		fieldsVVB = new ValidValuesBinding();
+		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
+			String description = Helper.getColumnNameForEntity(entityName, objAttribute.getDbAttributeName());
+			fieldsVVB.addValidValue(objAttribute.getName(), description);
+		}
+		entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
+		assert entityClazz != null;
 
+		selectionRowObjects.clear();
+		addSelectionRow(0);
+
+		getGridResult().getItems().clear();
+		
+		loadUsersOrGlobalDefaultVariant();
 	}
 
 	public String getPageName() {
@@ -282,7 +303,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	private List<CayenneDataObject> select() {
 		Map<String, List<Expression>> expressionsMap = new HashMap<String, List<Expression>>();
 		for (SelectionRowObject selectionRowObject : getSelectionRowObjects().values()) {
-			if(selectionRowObject.valueLow==null) continue;
+			if (selectionRowObject.valueLow == null)
+				continue;
 			String key = selectionRowObject.getField();
 			if (StringUtils.isBlank(key))
 				continue;
@@ -290,7 +312,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 				expressionsMap.put(key, new ArrayList<Expression>());
 			}
 			expressionsMap.get(key).add(selectionRowObject.buildExpression());
-			
+
 		}
 
 		List<Expression> expressions = new ArrayList<Expression>(expressionsMap.size());
@@ -352,7 +374,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		// plus
 		{
 			ICONNode icon = new ICONNode();
-			icon.setImage("/eclntjsfserver/images/bullet_toggle_plus.png");
+			icon.setImage("/images/search_plus.gif");
 			icon.setActionListener("#{d.SearchPB.onAddSelectionRow}");
 			colSynchedRow.addSubNode(icon);
 		}
@@ -360,7 +382,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		// minus
 		{
 			ICONNode icon = new ICONNode();
-			icon.setImage("/eclntjsfserver/images/bullet_toggle_minus.png");
+			icon.setImage("/images/search_minus.gif");
 			icon.setActionListener("#{d.SearchPB.onRemoveSelectionRow}");
 			colSynchedRow.addSubNode(icon);
 		}
@@ -398,6 +420,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		fixgrid.setObjectbinding("#{d.SearchPB.gridResult}");
 		fixgrid.setSelectorcolumn("1");
 		fixgrid.setWidth("100%");
+		fixgrid.setHeight("100%");
+		fixgrid.setSbvisibleamount("50");
 
 		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
 
@@ -420,11 +444,11 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		}
 		components.add(fixgrid);
 
-		ICONNode icon = new ICONNode();
-		icon.setActionListener("#{d.SearchPB.gridResult.onEditColumnDetails}");
-		icon.setImage("/images/setting_tool_16_16.png&buffer");
-		icon.setRowalignmenty("top");
-		components.add(icon);
+		// ICONNode icon = new ICONNode();
+		// icon.setActionListener("#{d.SearchPB.gridResult.onEditColumnDetails}");
+		// icon.setImage("/images/setting_tool_16_16.png&buffer");
+		// icon.setRowalignmenty("top");
+		// components.add(icon);
 
 		content.setContentNodes(components);
 		return content;
@@ -603,6 +627,30 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			Expression expression = refMethod.get();
 			return expression;
 
+		}
+	}
+
+	@Override
+	public Variant buildActualVariant(String name, String description) {
+		Variant variant = new Variant(name, description);
+
+		String columnSequence;
+		String columnWidths;
+
+		columnSequence = getGridResult().getColumnsequence();
+		columnWidths = getGridResult().getModcolumnwidths();
+		variant.addGrid("GRID", new GridValues(columnSequence, columnWidths));
+
+		return variant;
+	}
+
+	@Override
+	public void loadVariant(Variant variant) {
+		for (Entry<String, GridValues> entry : variant.getGridsMap().entrySet()) {
+			if ("GRID".equals(entry.getKey())) {
+				getGridResult().setColumnsequence(entry.getValue().getColumnSequence());
+				getGridResult().setModcolumnwidths(entry.getValue().getColumnWidths());
+			}
 		}
 	}
 }

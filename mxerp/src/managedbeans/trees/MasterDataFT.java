@@ -3,14 +3,15 @@ package managedbeans.trees;
 
 import org.eclnt.jsfserver.elements.impl.FIXGRIDTreeItem;
 import org.eclnt.jsfserver.managedbean.IDispatcher;
+import org.eclnt.workplace.WorkpageStartInfo;
 import org.eclnt.workplace.WorkplaceFunctionTree;
 
+import utils.Constants;
 import utils.Helper;
 
 @SuppressWarnings("serial")
-public class MasterDataFT extends WorkplaceFunctionTree {
+public class MasterDataFT extends WorkplaceFunctionTree {	
 	
-	private static final String path = "/ui/master-data/";
 	  public MasterDataFT(IDispatcher owner) {
 	    super(owner);
 	  }
@@ -20,14 +21,22 @@ public class MasterDataFT extends WorkplaceFunctionTree {
 	    // reset functiontree
 	    getFtree().getRootNode().removeAllChildNodes(true);
 
-	    // reports
-	    FunctionNode node = new FormattedFunctionNode(getFtree().getRootNode(), path + "articles.jsp");
+	    // articles
+	    FunctionNode node = new FormattedFunctionNode(getFtree().getRootNode(), Constants.UI_MASTER_PATH + "articles.jsp");
 	    node.setId("articles");
 	    node.setPageBeanName("ArticlesPB");
 	    node.setOpenMultipleInstances(false);
 	    node.setText(Helper.getLiteral("articles"));
 	    node.setStatus(FIXGRIDTreeItem.STATUS_ENDNODE);
-
+	    
+	    // partners
+	    node = new FormattedFunctionNode(getFtree().getRootNode(), Constants.UI_COMMONS_PATH + "search.jsp");
+	    node.setId("partners");
+	    node.setParam(Constants.WP_PARAMS_ENTITY, "Accounts");
+	    node.setPageBeanName("SearchPB");
+	    node.setOpenMultipleInstances(false);
+	    node.setText(Helper.getLiteral("partners"));
+	    node.setStatus(FIXGRIDTreeItem.STATUS_ENDNODE);
 	  }
 
 	  public class FormattedFunctionNode extends FunctionNode {
@@ -60,6 +69,14 @@ public class MasterDataFT extends WorkplaceFunctionTree {
 	    public FormattedFunctionNode(FIXGRIDTreeItem arg0) {
 	      super(arg0);
 	    }
+	  }
+	  
+	  public WorkpageStartInfo getWorkpageInfoById(String id) {
+		  for(FIXGRIDTreeItem item : getFtree().getRootNode().getChildNodes()) {
+			  FunctionNode node = (FunctionNode)item;
+			  if(node.getId().equals(id)) return node.getWorkpageStartInfo();
+		  }
+		  return null;
 	  }
 
 	}

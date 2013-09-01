@@ -36,6 +36,17 @@
 </t:row>
 </t:pane>
 </t:row>
+<t:row id="g_168" >
+<t:pane id="g_169" padding="5" rowdistance="5" width="100%" >
+<t:rowline id="g_170" />
+<t:row id="g_171" >
+<t:textpane id="g_172" font="size:16" text="BUTTON - Favorites" width="100%" />
+</t:row>
+<t:row id="g_173" >
+<t:button id="g_174" contentareafilled="false" focusable="false" focusdrawborder="false" font="weight:bold" foreground="#393939" stylevariant="def_favs" text="button" />
+</t:row>
+</t:pane>
+</t:row>
 <t:row id="g_18" >
 <t:pane id="g_19" background="#ff3333" padding="5" rowdistance="5" width="100%" >
 <t:row id="g_20" >

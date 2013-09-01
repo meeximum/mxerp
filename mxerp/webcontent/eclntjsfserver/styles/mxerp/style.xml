@@ -14,6 +14,13 @@
   <set attribute="font" value="weight:bold" />
   <set attribute="foreground" value="#393939" />
 </tag>
+<tag name="t:button" variant="favs" >
+  <set attribute="contentareafilled" value="false" />
+  <set attribute="focusable" value="false" />
+  <set attribute="focusdrawborder" value="false" />
+  <set attribute="font" value="weight:bold" />
+  <set attribute="foreground" value="#393939" />
+</tag>
 <tag name="t:button" variant="header" >
   <set attribute="background" value="#ffffff" />
   <set attribute="bgpaint" value="border(1,1,100%-1,100%-1,#000000,2);rectangle(2,2,100%-4,100%-4,#ffffff)" />

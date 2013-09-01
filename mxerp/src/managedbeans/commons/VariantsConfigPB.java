@@ -68,7 +68,7 @@ public class VariantsConfigPB extends PageBean implements Serializable {
     private static final long serialVersionUID = 1L;
     public void onDelete(ActionEvent event) {
       try {
-        VariantsService.deleteVariant(user, object, variant);
+        VariantsService.delete(user, object, variant);
         Statusbar.outputSuccess(Helper.getMessage("del_variant_succ"));
       } catch(Exception ex) {
         Statusbar.outputAlert(Helper.getMessage("del_variant_err"), ex.toString());
@@ -96,7 +96,7 @@ public class VariantsConfigPB extends PageBean implements Serializable {
   
   private void buildVariantsGrid() {
     getGridVariants().getItems().clear();
-    List<Variant> variants = VariantsService.getVariants(user, object);
+    List<Variant> variants = VariantsService.get(user, object);
     for(Variant variant : variants) {
       getGridVariants().getItems().add(new GridVariantsItem(variant));
     }

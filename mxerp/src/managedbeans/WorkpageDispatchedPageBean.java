@@ -7,6 +7,7 @@ import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
 
 import managedbeans.commons.VariantsConfigPB;
+import managedbeans.trees.MasterDataFT;
 import managedbeans.utils.Beanhelper;
 import managedbeans.utils.Unsecure;
 import managedbeans.utils.UserAccess;
@@ -38,8 +39,7 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import utils.Helper;
 
 @SuppressWarnings("serial")
-public class WorkpageDispatchedPageBean extends
-		org.eclnt.workplace.WorkpageDispatchedPageBean {
+public class WorkpageDispatchedPageBean extends org.eclnt.workplace.WorkpageDispatchedPageBean {
 
 	public WorkpageDispatchedPageBean(IWorkpageDispatcher dispatcher) {
 		super(dispatcher);
@@ -47,6 +47,10 @@ public class WorkpageDispatchedPageBean extends
 		Annotation unsecure = this.getClass().getAnnotation(Unsecure.class);
 		if (unsecure == null)
 			checkAuthorization();
+		if (WorkpageDispatchedPageBean.this instanceof IVariants) {
+			variantsObject = getWorkpage().getId() == null ? getClass().getSimpleName() : getClass().getSimpleName() + "_" + getWorkpage().getId();
+			variantsManager = new VariantsManager((IVariants) WorkpageDispatchedPageBean.this, Helper.getUserName(), variantsObject);
+		}
 	}
 
 	@Override
@@ -69,8 +73,7 @@ public class WorkpageDispatchedPageBean extends
 			try {
 				HttpSessionAccess.getCurrentResponse().sendError(403);
 			} catch (IOException e) {
-				FacesContext.getCurrentInstance().getExternalContext()
-						.invalidateSession();
+				FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
 			}
 		}
 	}
@@ -83,12 +86,17 @@ public class WorkpageDispatchedPageBean extends
 		return (MainUI) getOwningDispatcher().getDispatchedBean(MainUI.class);
 	}
 
+	protected MasterDataFT getMasterDataFT() {
+		return (MasterDataFT) getOwningDispatcher().getDispatchedBean(MasterDataFT.class);
+	}
+
 	protected Beanhelper getBeanhelper() {
-		return (Beanhelper) FacesContext.getCurrentInstance()
-				.getExternalContext().getSessionMap().get("h");
+		return (Beanhelper) FacesContext.getCurrentInstance().getExternalContext().getSessionMap().get("h");
 	}
 
 	protected Log logger;
+
+	private String variantsObject;
 
 	VariantsManager variantsManager;
 
@@ -96,26 +104,20 @@ public class WorkpageDispatchedPageBean extends
 		if (variantsManager == null)
 			return;
 		if (event.getSource() instanceof MENUITEMComponent) {
-			MENUITEMComponent menuItemComponent = (MENUITEMComponent) event
-					.getSource();
-			String name = menuItemComponent
-					.getAttributeString(BaseComponentTag.ATT_COMMENT);
+			MENUITEMComponent menuItemComponent = (MENUITEMComponent) event.getSource();
+			String name = menuItemComponent.getAttributeString(BaseComponentTag.ATT_COMMENT);
 			try {
 				selectedVariant = variantsManager.onVariantSelected(name);
 			} catch (Exception ex) {
-				Statusbar.outputAlert(
-						Helper.getMessage("error_loading_variant"),
-						ex.toString());
+				Statusbar.outputAlert(Helper.getMessage("error_loading_variant"), ex.toString());
 			}
 		}
 	}
 
 	public void onVariantConfig(ActionEvent event) {
-		VariantsConfigPB variantsConfigPB = new VariantsConfigPB(getClass()
-				.getSimpleName());
+		VariantsConfigPB variantsConfigPB = new VariantsConfigPB(variantsObject);
 
-		final ModalPopup mp = openModalPopup(variantsConfigPB,
-				Helper.getLiteral("variants"), 0, 0, null);
+		final ModalPopup mp = openModalPopup(variantsConfigPB, Helper.getLiteral("variants"), 0, 0, null);
 		mp.setPopupListener(new IModalPopupListener() {
 
 			private static final long serialVersionUID = 1L;
@@ -129,50 +131,38 @@ public class WorkpageDispatchedPageBean extends
 
 		variantsConfigPB.setCallback(new VariantsConfigPB.ICallback() {
 			@Override
-			public void save(final String user, final String object,
-					final String name, final String description) {
-				final Variant variant = ((IVariants) WorkpageDispatchedPageBean.this)
-						.buildActualVariant(name, description);
+			public void save(final String user, final String object, final String name, final String description) {
+				final Variant variant = ((IVariants) WorkpageDispatchedPageBean.this).buildActualVariant(name, description);
 				try {
-					if (VariantsService
-							.checkIfVariantExists(user, object, name)) {
-						YESNOPopup ynp = YESNOPopup.createInstance(Helper
-								.getLiteral("variants"), String.format(
-								Helper.getMessage("variants_overwrite"), name),
-								new IYesNoCancelListener() {
-									@Override
-									public void reactOnCancel() {
-									}
+					if (VariantsService.checkIfVariantExists(user, object, name)) {
+						YESNOPopup ynp = YESNOPopup.createInstance(Helper.getLiteral("variants"), String.format(Helper.getMessage("variants_overwrite"), name), new IYesNoCancelListener() {
+							@Override
+							public void reactOnCancel() {
+							}
 
-									@Override
-									public void reactOnNo() {
-									}
+							@Override
+							public void reactOnNo() {
+							}
 
-									@Override
-									public void reactOnYes() {
-										try {
-											VariantsService.saveVariant(user,
-													object, variant);
-											variantsManager
-													.fillVariantsForMenu();
-											mp.close();
-										} catch (Exception ex) {
-											Statusbar.outputAlert(
-													Helper.getMessage("error_saving_variant"),
-													Helper.getStackTraceAsString(ex));
-										}
-									}
-								});
+							@Override
+							public void reactOnYes() {
+								try {
+									VariantsService.save(user, object, variant);
+									variantsManager.fillVariantsForMenu();
+									mp.close();
+								} catch (Exception ex) {
+									Statusbar.outputAlert(Helper.getMessage("error_saving_variant"), Helper.getStackTraceAsString(ex));
+								}
+							}
+						});
 						ynp.getModalPopup().setLeftTopReferenceCentered();
 					} else {
-						VariantsService.saveVariant(user, object, variant);
+						VariantsService.save(user, object, variant);
 						variantsManager.fillVariantsForMenu();
 						mp.close();
 					}
 				} catch (Exception ex) {
-					Statusbar.outputAlert(
-							Helper.getMessage("error_saving_variant"),
-							Helper.getStackTraceAsString(ex));
+					Statusbar.outputAlert(Helper.getMessage("error_saving_variant"), Helper.getStackTraceAsString(ex));
 				}
 			}
 		});
@@ -187,25 +177,20 @@ public class WorkpageDispatchedPageBean extends
 	public DYNAMICCONTENTBinding getVariantsBinding() {
 		if (variantsManager == null)
 			return null;
-		return variantsManager.getVariantsBinding(
-				buildExpression("selectedVariant"),
-				buildExpression("onVariantSelected"),
-				buildExpression("onVariantConfig"));
+		return variantsManager.getVariantsBinding(buildExpression("selectedVariant"), buildExpression("onVariantSelected"), buildExpression("onVariantConfig"));
 	}
 
 	protected void loadUsersOrGlobalDefaultVariant() {
 		if (variantsManager == null)
 			return;
-		VariantType variantType = variantsManager
-				.loadUsersOrGlobalDefaultVariant();
+		VariantType variantType = variantsManager.loadUsersOrGlobalDefaultVariant();
 		if (variantType == VariantType.USER)
 			selectedVariant = Helper.getUserName();
 	}
 
 	private String buildExpression(String property) {
 		String rootExpression = getRootExpressionUsedInPage().trim();
-		String base = rootExpression.substring(0, rootExpression.length() - 1)
-				+ "." + property + "}";
+		String base = rootExpression.substring(0, rootExpression.length() - 1) + "." + property + "}";
 		return base;
 	}
 

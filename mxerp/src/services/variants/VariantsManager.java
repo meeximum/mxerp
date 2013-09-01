@@ -75,11 +75,11 @@ public class VariantsManager {
   public VariantType loadUsersOrGlobalDefaultVariant() {
     VariantType variantType = VariantType.NONE;
     try {
-      Variant variant = VariantsService.loadVariant(user, object, user);
+      Variant variant = VariantsService.load(user, object, user);
       if(variant!=null) {
         variantType = VariantType.USER;
       } else {        
-        variant = VariantsService.loadVariant(DEFAULT_VARIANT, object, DEFAULT_VARIANT);
+        variant = VariantsService.load(DEFAULT_VARIANT, object, DEFAULT_VARIANT);
         if(variant!=null) {
           variantType = VariantType.GLOBAL;
         }
@@ -94,9 +94,9 @@ public class VariantsManager {
   public String onVariantSelected(String name) throws Exception {
     Variant variant;
     if (DEFAULT_VARIANT.equals(name)) {
-      variant = VariantsService.loadVariant(DEFAULT_VARIANT, object, name);
+      variant = VariantsService.load(DEFAULT_VARIANT, object, name);
     } else {
-      variant = VariantsService.loadVariant(user, object, name);
+      variant = VariantsService.load(user, object, name);
     }
     if(variant==null) return StringUtils.EMPTY;
     bean.loadVariant(variant);
@@ -104,7 +104,7 @@ public class VariantsManager {
   }
   
   public void fillVariantsForMenu() {
-    variants = VariantsService.getVariants(user, object);
+    variants = VariantsService.get(user, object);
   }
 
 }
