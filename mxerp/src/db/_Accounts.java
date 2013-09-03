@@ -44,6 +44,8 @@ public abstract class _Accounts extends CayenneDataObject {
     @Deprecated
     public static final String EMPLOYEES_PROPERTY = "employees";
     @Deprecated
+    public static final String ID_PROPERTY = "id";
+    @Deprecated
     public static final String INDUSTRY_PROPERTY = "industry";
     @Deprecated
     public static final String MODIFIED_USER_ID_PROPERTY = "modifiedUserId";
@@ -95,6 +97,7 @@ public abstract class _Accounts extends CayenneDataObject {
     public static final Property<Boolean> DELETED = new Property<Boolean>("deleted");
     public static final Property<String> DESCRIPTION = new Property<String>("description");
     public static final Property<String> EMPLOYEES = new Property<String>("employees");
+    public static final Property<String> ID = new Property<String>("id");
     public static final Property<String> INDUSTRY = new Property<String>("industry");
     public static final Property<String> MODIFIED_USER_ID = new Property<String>("modifiedUserId");
     public static final Property<String> NAME = new Property<String>("name");
@@ -216,6 +219,13 @@ public abstract class _Accounts extends CayenneDataObject {
     }
     public String getEmployees() {
         return (String)readProperty("employees");
+    }
+
+    public void setId(String id) {
+        writeProperty("id", id);
+    }
+    public String getId() {
+        return (String)readProperty("id");
     }
 
     public void setIndustry(String industry) {

@@ -50,13 +50,15 @@ import services.variants.Variant;
 import services.variants.Variant.GridValues;
 import utils.Constants;
 import utils.Helper;
+import db.Metadata;
 //TODO: dynamic handling of operators
 //TODO: metadata for ignoring fields and referencing to dropdowns
-
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.SearchPB}")
 public class SearchPB extends WorkpageDispatchedPageBean implements Serializable, IVariants {
 
+	private Map<String, Metadata> metadataMap;
+	
 	private enum Operator {
 		eq, like, gt, gte, lt, lte, between;
 
@@ -140,6 +142,12 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		}
 		entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
 		assert entityClazz != null;
+		
+		List<Metadata> metadata = Metadata.getByEntity(getContext(), entityName);
+		metadataMap = new HashMap<String, Metadata>(metadata.size());
+		for(Metadata metadate : metadata) {
+			metadataMap.put(metadate.getField(), metadate);
+		}
 
 		selectionRowObjects.clear();
 		addSelectionRow(0);

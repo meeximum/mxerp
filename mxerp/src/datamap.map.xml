@@ -41,6 +41,18 @@
 		<db-attribute name="ticker_symbol" type="VARCHAR" length="10"/>
 		<db-attribute name="website" type="VARCHAR" length="255"/>
 	</db-entity>
+	<db-entity name="countries_t" catalog="mxerp">
+		<db-attribute name="description" type="VARCHAR" length="100"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+	</db-entity>
+	<db-entity name="metadata" catalog="mxerp">
+		<db-attribute name="entity" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
+		<db-attribute name="field" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
+		<db-attribute name="ordinal" type="INTEGER" length="10"/>
+		<db-attribute name="technical" type="BIT" isMandatory="true"/>
+		<db-attribute name="vvb" type="VARCHAR" length="50"/>
+	</db-entity>
 	<obj-entity name="Accounts" className="db.Accounts" dbEntityName="accounts">
 		<obj-attribute name="accountType" type="java.lang.String" db-attribute-path="account_type"/>
 		<obj-attribute name="annualRevenue" type="java.lang.String" db-attribute-path="annual_revenue"/>
@@ -53,10 +65,11 @@
 		<obj-attribute name="campaignId" type="java.lang.String" db-attribute-path="campaign_id"/>
 		<obj-attribute name="createdBy" type="java.lang.String" db-attribute-path="created_by"/>
 		<obj-attribute name="dateEntered" type="java.util.Date" db-attribute-path="date_entered"/>
-		<obj-attribute name="dateModified" type="java.util.Date" lock="true" db-attribute-path="date_modified"/>
+		<obj-attribute name="dateModified" type="java.util.Date" db-attribute-path="date_modified"/>
 		<obj-attribute name="deleted" type="java.lang.Boolean" db-attribute-path="deleted"/>
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
 		<obj-attribute name="employees" type="java.lang.String" db-attribute-path="employees"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
 		<obj-attribute name="industry" type="java.lang.String" db-attribute-path="industry"/>
 		<obj-attribute name="modifiedUserId" type="java.lang.String" db-attribute-path="modified_user_id"/>
 		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
@@ -74,5 +87,17 @@
 		<obj-attribute name="sicCode" type="java.lang.String" db-attribute-path="sic_code"/>
 		<obj-attribute name="tickerSymbol" type="java.lang.String" db-attribute-path="ticker_symbol"/>
 		<obj-attribute name="website" type="java.lang.String" db-attribute-path="website"/>
+	</obj-entity>
+	<obj-entity name="CountriesT" className="db.CountriesT" dbEntityName="countries_t">
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
+	</obj-entity>
+	<obj-entity name="Metadata" className="db.Metadata" dbEntityName="metadata">
+		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
+		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
+		<obj-attribute name="ordinal" type="java.lang.Integer" db-attribute-path="ordinal"/>
+		<obj-attribute name="technical" type="java.lang.Boolean" db-attribute-path="technical"/>
+		<obj-attribute name="vvb" type="java.lang.String" db-attribute-path="vvb"/>
 	</obj-entity>
 </data-map>
