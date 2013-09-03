@@ -53,12 +53,13 @@ import utils.Helper;
 import db.Metadata;
 //TODO: dynamic handling of operators
 //TODO: metadata for ignoring fields and referencing to dropdowns
+
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.SearchPB}")
 public class SearchPB extends WorkpageDispatchedPageBean implements Serializable, IVariants {
 
 	private Map<String, Metadata> metadataMap;
-	
+
 	private enum Operator {
 		eq, like, gt, gte, lt, lte, between;
 
@@ -135,25 +136,30 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 		objEntity = getContext().getEntityResolver().getObjEntity(entityName);
 		assert objEntity != null;
+
+		List<Metadata> metadata = Metadata.getByEntity(getContext(), entityName);
+		metadataMap = new HashMap<String, Metadata>(metadata.size());
+		for (Metadata metadate : metadata) {
+			metadataMap.put(metadate.getField(), metadate);
+		}
+
 		fieldsVVB = new ValidValuesBinding();
 		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
+			String field = objAttribute.getName();
+			Metadata metadate = metadataMap.get(field);
+			if (metadate != null && metadate.getTechnical())
+				continue;
 			String description = Helper.getColumnNameForEntity(entityName, objAttribute.getDbAttributeName());
-			fieldsVVB.addValidValue(objAttribute.getName(), description);
+			fieldsVVB.addValidValue(field, description);
 		}
 		entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
 		assert entityClazz != null;
-		
-		List<Metadata> metadata = Metadata.getByEntity(getContext(), entityName);
-		metadataMap = new HashMap<String, Metadata>(metadata.size());
-		for(Metadata metadate : metadata) {
-			metadataMap.put(metadate.getField(), metadate);
-		}
 
 		selectionRowObjects.clear();
 		addSelectionRow(0);
 
 		getGridResult().getItems().clear();
-		
+
 		loadUsersOrGlobalDefaultVariant();
 	}
 
@@ -284,12 +290,10 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	}
 
 	private void addSelectionRowForSpecificField(String field) throws Exception {
-		String id = UUID.randomUUID().toString().replaceAll("-", "");
-		SelectionRowObject selectionRowObject = new SelectionRowObject(id);
-		selectionRowObject.setField(field);
-		selectionRowObject.setOperator(Operator.eq);
-		selectionRowObject.focus();
-		selectionRowObjects.put(0, id, selectionRowObject);
+		String id = UUID.randomUUID().toString().replaceAll("-", "");	
+		SelectionRowObject newSelectionRowObject = new SelectionRowObject(id, field, Operator.eq);
+		newSelectionRowObject.focus();
+		selectionRowObjects.put(0, id, newSelectionRowObject);
 	}
 
 	private void duplicateSelectionRow(String idToCopy) throws Exception {
@@ -297,8 +301,6 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		int index = selectionRowObjects.indexOf(idToCopy);
 		String newId = UUID.randomUUID().toString().replaceAll("-", "");
 		SelectionRowObject newSelectionRowObject = new SelectionRowObject(newId, selectionRowObjectToCopy.getField(), selectionRowObjectToCopy.getOperator());
-		newSelectionRowObject.setField(selectionRowObjectToCopy.getField());
-		newSelectionRowObject.setOperator(selectionRowObjectToCopy.getOperator());
 		newSelectionRowObject.focus();
 		selectionRowObjects.put(index + 1, newId, newSelectionRowObject);
 	}
@@ -339,6 +341,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	private COLSYNCHEDROWNode createSelectionRow(final SelectionRowObject selectionRowObject) throws Exception {
 		String id = selectionRowObject.getId();
 		String type = selectionRowObject.getTypeOfField();
+		String field = selectionRowObject.getField();
 		Operator operator = selectionRowObject.getOperator();
 
 		COLSYNCHEDROWNode colSynchedRow = new COLSYNCHEDROWNode();
@@ -367,12 +370,12 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 		// valueLow
 		{
-			colSynchedRow.addSubNode(createComponentNodeForSelectionRow(id, type, "valueLow"));
+			colSynchedRow.addSubNode(createComponentNodeForSelectionRow(id, field, type, "valueLow"));
 		}
 
 		// valueHigh
 		if (operator == Operator.between) {
-			colSynchedRow.addSubNode(createComponentNodeForSelectionRow(id, type, "valueHigh"));
+			colSynchedRow.addSubNode(createComponentNodeForSelectionRow(id, field, type, "valueHigh"));
 		} else {
 			COLDISTANCENode coldistance = new COLDISTANCENode();
 			coldistance.setWidth(0);
@@ -433,6 +436,11 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
 
+			String field = objAttribute.getName();
+			Metadata metadate = metadataMap.get(field);
+			if (metadate != null && metadate.getTechnical())
+				continue;
+
 			GRIDCOLNode gridcol = new GRIDCOLNode();
 			gridcol.setText(Helper.getColumnNameForEntity(entityName, objAttribute.getDbAttributeName()));
 			gridcol.setWidth(100);
@@ -464,7 +472,10 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 	private ComponentNode createComponentNodeForResultColumn(ObjAttribute objAttribute) {
 		String type = objAttribute.getType();
+		String field = objAttribute.getName();
+
 		ComponentNode value = null;
+
 		if ("java.util.Date".equals(type)) {
 			LABELNode label = new LABELNode();
 			label.setText(".{data." + objAttribute.getName() + "}");
@@ -484,43 +495,64 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			label.setAlign("right");
 			value = label;
 		} else {
-			LABELNode label = new LABELNode();
-			label.setText(".{data." + objAttribute.getName() + "}");
-			value = label;
+			Metadata metadate = metadataMap.get(field);
+			if (metadate != null && StringUtils.isNotBlank(metadate.getVvb())) {
+				COMBOBOXNode combobox = new COMBOBOXNode();
+				combobox.setValidvaluesbinding("#{h.vvb." + metadate.getVvb() + "}");
+				combobox.setValue(".{data." + objAttribute.getName() + "}");
+				combobox.setEnabled(false);
+				combobox.setWidth(150);
+				value = combobox;
+			} else {
+				LABELNode label = new LABELNode();
+				label.setText(".{data." + objAttribute.getName() + "}");
+				value = label;
+			}
 		}
 		return value;
 	}
 
-	private ComponentNode createComponentNodeForSelectionRow(String id, String type, String value) {
+	private ComponentNode createComponentNodeForSelectionRow(String id, String field, String type, String value) {
 		ComponentNode component = null;
 		if ("java.util.Date".equals(type)) {
-			CALENDARFIELDNode calendar = new CALENDARFIELDNode();
-			calendar.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
-			calendar.setTimezone("CET");
-			calendar.setFormat("datetime");
-			calendar.setFormatmask("short");
-			calendar.setWidth(200);
-			component = calendar;
+			CALENDARFIELDNode calendarNode = new CALENDARFIELDNode();
+			calendarNode.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+			calendarNode.setTimezone("CET");
+			calendarNode.setFormat("datetime");
+			calendarNode.setFormatmask("short");
+			calendarNode.setWidth(200);
+			component = calendarNode;
 		} else if ("java.lang.Boolean".equals(type)) {
-			CHECKBOXNode checkbox = new CHECKBOXNode();
-			checkbox.setSelected("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
-			checkbox.setAlign("center");
-			component = checkbox;
+			CHECKBOXNode checkboxNode = new CHECKBOXNode();
+			checkboxNode.setSelected("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+			checkboxNode.setAlign("center");
+			component = checkboxNode;
 		} else if ("java.lang.Integer".equals(type)) {
-			FORMATTEDFIELDNode field = new FORMATTEDFIELDNode();
-			field.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
-			field.setAlign("right");
-			field.setFormat("int");
-			field.setRestricttokeys("-0123456789");
-			field.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
-			field.setWidth(200);
-			component = field;
+			FORMATTEDFIELDNode fieldNode = new FORMATTEDFIELDNode();
+			fieldNode.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+			fieldNode.setAlign("right");
+			fieldNode.setFormat("int");
+			fieldNode.setRestricttokeys("-0123456789");
+			fieldNode.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
+			fieldNode.setWidth(200);
+			component = fieldNode;
 		} else {
-			FIELDNode field = new FIELDNode();
-			field.setText("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
-			field.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
-			field.setWidth(200);
-			component = field;
+			Metadata metadate = metadataMap.get(field);
+			if (metadate != null && StringUtils.isNotBlank(metadate.getVvb())) {
+				COMBOBOXNode comboboxNode = new COMBOBOXNode();
+				comboboxNode.setValidvaluesbinding("#{h.vvb." + metadate.getVvb() + "}");
+				comboboxNode.setValue("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+				comboboxNode.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
+				comboboxNode.setEnabled(true);
+				comboboxNode.setWidth(200);
+				component = comboboxNode;
+			} else {
+				FIELDNode fieldNode = new FIELDNode();
+				fieldNode.setText("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
+				fieldNode.setRequestfocus("#{d.SearchPB.selectionRowObjects." + id + ".focus}");
+				fieldNode.setWidth(200);
+				component = fieldNode;
+			}
 		}
 		return component;
 	}

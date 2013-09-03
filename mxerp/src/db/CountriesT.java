@@ -1,7 +1,9 @@
 package db;
 
+import services.vvb.IVvb;
 
 
-public class CountriesT extends _CountriesT {
+@SuppressWarnings("serial")
+public class CountriesT extends _CountriesT implements IVvb {
 
 }

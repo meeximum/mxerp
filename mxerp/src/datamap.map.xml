@@ -49,7 +49,6 @@
 	<db-entity name="metadata" catalog="mxerp">
 		<db-attribute name="entity" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
 		<db-attribute name="field" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
-		<db-attribute name="ordinal" type="INTEGER" length="10"/>
 		<db-attribute name="technical" type="BIT" isMandatory="true"/>
 		<db-attribute name="vvb" type="VARCHAR" length="50"/>
 	</db-entity>
@@ -96,7 +95,6 @@
 	<obj-entity name="Metadata" className="db.Metadata" dbEntityName="metadata">
 		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
 		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
-		<obj-attribute name="ordinal" type="java.lang.Integer" db-attribute-path="ordinal"/>
 		<obj-attribute name="technical" type="java.lang.Boolean" db-attribute-path="technical"/>
 		<obj-attribute name="vvb" type="java.lang.String" db-attribute-path="vvb"/>
 	</obj-entity>

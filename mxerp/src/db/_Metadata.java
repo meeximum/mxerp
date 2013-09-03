@@ -16,8 +16,6 @@ public abstract class _Metadata extends CayenneDataObject {
     @Deprecated
     public static final String FIELD_PROPERTY = "field";
     @Deprecated
-    public static final String ORDINAL_PROPERTY = "ordinal";
-    @Deprecated
     public static final String TECHNICAL_PROPERTY = "technical";
     @Deprecated
     public static final String VVB_PROPERTY = "vvb";
@@ -27,7 +25,6 @@ public abstract class _Metadata extends CayenneDataObject {
 
     public static final Property<String> ENTITY = new Property<String>("entity");
     public static final Property<String> FIELD = new Property<String>("field");
-    public static final Property<Integer> ORDINAL = new Property<Integer>("ordinal");
     public static final Property<Boolean> TECHNICAL = new Property<Boolean>("technical");
     public static final Property<String> VVB = new Property<String>("vvb");
 
@@ -43,13 +40,6 @@ public abstract class _Metadata extends CayenneDataObject {
     }
     public String getField() {
         return (String)readProperty("field");
-    }
-
-    public void setOrdinal(Integer ordinal) {
-        writeProperty("ordinal", ordinal);
-    }
-    public Integer getOrdinal() {
-        return (Integer)readProperty("ordinal");
     }
 
     public void setTechnical(Boolean technical) {
