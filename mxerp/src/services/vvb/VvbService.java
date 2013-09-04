@@ -9,12 +9,14 @@ import org.apache.cayenne.query.SelectQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.eclnt.jsfserver.elements.util.ValidValuesBinding;
 
+import utils.Constants;
+
 public class VvbService {
 	@SuppressWarnings("unchecked")
 	public static ValidValuesBinding getVvb(String entityName, ObjectContext context, String language) throws ClassNotFoundException {
 		ValidValuesBinding vvb = new ValidValuesBinding();
 			
-		Class<CayenneDataObject> vvbClazz = (Class<CayenneDataObject>) Class.forName("db." + StringUtils.capitalize(entityName) + "T");
+		Class<CayenneDataObject> vvbClazz = (Class<CayenneDataObject>) Class.forName(Constants.DB_ERP_PACKAGE + "." + StringUtils.capitalize(entityName) + "T");
 		
 		Expression expression = IVvb.LANGUAGE.eq(language.toLowerCase());
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(vvbClazz, expression);

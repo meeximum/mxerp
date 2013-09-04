@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import javax.faces.event.ActionEvent;
 
+import managedbeans.trees.CustomizingFT;
 import managedbeans.trees.MasterDataFT;
 
 import org.apache.commons.lang3.StringUtils;
@@ -32,27 +33,27 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 			IdTextSelection idts = IdTextSelection.createInstance();
 			for (String name : NAMES)
 				idts.addLine(name, name);
-			idts.filterByInputId(m_savedSearch);
+			idts.filterByInputId(savedSearch);
 			idts.setRenderIdColumn(false);
 			idts.setSuppressHeadline(true);
 			idts.setPopupWidth(200);
-			idts.setCallBack(new ISetIdText() {				
+			idts.setCallBack(new ISetIdText() {
 				public void setIdText(String id, String text) {
-					m_savedSearch = text;
+					savedSearch = text;
 				}
 			});
 		}
 
 	}
 
-	String m_savedSearch;
+	String savedSearch;
 
 	public String getSavedSearch() {
-		return m_savedSearch;
+		return savedSearch;
 	}
 
 	public void setSavedSearch(String value) {
-		this.m_savedSearch = value;
+		this.savedSearch = value;
 	}
 
 	public void onLoadSavedSearch(ActionEvent event) {
@@ -60,24 +61,24 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 	}
 
 	private final static int DIVIDERLOCATION = 150;
-	int m_dividerlocation = DIVIDERLOCATION;
+	int dividerlocation = DIVIDERLOCATION;
 
 	public int getDividerlocation() {
-		return m_dividerlocation;
+		return dividerlocation;
 	}
 
 	public void setDividerlocation(int value) {
-		this.m_dividerlocation = value;
+		this.dividerlocation = value;
 	}
 
-	String m_transaction;
+	String transaction;
 
 	public String getTransaction() {
-		return m_transaction;
+		return transaction;
 	}
 
 	public void setTransaction(String value) {
-		this.m_transaction = value;
+		this.transaction = value;
 	}
 
 	// ------------------------------------------------------------------------
@@ -87,6 +88,7 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 	public MainUI(IWorkpageDispatcher dispatcher) throws Exception {
 		super(dispatcher);
 		masterDataFT = new MasterDataFT(dispatcher);
+		customizingFT = new CustomizingFT(dispatcher);
 	}
 
 	// ------------------------------------------------------------------------
@@ -98,8 +100,10 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 		return masterDataFT;
 	}
 
-	public void setMasterDataFT(MasterDataFT masterDataFT) {
-		this.masterDataFT = masterDataFT;
+	private CustomizingFT customizingFT;
+
+	public CustomizingFT getCustomizingFT() {
+		return customizingFT;
 	}
 
 	public int getSelectedNode() {
@@ -131,9 +135,10 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 
 		IWorkpageDispatcher wpd = (IWorkpageDispatcher) getOwningDispatcher().getTopOwner();
 		IWorkpageContainer wpc = wpd.getWorkpageContainer();
-		// TODO: Generalize for all functiontrees
+		// TODO: Generalize for all functiontrees, make a map for all trees!
 		WorkpageStartInfo wpsi = getMasterDataFT().getWorkpageInfoById(getTransaction());
-
+		if (wpsi == null)
+			wpsi = getCustomizingFT().getWorkpageInfoById(getTransaction());
 		if (wpsi != null) {
 			wpc.addWorkpage(new WorkpageByPageBean(wpd, wpsi.getText(), wpsi));
 			setTransaction(StringUtils.EMPTY);

@@ -2,15 +2,16 @@ package db;
 
 import java.util.List;
 
-import junit.framework.Assert;
-
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.configuration.server.ServerRuntime;
 import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.query.SelectQuery;
 import org.junit.After;
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+
+import db.erp.Accounts;
 
 public class PartnerTest {
 

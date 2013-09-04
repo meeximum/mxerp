@@ -11,6 +11,7 @@ public class Constants {
 	
 	// Workplace parameters
 	public static final String WP_PARAMS_ENTITY = "entity";
+	public static final String WP_PARAMS_TABLE = "table";
 
 	// HTTP paremeters
 	public static final String ECLNT_LANGUAGE = "eclnt-language";
@@ -22,4 +23,6 @@ public class Constants {
 	public static final String ASTERIX = "*";
 	
 	public static final String UTF8 = "UTF-8";
+	
+	public static final String DB_ERP_PACKAGE = "db.erp";
 }

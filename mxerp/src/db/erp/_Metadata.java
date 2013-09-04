@@ -1,4 +1,4 @@
-package db;
+package db.erp;
 
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.exp.Property;

@@ -1,4 +1,4 @@
-package db;
+package db.erp;
 
 import java.util.Date;
 

@@ -50,7 +50,7 @@ import services.variants.Variant;
 import services.variants.Variant.GridValues;
 import utils.Constants;
 import utils.Helper;
-import db.Metadata;
+import db.erp.Metadata;
 //TODO: dynamic handling of operators
 //TODO: metadata for ignoring fields and referencing to dropdowns
 
@@ -137,12 +137,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		objEntity = getContext().getEntityResolver().getObjEntity(entityName);
 		assert objEntity != null;
 
-		List<Metadata> metadata = Metadata.getByEntity(getContext(), entityName);
-		metadataMap = new HashMap<String, Metadata>(metadata.size());
-		for (Metadata metadate : metadata) {
-			metadataMap.put(metadate.getField(), metadate);
-		}
-
+		metadataMap = Metadata.getByEntityAsMap(getContext(), entityName);
+		
 		fieldsVVB = new ValidValuesBinding();
 		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
 			String field = objAttribute.getName();

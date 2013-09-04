@@ -4,7 +4,7 @@
 	 xsi:schemaLocation="http://cayenne.apache.org/schema/3.0/modelMap http://cayenne.apache.org/schema/3.0/modelMap.xsd"
 	 project-version="6">
 	<property name="defaultLockType" value="optimistic"/>
-	<property name="defaultPackage" value="db"/>
+	<property name="defaultPackage" value="db.erp"/>
 	<property name="defaultCatalog" value="mxerp"/>
 	<db-entity name="accounts" catalog="mxerp">
 		<db-attribute name="account_type" type="VARCHAR" length="100"/>
@@ -41,6 +41,11 @@
 		<db-attribute name="ticker_symbol" type="VARCHAR" length="10"/>
 		<db-attribute name="website" type="VARCHAR" length="255"/>
 	</db-entity>
+	<db-entity name="countries" catalog="mxerp">
+		<db-attribute name="currency" type="VARCHAR" length="3"/>
+		<db-attribute name="currency_symbol" type="VARCHAR" length="1"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+	</db-entity>
 	<db-entity name="countries_t" catalog="mxerp">
 		<db-attribute name="description" type="VARCHAR" length="100"/>
 		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
@@ -52,7 +57,7 @@
 		<db-attribute name="technical" type="BIT" isMandatory="true"/>
 		<db-attribute name="vvb" type="VARCHAR" length="50"/>
 	</db-entity>
-	<obj-entity name="Accounts" className="db.Accounts" dbEntityName="accounts">
+	<obj-entity name="Accounts" className="db.erp.Accounts" dbEntityName="accounts">
 		<obj-attribute name="accountType" type="java.lang.String" db-attribute-path="account_type"/>
 		<obj-attribute name="annualRevenue" type="java.lang.String" db-attribute-path="annual_revenue"/>
 		<obj-attribute name="assignedUserId" type="java.lang.String" db-attribute-path="assigned_user_id"/>
@@ -87,12 +92,17 @@
 		<obj-attribute name="tickerSymbol" type="java.lang.String" db-attribute-path="ticker_symbol"/>
 		<obj-attribute name="website" type="java.lang.String" db-attribute-path="website"/>
 	</obj-entity>
-	<obj-entity name="CountriesT" className="db.CountriesT" dbEntityName="countries_t">
+	<obj-entity name="Countries" className="db.erp.Countries" dbEntityName="countries">
+		<obj-attribute name="currency" type="java.lang.String" db-attribute-path="currency"/>
+		<obj-attribute name="currencySymbol" type="java.lang.String" db-attribute-path="currency_symbol"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+	</obj-entity>
+	<obj-entity name="CountriesT" className="db.erp.CountriesT" dbEntityName="countries_t">
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
 		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
 		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
 	</obj-entity>
-	<obj-entity name="Metadata" className="db.Metadata" dbEntityName="metadata">
+	<obj-entity name="Metadata" className="db.erp.Metadata" dbEntityName="metadata">
 		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
 		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
 		<obj-attribute name="technical" type="java.lang.Boolean" db-attribute-path="technical"/>
