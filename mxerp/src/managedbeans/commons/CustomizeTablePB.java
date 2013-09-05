@@ -176,14 +176,12 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 	private ROWDYNAMICCONTENTBinding generateGrid() throws Exception {
 
 		List<ComponentNode> components = new ArrayList<ComponentNode>(2);
-		ROWDYNAMICCONTENTBinding content = new ROWDYNAMICCONTENTBinding();
 
 		// fixgrid
 		{
 			FIXGRIDNode fixgrid = new FIXGRIDNode();
-			fixgrid.setObjectbinding("#{d.CustomizePB.gridTable}");
+			fixgrid.setObjectbinding("#{d.CustomizeTablePB.gridTable}");
 			fixgrid.setSelectorcolumn("1");
-			fixgrid.setWidth("100%");
 			fixgrid.setHeight("100%");
 			fixgrid.setDrawoddevenrows(true);
 			fixgrid.setSbvisibleamount("50");
@@ -218,6 +216,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 			// fields
 			{
 				for (ObjAttribute objAttribute : objEntity.getAttributes()) {
+					if(objEntity.getPrimaryKeys().contains(objAttribute)) continue;
 					String field = objAttribute.getName();
 					Metadata metadate = metadataMap.get(field);
 					if (metadate != null && metadate.getTechnical())
