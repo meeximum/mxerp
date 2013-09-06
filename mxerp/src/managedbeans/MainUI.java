@@ -45,6 +45,8 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 		}
 
 	}
+	
+	private List<WorkplaceFunctionTree> treeList;
 
 	String savedSearch;
 
@@ -87,8 +89,13 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 
 	public MainUI(IWorkpageDispatcher dispatcher) throws Exception {
 		super(dispatcher);
+		treeList = new ArrayList<WorkplaceFunctionTree>();		
 		masterDataFT = new MasterDataFT(dispatcher);
+		treeList.add(masterDataFT);
 		customizingFT = new CustomizingFT(dispatcher);
+		treeList.add(customizingFT);
+		reportingFT = new ReportingFT(dispatcher);
+		treeList.add(reportingFT);
 	}
 
 	// ------------------------------------------------------------------------
@@ -104,6 +111,12 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 
 	public CustomizingFT getCustomizingFT() {
 		return customizingFT;
+	}
+	
+	private ReportingFT reportingFT;
+	
+	public ReportingFT getReportingFT() {
+		return reportingFT;
 	}
 
 	public int getSelectedNode() {
@@ -135,10 +148,13 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 
 		IWorkpageDispatcher wpd = (IWorkpageDispatcher) getOwningDispatcher().getTopOwner();
 		IWorkpageContainer wpc = wpd.getWorkpageContainer();
-		// TODO: Generalize for all functiontrees, make a map for all trees!
-		WorkpageStartInfo wpsi = getMasterDataFT().getWorkpageInfoById(getTransaction());
-		if (wpsi == null)
-			wpsi = getCustomizingFT().getWorkpageInfoById(getTransaction());
+
+		WorkpageStartInfo wpsi = null;
+		for(WorkplaceFunctionTree tree : treeList) {
+			wpsi = tree.getWorkpageInfoById(getTransaction());
+			if(wpsi!=null) break;
+		}
+		
 		if (wpsi != null) {
 			wpc.addWorkpage(new WorkpageByPageBean(wpd, wpsi.getText(), wpsi));
 			setTransaction(StringUtils.EMPTY);
