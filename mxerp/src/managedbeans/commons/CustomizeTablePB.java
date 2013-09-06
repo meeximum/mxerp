@@ -8,16 +8,20 @@ import java.util.Map;
 import javax.faces.event.ActionEvent;
 
 import managedbeans.WorkpageDispatchedPageBean;
+import managedbeans.commons.TableKeyPopupPB.ICallback;
 
 import org.apache.cayenne.CayenneDataObject;
+import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.query.SelectQuery;
 import org.apache.commons.lang3.StringUtils;
 import org.eclnt.editor.annotations.CCGenClass;
+import org.eclnt.jsfserver.defaultscreens.ModalPopup;
 import org.eclnt.jsfserver.defaultscreens.Statusbar;
 import org.eclnt.jsfserver.defaultscreens.YESNOPopup;
 import org.eclnt.jsfserver.defaultscreens.YESNOPopup.IYesNoCancelListener;
+import org.eclnt.jsfserver.elements.BaseActionEvent;
 import org.eclnt.jsfserver.elements.componentnodes.CALENDARFIELDNode;
 import org.eclnt.jsfserver.elements.componentnodes.CHECKBOXNode;
 import org.eclnt.jsfserver.elements.componentnodes.COMBOBOXNode;
@@ -36,11 +40,16 @@ import org.eclnt.jsfserver.elements.impl.FIXGRIDListBinding;
 import org.eclnt.jsfserver.elements.impl.ROWDYNAMICCONTENTBinding;
 import org.eclnt.jsfserver.elements.impl.ROWDYNAMICCONTENTBinding.ComponentNode;
 import org.eclnt.workplace.IWorkpageDispatcher;
+import org.joor.Reflect;
 
+import services.vvb.IVvb;
 import utils.Constants;
 import utils.Helper;
 import db.erp.Metadata;
 
+// TODO: copy functionality
+// TODO: import functionality
+// TODO: render text only when selected date
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.CustomizeTablePB}")
 public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Serializable {
@@ -75,18 +84,56 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 		loadData();
 	}
 
-	public void onAddRow(ActionEvent event) {
-		// TODO: dialog for entering primary key!!
-		CayenneDataObject newObject;
+	public void onAddRow(ActionEvent event) {		
+		String configInfo = ((BaseActionEvent) event).getSourceConfiginfo();
+		
 		try {
-			newObject = getContext().newObject(tableClazz);
-			GridTableItem item = new GridTableItem(newObject);
-			getGridTable().getItems().add(item);
-			getGridTable().deselectCurrentSelection();
-			getGridTable().selectAndFocusItem(item);
+			if("date".equals(configInfo)) {
+				addDate();
+			} else if("text".equals(configInfo)) {
+				if(getGridTable().getSelectedItem()==null) return;
+				String id = getGridTable().getSelectedItem().getId();
+				addDateT(id);
+			}
+			
 		} catch (Exception ex) {
+			logger.error(ex, ex);
 			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
-		}
+		}		
+	}
+
+	private void addDate() throws Exception {
+		final CayenneDataObject newObject = getContext().newObject(tableClazz);
+		TableKeyPopupPB popup = new TableKeyPopupPB(newObject, objEntity);
+		final ModalPopup mp = openModalPopup(popup, "Datensatz anlegen", 0, 0, null);
+
+		popup.setCallback(new ICallback() {
+
+			@Override
+			public void ok(CayenneDataObject newObject) {
+				mp.close();
+				GridTableItem item = new GridTableItem(newObject);
+				getGridTable().getItems().add(item);
+				getGridTable().deselectCurrentSelection();
+				getGridTable().selectAndFocusItem(item);
+			}
+
+			@Override
+			public void cancel() {
+				mp.close();
+				getContext().deleteObjects(newObject);
+			}
+		});
+		mp.setLeftTopReferenceCentered();
+	}
+	
+	private void addDateT(String id) throws Exception {
+		IVvb newObjectT = (IVvb)getContext().newObject(tableTClazz);
+		newObjectT.setId(id);
+		GridTableTItem item = new GridTableTItem(newObjectT);
+		getGridTableT().getItems().add(item);
+		getGridTableT().deselectCurrentSelection();
+		getGridTableT().selectAndFocusItem(item);		
 	}
 
 	FIXGRIDListBinding<GridTableItem> gridTable = new FIXGRIDListBinding<GridTableItem>();
@@ -102,8 +149,17 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 	public class GridTableItem extends FIXGRIDItem implements java.io.Serializable {
 		private CayenneDataObject data;
 
+		@Override
+		public void onRowSelect() {
+			loadDataT(getId());
+		}
+
 		public CayenneDataObject getData() {
 			return data;
+		}
+		
+		public String getId() {
+			return Reflect.on(data).call("getId").get();
 		}
 
 		public GridTableItem(CayenneDataObject data) {
@@ -137,14 +193,41 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 
 		}
 	}
+	
+	FIXGRIDListBinding<GridTableTItem> gridTableT = new FIXGRIDListBinding<GridTableTItem>();
+	
+	public FIXGRIDListBinding<GridTableTItem> getGridTableT() {
+		return gridTableT;
+	}
 
+	public void setGridTableT(FIXGRIDListBinding<GridTableTItem> gridTableT) {
+		this.gridTableT = gridTableT;
+	}
+
+	public class GridTableTItem extends FIXGRIDItem implements java.io.Serializable {
+		private IVvb vvb;
+
+		public IVvb getVvb() {
+			return vvb;
+		}
+
+		public GridTableTItem(IVvb vvb) {
+			super();
+			this.vvb = vvb;
+		}		
+	}
+	
 	private String table;
 
 	private ObjEntity objEntity;
+	
+	private ObjEntity objEntityT;
 
 	private Map<String, Metadata> metadataMap;
 
 	private Class<CayenneDataObject> tableClazz;
+	
+	private Class<CayenneDataObject> tableTClazz;
 
 	// ------------------------------------------------------------------------
 	// constructors & initialization
@@ -158,14 +241,17 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 			table = getWorkpage().getParam(Constants.WP_PARAMS_TABLE);
 
 			objEntity = getContext().getEntityResolver().getObjEntity(table);
-			assert objEntity != null;
-
+			assert objEntity != null;			
+			
 			tableClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
 			assert tableClazz != null;
+			
+			objEntityT = getContext().getEntityResolver().getObjEntity(table + "T");
+			if(objEntity!=null) tableTClazz = (Class<CayenneDataObject>) Class.forName(objEntityT.getClassName());
 
 			metadataMap = Metadata.getByEntityAsMap(getContext(), table);
 
-			generateGrid();
+			generateTableGrid();
 			loadData();
 		} catch (Exception e) {
 			logger.error(e, e);
@@ -173,7 +259,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 		}
 	}
 
-	private ROWDYNAMICCONTENTBinding generateGrid() throws Exception {
+	private ROWDYNAMICCONTENTBinding generateTableGrid() throws Exception {
 
 		List<ComponentNode> components = new ArrayList<ComponentNode>(2);
 
@@ -216,7 +302,8 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 			// fields
 			{
 				for (ObjAttribute objAttribute : objEntity.getAttributes()) {
-					if(objEntity.getPrimaryKeys().contains(objAttribute)) continue;
+					if (objEntity.getPrimaryKeys().contains(objAttribute))
+						continue;
 					String field = objAttribute.getName();
 					Metadata metadate = metadataMap.get(field);
 					if (metadate != null && metadate.getTechnical())
@@ -298,11 +385,24 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 
 	@SuppressWarnings("unchecked")
 	private void loadData() {
-		getGridTable().getItems().clear();		
+		getGridTable().getItems().clear();
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(tableClazz);
 		List<CayenneDataObject> objects = getContext().performQuery(query);
 		for (CayenneDataObject object : objects) {
 			getGridTable().getItems().add(new GridTableItem(object));
+		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	private void loadDataT(String id) {
+		getGridTableT().getItems().clear();
+		Expression expression = IVvb.ID.eq(id);
+		SelectQuery<CayenneDataObject> query = SelectQuery.query(tableTClazz, expression);
+		
+		List<IVvb> vvbList = getContext().performQuery(query);
+		
+		for(IVvb vvb : vvbList) {
+			getGridTableT().getItems().add(new GridTableTItem(vvb));
 		}
 	}
 
