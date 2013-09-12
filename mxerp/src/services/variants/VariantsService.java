@@ -1,20 +1,14 @@
 package services.variants;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.xml.bind.JAXBContext;
-import javax.xml.bind.Marshaller;
-import javax.xml.bind.Unmarshaller;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.eclnt.jsfserver.streamstore.StreamStore;
 
-import utils.Constants;
+import services.xml.JAXBService;
 
 
 public class VariantsService {
@@ -41,13 +35,7 @@ public class VariantsService {
   
   public static void save(String user, String object, Variant variant) throws Exception {
     String path = buildPathAndCheckFileEnding(user, object, variant.getName());
-    ByteArrayOutputStream baos = new ByteArrayOutputStream();    
-    JAXBContext context = JAXBContext.newInstance(Variant.class);
-    Marshaller m = context.createMarshaller();
-    m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
-    m.setProperty(Marshaller.JAXB_ENCODING, Constants.UTF8);
-    m.marshal(variant, baos);   
-    String content = baos==null?null:baos.toString(Constants.UTF8);
+    String content = JAXBService.marshall(variant, Variant.class);    
     if(StringUtils.isEmpty(content)) return;
     //if(StreamStore.getInstance().checkIfStreamExists(path, false)) StreamStore.getInstance().removeStream(path, false);    
     StreamStore.getInstance().writeUTF8(path, content, true);
@@ -73,10 +61,7 @@ public class VariantsService {
     String path = buildPathAndCheckFileEnding(user, object, name);
     if(!StreamStore.getInstance().checkIfStreamExists(path, false)) return null;
     String content = StreamStore.getInstance().readUTF8(path, false);
-    JAXBContext context = JAXBContext.newInstance(Variant.class);
-    Unmarshaller um = context.createUnmarshaller();
-    Variant variant = (Variant) um.unmarshal(new ByteArrayInputStream(content.getBytes(Constants.UTF8)));
-    return variant;
+    return	JAXBService.unmarshall(content, Variant.class);
   }
   
   public static boolean checkIfVariantExists(String user, String object, String name) throws Exception {

@@ -35,7 +35,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
     -fx-padding: 3 10 5 10;
@@ -48,7 +48,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
     -fx-padding: 3 10 4 10;
@@ -87,7 +87,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #00000030;
     -fx-border-width: 1 0 0 0;
     -fx-padding: 5 10 5 10;
@@ -101,7 +101,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #00000030;
     -fx-border-width: 1 0 0 0;
     -fx-padding: 5 10 5 10;
@@ -121,7 +121,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 10 5 10;
     -fx-border-color: #00000020;
     -fx-border-width: 1 1 1 1;
@@ -137,7 +137,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 10 5 10;
     -fx-border-color: #00000020;
     -fx-border-width: 1 1 1 1;
@@ -153,7 +153,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 10 5 10;
     -fx-border-color: #00000020;
     -fx-border-width: 1 1 1 1;
@@ -169,7 +169,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 10 5 10;
     -fx-border-color: #00000020;
     -fx-border-width: 1 1 1 1;
@@ -186,7 +186,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 10 5 10;
     -fx-border-color: #00000030;
     -fx-border-width: 1 1 1 1;
@@ -202,7 +202,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 10 5 10;
     -fx-border-color: #00000030;
     -fx-border-width: 1 1 1 1;
@@ -218,7 +218,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 10 5 10;
     -fx-border-color: #00000030;
     -fx-border-width: 1 1 1 1;
@@ -234,7 +234,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 10 5 10;
     -fx-border-color: #00000030;
     -fx-border-width: 1 1 1 1;
@@ -249,6 +249,36 @@
     -fx-border-width: 0;
 }
 .cc_buttontabbedlinemenuicon
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+.cc_buttontabbedlinelefticon_sp
+{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+.cc_buttontabbedlinelefticon
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+.cc_buttontabbedlinerighticon_sp
+{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+.cc_buttontabbedlinerighticon
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
@@ -438,7 +468,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
     -fx-padding: 3 25 5 10;
@@ -507,7 +537,7 @@
 }
 .cc_colorpicker
 {
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
     -fx-padding: 2 2 3 2;
@@ -544,7 +574,7 @@
 .cc_longtextfield
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.TextFieldSkin";
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-background-insets: 0;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
@@ -635,7 +665,7 @@
 .cc_field
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.TextFieldSkin";
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
     -fx-padding: 3 3 3 3;
@@ -648,7 +678,7 @@
 .cc_passwordfield
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.PasswordFieldSkin";
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
     -fx-padding: 3 3 3 3;
@@ -728,7 +758,7 @@
 }
 .cc_textarea
 {
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
     -fx-padding: 3 3 3 3;
@@ -787,7 +817,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #00000010;
     -fx-border-width: 1;
     -fx-padding: 3 10 5 10;
@@ -801,7 +831,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #00000010;
     -fx-border-width: 1;
     -fx-padding: 3 10 5 10;
@@ -969,7 +999,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 4 5 4;
     -fx-border-color: #00000040;
     -fx-border-width: 1 1 1 1;
@@ -986,7 +1016,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-padding: 5 4 5 4;
     -fx-border-color: #00000020;
     -fx-border-width: 1 1 1 1;
@@ -1003,7 +1033,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #00000030;
     -fx-border-width: 1 0 0 0;
     -fx-padding: 3 10 3 10;
@@ -1020,7 +1050,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #00000030;
     -fx-border-width: 1 0 0 0;
     -fx-padding: 3 10 3 10;
@@ -1038,7 +1068,7 @@
 {
     -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
     -fx-cursor: hand;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-border-color: #a0a0a0;
     -fx-border-width: 1;
     -fx-padding: 3 25 5 10;
@@ -1157,7 +1187,7 @@
     -fx-border-color: #00000080;
     -fx-border-width: 1;
     -fx-border-radius: 3;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
     -fx-padding: 3 3 3 3;
@@ -1186,7 +1216,7 @@
     -fx-border-color: #00000080;
     -fx-border-width: 1;
     -fx-border-radius: 3;
-    -fx-background-color: #00000000;
+    -fx-background-color: transparent;
     -fx-background-insets: 0;
     -fx-background-radius: 0;
     -fx-padding: 3 3 3 3;

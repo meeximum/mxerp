@@ -27,7 +27,7 @@
 </t:row>
 </t:foldablepane>
 </t:row>
-<t:row id="g_14" >
+<t:row id="g_14" rendered="#{d.CustomizeTablePB.renderTexts}" >
 <t:foldablepane id="g_15" height="100%" rowdistance="5" width="100%" >
 <t:row id="g_17" >
 <t:fixgrid id="g_18" objectbinding="#{d.CustomizeTablePB.gridTableT}" >

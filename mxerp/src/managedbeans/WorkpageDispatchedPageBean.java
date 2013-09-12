@@ -28,7 +28,11 @@ import org.eclnt.jsfserver.elements.impl.DYNAMICCONTENTBinding;
 import org.eclnt.jsfserver.elements.impl.MENUITEMComponent;
 import org.eclnt.jsfserver.util.HttpSessionAccess;
 import org.eclnt.jsfserver.util.useraccess.UserAccessMgr;
+import org.eclnt.workplace.IWorkpage;
+import org.eclnt.workplace.IWorkpageContainer;
 import org.eclnt.workplace.IWorkpageDispatcher;
+import org.eclnt.workplace.WorkpageByPageBean;
+import org.eclnt.workplace.WorkpageStartInfo;
 
 import services.variants.IVariants;
 import services.variants.Variant;
@@ -200,6 +204,18 @@ public class WorkpageDispatchedPageBean extends org.eclnt.workplace.WorkpageDisp
 
 	protected DataContext getDataContext() {
 		return (DataContext) BaseContext.getThreadObjectContext();
+	}
+	
+	protected void openWorkpage(WorkpageStartInfo wpsi) {
+		IWorkpageDispatcher wpd = (IWorkpageDispatcher) getOwningDispatcher().getTopOwner();
+		IWorkpageContainer wpc = wpd.getWorkpageContainer();
+		
+		IWorkpage wp = wpc.getWorkpageForId(wpsi.getId());
+		if (wp != null) {
+			wpc.switchToWorkpage(wp);
+		} else {
+			wpc.addWorkpage(new WorkpageByPageBean(wpd, wpsi.getText(), wpsi));
+		}
 	}
 
 }

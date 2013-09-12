@@ -15,6 +15,7 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.query.SelectQuery;
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclnt.editor.annotations.CCGenClass;
 import org.eclnt.jsfserver.defaultscreens.ModalPopup;
@@ -47,9 +48,7 @@ import utils.Constants;
 import utils.Helper;
 import db.erp.Metadata;
 
-// TODO: copy functionality
 // TODO: import functionality
-// TODO: render text only when selected date
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.CustomizeTablePB}")
 public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Serializable {
@@ -83,24 +82,26 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 	public void onRefresh(ActionEvent event) {
 		loadData();
 	}
-
-	public void onAddRow(ActionEvent event) {		
+	
+	public void onAddRow(ActionEvent event) {
 		String configInfo = ((BaseActionEvent) event).getSourceConfiginfo();
-		
+
 		try {
-			if("date".equals(configInfo)) {
+			if ("date".equals(configInfo)) {
 				addDate();
-			} else if("text".equals(configInfo)) {
-				if(getGridTable().getSelectedItem()==null) return;
+			} else if ("text".equals(configInfo)) {
+				if (getGridTable().getSelectedItem() == null)
+					return;
 				String id = getGridTable().getSelectedItem().getId();
 				addDateT(id);
 			}
-			
+
 		} catch (Exception ex) {
 			logger.error(ex, ex);
 			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
-		}		
+		}
 	}
+	
 
 	private void addDate() throws Exception {
 		final CayenneDataObject newObject = getContext().newObject(tableClazz);
@@ -126,14 +127,14 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 		});
 		mp.setLeftTopReferenceCentered();
 	}
-	
+
 	private void addDateT(String id) throws Exception {
-		IVvb newObjectT = (IVvb)getContext().newObject(tableTClazz);
+		IVvb newObjectT = (IVvb) getContext().newObject(tableTClazz);
 		newObjectT.setId(id);
 		GridTableTItem item = new GridTableTItem(newObjectT);
 		getGridTableT().getItems().add(item);
 		getGridTableT().deselectCurrentSelection();
-		getGridTableT().selectAndFocusItem(item);		
+		getGridTableT().selectAndFocusItem(item);
 	}
 
 	FIXGRIDListBinding<GridTableItem> gridTable = new FIXGRIDListBinding<GridTableItem>();
@@ -151,13 +152,13 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 
 		@Override
 		public void onRowSelect() {
-			loadDataT(getId());
+			if(hasTexts) loadDataT(getId());
 		}
 
 		public CayenneDataObject getData() {
 			return data;
 		}
-		
+
 		public String getId() {
 			return Reflect.on(data).call("getId").get();
 		}
@@ -165,6 +166,40 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 		public GridTableItem(CayenneDataObject data) {
 			super();
 			this.data = data;
+		}
+		
+		public void onCopy(ActionEvent event) {
+			try {
+				final CayenneDataObject newObject = (CayenneDataObject) BeanUtils.cloneBean(data);
+				getContext().registerNewObject(newObject);				
+
+				TableKeyPopupPB popup = new TableKeyPopupPB(newObject, objEntity);
+				final ModalPopup mp = openModalPopup(popup, "Datensatz kopieren", 0, 0, null);
+
+				popup.setCallback(new ICallback() {
+
+					@Override
+					public void ok(CayenneDataObject newObject) {
+						mp.close();
+						GridTableItem item = new GridTableItem(newObject);
+						getGridTable().getItems().add(item);
+						getGridTable().deselectCurrentSelection();
+						getGridTable().selectAndFocusItem(item);
+					}
+
+					@Override
+					public void cancel() {
+						mp.close();
+						getContext().deleteObjects(newObject);
+					}
+				});
+				mp.setLeftTopReferenceCentered();
+				
+				
+			} catch (Exception ex) {
+				logger.error(ex,ex);
+				Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
+			}
 		}
 
 		public void onDelete(ActionEvent event) {
@@ -184,6 +219,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 						getGridTable().getItems().remove(this);
 						Statusbar.outputSuccessWithPopup(Helper.getMessage("date_del_succ")).setLeftTopReferenceCentered();
 					} catch (Exception ex) {
+						logger.error(ex,ex);
 						Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
 					}
 					loadData();
@@ -193,9 +229,9 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 
 		}
 	}
-	
+
 	FIXGRIDListBinding<GridTableTItem> gridTableT = new FIXGRIDListBinding<GridTableTItem>();
-	
+
 	public FIXGRIDListBinding<GridTableTItem> getGridTableT() {
 		return gridTableT;
 	}
@@ -214,21 +250,27 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 		public GridTableTItem(IVvb vvb) {
 			super();
 			this.vvb = vvb;
-		}		
+		}
 	}
-	
+
 	private String table;
 
 	private ObjEntity objEntity;
-	
+
 	private ObjEntity objEntityT;
 
 	private Map<String, Metadata> metadataMap;
 
 	private Class<CayenneDataObject> tableClazz;
-	
+
 	private Class<CayenneDataObject> tableTClazz;
 
+	private boolean hasTexts = false;
+	
+	public boolean getRenderTexts() {
+		return hasTexts && gridTable.getSelectedItem()!=null;
+	}
+	
 	// ------------------------------------------------------------------------
 	// constructors & initialization
 	// ------------------------------------------------------------------------
@@ -241,13 +283,17 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 			table = getWorkpage().getParam(Constants.WP_PARAMS_TABLE);
 
 			objEntity = getContext().getEntityResolver().getObjEntity(table);
-			assert objEntity != null;			
-			
+			assert objEntity != null;
+
 			tableClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
 			assert tableClazz != null;
-			
+
 			objEntityT = getContext().getEntityResolver().getObjEntity(table + "T");
-			if(objEntity!=null) tableTClazz = (Class<CayenneDataObject>) Class.forName(objEntityT.getClassName());
+			if (objEntity != null) {
+				tableTClazz = (Class<CayenneDataObject>) Class.forName(objEntityT.getClassName());
+				hasTexts = true;
+			}
+				
 
 			metadataMap = Metadata.getByEntityAsMap(getContext(), table);
 
@@ -280,6 +326,19 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 				ICONNode iconNode = new ICONNode();
 				iconNode.setActionListener(".{onDelete}");
 				iconNode.setImage("/eclntjsfserver/images/cross.png");
+
+				gridcol.addSubNode(iconNode);
+				fixgrid.addSubNode(gridcol);
+			}
+
+			// copy button
+			{
+				GRIDCOLNode gridcol = new GRIDCOLNode();
+				gridcol.setWidth(25);
+
+				ICONNode iconNode = new ICONNode();
+				iconNode.setActionListener(".{onCopy}");
+				iconNode.setImage("/eclntjsfserver/images/copy_document_16_16.png");
 
 				gridcol.addSubNode(iconNode);
 				fixgrid.addSubNode(gridcol);
@@ -392,16 +451,16 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 			getGridTable().getItems().add(new GridTableItem(object));
 		}
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	private void loadDataT(String id) {
 		getGridTableT().getItems().clear();
 		Expression expression = IVvb.ID.eq(id);
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(tableTClazz, expression);
-		
+
 		List<IVvb> vvbList = getContext().performQuery(query);
-		
-		for(IVvb vvb : vvbList) {
+
+		for (IVvb vvb : vvbList) {
 			getGridTableT().getItems().add(new GridTableTItem(vvb));
 		}
 	}

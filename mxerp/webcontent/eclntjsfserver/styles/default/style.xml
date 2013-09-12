@@ -303,6 +303,10 @@
         <set attribute="font" value="size:10;weight:bold"/>
     </tag>
     
+    <tag name="t:button" variant="WP_FAVORITE">
+        <set attribute="contentareafilled" value="false"/>
+    </tag>
+    
 
     <!--  IDVALUESELECTION VARIANTS -->
     <tag name="pane" variant="IDVALUESELECTION">

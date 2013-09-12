@@ -23,15 +23,28 @@ public class SavedSearch {
 	public void setGridsMap(HashMap<Integer, SavedSearchValues> savedSearchMap) {
 		this.savedSearchMap = savedSearchMap;
 	}
+	
+	
+
+	public SavedSearch() {
+		super();
+		savedSearchMap = new HashMap<Integer, SavedSearchValues>();
+	}
+	
+	public void addSavedSearchValue(SavedSearchValues savedSearchValue) {
+		int index = savedSearchMap.size();
+		savedSearchMap.put(index, savedSearchValue);
+	}
+
 
 	@XmlAccessorType(XmlAccessType.FIELD)
 	public static class SavedSearchValues {
 		private String field;
 		private String operator;
-		private String valueLow;
-		private String valueHigh;
+		private Object valueLow;
+		private Object valueHigh;
 
-		public SavedSearchValues(String field, String operator, String valueLow, String valueHigh) {
+		public SavedSearchValues(String field, String operator, Object valueLow, Object valueHigh) {
 			super();
 			this.field = field;
 			this.operator = operator;
@@ -55,19 +68,19 @@ public class SavedSearch {
 			this.operator = operator;
 		}
 
-		public String getValueLow() {
+		public Object getValueLow() {
 			return valueLow;
 		}
 
-		public void setValueLow(String valueLow) {
+		public void setValueLow(Object valueLow) {
 			this.valueLow = valueLow;
 		}
 
-		public String getValueHigh() {
+		public Object getValueHigh() {
 			return valueHigh;
 		}
 
-		public void setValueHigh(String valueHigh) {
+		public void setValueHigh(Object valueHigh) {
 			this.valueHigh = valueHigh;
 		}
 

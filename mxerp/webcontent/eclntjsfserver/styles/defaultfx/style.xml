@@ -50,10 +50,11 @@
     <tag name="password" variant="default">
     </tag>
     <tag name="pane" variant="asbodypane">
-        <set attribute="background" value="#FFFFFFA0"/>
+        <set attribute="background" value="#f4f4f4"/>
         <set attribute="padding" value="20"/>
     </tag>
     <tag name="rowbodypane" variant="default">
+        <set attribute="background" value="#f4f4f4"/>
         <set attribute="padding" value="20"/>
     </tag>
     <tag name="rowheader" variant="default">
@@ -121,6 +122,7 @@
         ***********************************************************************  
     -->
     <tag name="rowworkplacefunctiontree" variant="default">
+        <set attribute="foreground" value="#000000"/>
         <set attribute="background" value="#FFFFFF"/>
     </tag>
     
@@ -211,6 +213,7 @@
         ...used in ROWWORKPLACEFUNCTIONS
      -->
     <tag name="t:rowworkplacefunctiontree" variant="WP_WORKPLACEFUNCTIONTREE">
+        <set attribute="foreground" value="#000000"/>
         <set attribute="background" value="#FFFFFF"/>
     </tag>
     

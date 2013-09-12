@@ -10,7 +10,7 @@ import utils.Constants;
 import utils.Helper;
 
 @SuppressWarnings("serial")
-public class CustomizingFT extends WorkplaceFunctionTree {	
+public class CustomizingFT extends WorkplaceFunctionTree implements IWPFunctionTree {	
 	
 	  public CustomizingFT(IDispatcher owner) {
 	    super(owner);

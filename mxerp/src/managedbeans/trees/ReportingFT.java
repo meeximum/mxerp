@@ -6,11 +6,8 @@ import org.eclnt.jsfserver.managedbean.IDispatcher;
 import org.eclnt.workplace.WorkpageStartInfo;
 import org.eclnt.workplace.WorkplaceFunctionTree;
 
-import utils.Constants;
-import utils.Helper;
-
 @SuppressWarnings("serial")
-public class ReportingFT extends WorkplaceFunctionTree {	
+public class ReportingFT extends WorkplaceFunctionTree implements IWPFunctionTree {	
 	
 	  public ReportingFT(IDispatcher owner) {
 	    super(owner);

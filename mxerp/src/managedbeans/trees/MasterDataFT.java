@@ -10,7 +10,7 @@ import utils.Constants;
 import utils.Helper;
 
 @SuppressWarnings("serial")
-public class MasterDataFT extends WorkplaceFunctionTree {	
+public class MasterDataFT extends WorkplaceFunctionTree implements IWPFunctionTree {	
 	
 	  public MasterDataFT(IDispatcher owner) {
 	    super(owner);

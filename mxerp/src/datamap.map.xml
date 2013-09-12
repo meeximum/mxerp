@@ -57,6 +57,14 @@
 		<db-attribute name="technical" type="BIT" isMandatory="true"/>
 		<db-attribute name="vvb" type="VARCHAR" length="50"/>
 	</db-entity>
+	<db-entity name="saved_searches" catalog="mxerp">
+		<db-attribute name="data" type="LONGVARBINARY" length="65535"/>
+		<db-attribute name="entity" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="global" type="BIT" isMandatory="true"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="36"/>
+		<db-attribute name="name" type="VARCHAR" length="100"/>
+		<db-attribute name="user" type="VARCHAR" isMandatory="true" length="20"/>
+	</db-entity>
 	<obj-entity name="Accounts" className="db.erp.Accounts" dbEntityName="accounts">
 		<obj-attribute name="accountType" type="java.lang.String" db-attribute-path="account_type"/>
 		<obj-attribute name="annualRevenue" type="java.lang.String" db-attribute-path="annual_revenue"/>
@@ -107,5 +115,13 @@
 		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
 		<obj-attribute name="technical" type="java.lang.Boolean" db-attribute-path="technical"/>
 		<obj-attribute name="vvb" type="java.lang.String" db-attribute-path="vvb"/>
+	</obj-entity>
+	<obj-entity name="SavedSearches" className="db.erp.SavedSearches" dbEntityName="saved_searches">
+		<obj-attribute name="data" type="byte[]" db-attribute-path="data"/>
+		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
+		<obj-attribute name="global" type="java.lang.Boolean" db-attribute-path="global"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="user" type="java.lang.String" db-attribute-path="user"/>
 	</obj-entity>
 </data-map>

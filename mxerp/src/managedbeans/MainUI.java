@@ -1,12 +1,17 @@
 package managedbeans;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.faces.event.ActionEvent;
 
 import managedbeans.trees.CustomizingFT;
+import managedbeans.trees.IWPFunctionTree;
 import managedbeans.trees.MasterDataFT;
+import managedbeans.trees.ReportingFT;
 
+import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclnt.editor.annotations.CCGenClass;
 import org.eclnt.jsfserver.defaultscreens.ISetIdText;
@@ -16,37 +21,56 @@ import org.eclnt.jsfserver.elements.BaseActionEvent;
 import org.eclnt.jsfserver.elements.events.BaseActionEventFlush;
 import org.eclnt.jsfserver.elements.events.BaseActionEventValueHelp;
 import org.eclnt.jsfserver.elements.impl.OUTLOOKBARITEMComponent;
-import org.eclnt.workplace.IWorkpageContainer;
 import org.eclnt.workplace.IWorkpageDispatcher;
-import org.eclnt.workplace.WorkpageByPageBean;
 import org.eclnt.workplace.WorkpageStartInfo;
 
+import utils.Constants;
 import utils.Helper;
+import db.erp.SavedSearches;
 
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.MainUI}")
 public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
-	static String[] NAMES = new String[] { "Clark", "Monday", "Moretimer", "Mortadella", "Miller", "Mittermeier", "Mittenwald", "Meyer", "Smith", "Zappa" };
-
+	
+	private List<SavedSearches> savedSearches;
+	
+	public void reloadSavedSearches() {
+		savedSearches = SavedSearches.findByUserInclGlobal(Helper.getUserName(), getContext());
+	}
+	
 	public void onSavedSearchAction(ActionEvent event) {
 		if (event instanceof BaseActionEventFlush && ((BaseActionEventFlush) event).getFlushWasTriggeredByTimer() || event instanceof BaseActionEventValueHelp) {
+			
 			IdTextSelection idts = IdTextSelection.createInstance();
-			for (String name : NAMES)
-				idts.addLine(name, name);
+			for (SavedSearches savedSearch : savedSearches)
+				idts.addLine(savedSearch.getEntity() + ":" + savedSearch.getId(), savedSearch.getName());
 			idts.filterByInputId(savedSearch);
 			idts.setRenderIdColumn(false);
 			idts.setSuppressHeadline(true);
 			idts.setPopupWidth(200);
 			idts.setCallBack(new ISetIdText() {
-				public void setIdText(String id, String text) {
+				public void setIdText(String entityId, String text) {
+					String[] entityIdArr = entityId.split(":");
+					String entity = entityIdArr[0];
+					if(entity.equals("Accounts")) entity = "partners";
+					String id = entityIdArr[1];
 					savedSearch = text;
+					try {
+						WorkpageStartInfo wpsi = (WorkpageStartInfo)BeanUtils.cloneBean(getWpsiByTransaction(entity));
+						if(wpsi!=null) {
+							wpsi.getParamMap().put(Constants.WP_PARAMS_SAVEDSEARCH, id);
+							openWorkpage(wpsi);
+						}
+					} catch (Exception e) {
+						e.printStackTrace();
+					} 
 				}
 			});
 		}
 
 	}
 	
-	private List<WorkplaceFunctionTree> treeList;
+	private List<IWPFunctionTree> treeList;
 
 	String savedSearch;
 
@@ -89,13 +113,14 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 
 	public MainUI(IWorkpageDispatcher dispatcher) throws Exception {
 		super(dispatcher);
-		treeList = new ArrayList<WorkplaceFunctionTree>();		
+		treeList = new ArrayList<IWPFunctionTree>();		
 		masterDataFT = new MasterDataFT(dispatcher);
 		treeList.add(masterDataFT);
 		customizingFT = new CustomizingFT(dispatcher);
 		treeList.add(customizingFT);
 		reportingFT = new ReportingFT(dispatcher);
 		treeList.add(reportingFT);
+		reloadSavedSearches();
 	}
 
 	// ------------------------------------------------------------------------
@@ -145,23 +170,24 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 	}
 
 	public void onCallTransaction(ActionEvent event) throws Exception {
-
-		IWorkpageDispatcher wpd = (IWorkpageDispatcher) getOwningDispatcher().getTopOwner();
-		IWorkpageContainer wpc = wpd.getWorkpageContainer();
-
-		WorkpageStartInfo wpsi = null;
-		for(WorkplaceFunctionTree tree : treeList) {
-			wpsi = tree.getWorkpageInfoById(getTransaction());
-			if(wpsi!=null) break;
-		}
-		
-		if (wpsi != null) {
-			wpc.addWorkpage(new WorkpageByPageBean(wpd, wpsi.getText(), wpsi));
+		WorkpageStartInfo wpsi = getWpsiByTransaction(getTransaction());
+		if(wpsi!=null) {
+			openWorkpage(wpsi);
 			setTransaction(StringUtils.EMPTY);
 		} else {
 			Statusbar.outputError(String.format(Helper.getMessage("err_trx_not_found"), getTransaction()));
 		}
-
 	}
+	
+	private WorkpageStartInfo getWpsiByTransaction(String transaction) {
+		WorkpageStartInfo wpsi = null;
+		for(IWPFunctionTree tree : treeList) {
+			wpsi = tree.getWorkpageInfoById(transaction);
+			if(wpsi!=null) break;
+		}		
+		return wpsi;
+	}
+	
+	
 
 }

@@ -18,6 +18,7 @@ import org.apache.cayenne.exp.ExpressionFactory;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.query.SelectQuery;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.map.ListOrderedMap;
 import org.apache.commons.lang3.StringUtils;
 import org.eclnt.editor.annotations.CCGenClass;
@@ -43,16 +44,23 @@ import org.eclnt.jsfserver.elements.impl.ROWDYNAMICCONTENTBinding.ComponentNode;
 import org.eclnt.jsfserver.elements.util.ValidValuesBinding;
 import org.eclnt.jsfserver.session.RequestFocusManager;
 import org.eclnt.workplace.IWorkpageDispatcher;
+import org.eclnt.workplace.WorkpageStartInfo;
 import org.joor.Reflect;
 
+import services.savedsearches.SavedSearch;
+import services.savedsearches.SavedSearch.SavedSearchValues;
+import services.savedsearches.SavedSearchesService;
 import services.variants.IVariants;
 import services.variants.Variant;
 import services.variants.Variant.GridValues;
+import services.xml.JAXBService;
+import utils.CayenneUtils;
 import utils.Constants;
 import utils.Helper;
 import db.erp.Metadata;
 //TODO: dynamic handling of operators
 //TODO: metadata for ignoring fields and referencing to dropdowns
+import db.erp.SavedSearches;
 
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.SearchPB}")
@@ -112,6 +120,22 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			super();
 			this.data = data;
 		}
+		
+		private String getId() {
+			return Reflect.on(data).call("getId").get();
+		}
+
+		@Override
+		public void onRowExecute() {			
+			super.onRowExecute();
+			WorkpageStartInfo wpsi = new WorkpageStartInfo();
+			wpsi.setId(SearchPB.this.entityName + ":" + getId());
+			wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entityName);
+			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, getId());
+			wpsi.setOpenMultipleInstances(false);
+			wpsi.setPageBeanName("DetailPB");
+			openWorkpage(wpsi);
+		}
 
 	}
 
@@ -138,7 +162,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		assert objEntity != null;
 
 		metadataMap = Metadata.getByEntityAsMap(getContext(), entityName);
-		
+
 		fieldsVVB = new ValidValuesBinding();
 		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
 			String field = objAttribute.getName();
@@ -152,11 +176,33 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		assert entityClazz != null;
 
 		selectionRowObjects.clear();
-		addSelectionRow(0);
+
+		String savedSearchId = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_SAVEDSEARCH);
+		loadSavedSearch(savedSearchId);
 
 		getGridResult().getItems().clear();
 
 		loadUsersOrGlobalDefaultVariant();
+	}
+
+	public void loadSavedSearch(String savedSearchId) throws Exception {
+		boolean isSavedSearchSet = false;
+		if (StringUtils.isNotBlank(savedSearchId)) {
+			SavedSearches savedSearches = SavedSearches.findById(savedSearchId, getContext());
+			if (savedSearches != null) {
+				setSavedSearchName(savedSearches.getName());
+				SavedSearch savedSearch = JAXBService.unmarshall(new String(savedSearches.getData(), Constants.UTF8), SavedSearch.class);
+				for (Entry<Integer, SavedSearch.SavedSearchValues> entry : savedSearch.getSavedSearchMap().entrySet()) {
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					SavedSearch.SavedSearchValues value = entry.getValue();
+					SelectionRowObject selectionRowObject = new SelectionRowObject(id, value.getField(), Operator.valueOf(value.getOperator()), value.getValueLow(), value.getValueHigh());
+					selectionRowObjects.put(entry.getKey(), id, selectionRowObject);
+					isSavedSearchSet = true;
+				}
+			}
+		}
+		if (!isSavedSearchSet)
+			addSelectionRow(0);
 	}
 
 	public String getPageName() {
@@ -203,7 +249,43 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		}
 	}
 
-	public void onSaveSearch(ActionEvent event) {
+	public void onSaveSearch(ActionEvent event) {		
+		try {
+			SavedSearches savedSearches = null;
+			List<SavedSearches> savedSearchesOld = SavedSearches.findByUserAndName(Helper.getUserName(), savedSearchName, getContext());
+			if(CollectionUtils.isNotEmpty(savedSearchesOld)) {
+				savedSearches = savedSearchesOld.get(0);
+			} else {
+				String id = UUID.randomUUID().toString();
+				savedSearches = new SavedSearches();
+				savedSearches.setId(id);
+				savedSearches.setUser(Helper.getUserName());
+				savedSearches.setGlobal(false);
+				savedSearches.setEntity(entityName);
+				savedSearches.setName(savedSearchName);
+			}			
+			String dataAsXml = JAXBService.marshall(buildSavedSearch(), SavedSearch.class);
+			savedSearches.setData(dataAsXml.getBytes(Constants.UTF8));
+			SavedSearchesService.save(savedSearches, CayenneUtils.createNewContext());
+			getMainUI().reloadSavedSearches();
+			Statusbar.outputSuccess(String.format("Die Suche \"%s\" wurde erfolgreich gesichert!", savedSearchName));
+		} catch (Exception ex) {
+			logger.error(ex, ex);
+			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
+		}
+	}
+
+	private SavedSearch buildSavedSearch() {
+		SavedSearch savedSearch = new SavedSearch();
+		for (SelectionRowObject selectionRowObject : getSelectionRowObjects().values()) {
+			SavedSearchValues savedSearchValue = new SavedSearchValues();
+			savedSearchValue.setField(selectionRowObject.field);
+			savedSearchValue.setOperator(selectionRowObject.operator.name());
+			savedSearchValue.setValueLow(selectionRowObject.valueLow);
+			savedSearchValue.setValueHigh(selectionRowObject.valueHigh);
+			savedSearch.addSavedSearchValue(savedSearchValue);
+		}
+		return savedSearch;
 	}
 
 	public void onInit(ActionEvent event) throws Exception {
@@ -286,7 +368,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	}
 
 	private void addSelectionRowForSpecificField(String field) throws Exception {
-		String id = UUID.randomUUID().toString().replaceAll("-", "");	
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		SelectionRowObject newSelectionRowObject = new SelectionRowObject(id, field, Operator.eq);
 		newSelectionRowObject.focus();
 		selectionRowObjects.put(0, id, newSelectionRowObject);
@@ -632,6 +714,16 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			this.id = id;
 			this.field = field;
 			this.operator = operator;
+			this.colSynchedRow = createSelectionRow(this);
+		}
+
+		public SelectionRowObject(String id, String field, Operator operator, Object valueLow, Object valueHigh) throws Exception {
+			super();
+			this.id = id;
+			this.field = field;
+			this.operator = operator;
+			this.valueLow = valueLow;
+			this.valueHigh = valueHigh;
 			this.colSynchedRow = createSelectionRow(this);
 		}
 
