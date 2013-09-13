@@ -47,6 +47,7 @@ import org.eclnt.workplace.IWorkpageDispatcher;
 import org.eclnt.workplace.WorkpageStartInfo;
 import org.joor.Reflect;
 
+import services.entities.IEntity;
 import services.savedsearches.SavedSearch;
 import services.savedsearches.SavedSearch.SavedSearchValues;
 import services.savedsearches.SavedSearchesService;
@@ -78,6 +79,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	}
 
 	private String entityName;
+
+	private String detailView;
 
 	private String savedSearchName;
 
@@ -127,11 +130,12 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 		@Override
 		public void onRowExecute() {			
-			super.onRowExecute();
+			//super.onRowExecute();
 			WorkpageStartInfo wpsi = new WorkpageStartInfo();
 			wpsi.setId(SearchPB.this.entityName + ":" + getId());
 			wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entityName);
 			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, getId());
+			wpsi.setParam(Constants.WP_PARAMS_DETAILVIEW, SearchPB.this.detailView);
 			wpsi.setOpenMultipleInstances(false);
 			wpsi.setPageBeanName("DetailPB");
 			openWorkpage(wpsi);
@@ -157,6 +161,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	public SearchPB(IWorkpageDispatcher workpageDispatcher) throws Exception {
 		super(workpageDispatcher);
 		entityName = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITY);
+		detailView = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_DETAILVIEW);
 
 		objEntity = getContext().getEntityResolver().getObjEntity(entityName);
 		assert objEntity != null;
@@ -287,6 +292,17 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		}
 		return savedSearch;
 	}
+	
+	public void onNew(ActionEvent event) {
+		WorkpageStartInfo wpsi = new WorkpageStartInfo();
+		wpsi.setId(SearchPB.this.entityName + ":" + "NEW");
+		wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entityName);
+		wpsi.setParam(Constants.WP_PARAMS_ENTITYID, "NEW");
+		wpsi.setParam(Constants.WP_PARAMS_DETAILVIEW, SearchPB.this.detailView);
+		wpsi.setOpenMultipleInstances(false);
+		wpsi.setPageBeanName("DetailPB");
+		openWorkpage(wpsi);
+	}
 
 	public void onInit(ActionEvent event) throws Exception {
 		init();
@@ -410,6 +426,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		}
 
 		Expression expression = ExpressionFactory.joinExp(Expression.AND, expressions);
+		expression = expression.andExp(IEntity.DELETED.eq(false));
 
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);
 		query.setFetchLimit(fetchLimit);
@@ -522,7 +539,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			GRIDCOLNode gridcol = new GRIDCOLNode();
 			gridcol.setText(Helper.getColumnNameForEntity(entityName, objAttribute.getDbAttributeName()));
 			gridcol.setWidth(100);
-			gridcol.setDynamicwidthsizing(true);
+			//gridcol.setDynamicwidthsizing(true);
 
 			ComponentNode value = createComponentNodeForResultColumn(objAttribute);
 			gridcol.addSubNode(value);

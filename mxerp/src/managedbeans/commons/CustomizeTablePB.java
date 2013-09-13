@@ -41,11 +41,11 @@ import org.eclnt.jsfserver.elements.impl.FIXGRIDListBinding;
 import org.eclnt.jsfserver.elements.impl.ROWDYNAMICCONTENTBinding;
 import org.eclnt.jsfserver.elements.impl.ROWDYNAMICCONTENTBinding.ComponentNode;
 import org.eclnt.workplace.IWorkpageDispatcher;
-import org.joor.Reflect;
 
 import services.vvb.IVvb;
 import utils.Constants;
 import utils.Helper;
+import db.erp.ICustomizing;
 import db.erp.Metadata;
 
 // TODO: import functionality
@@ -92,7 +92,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 			} else if ("text".equals(configInfo)) {
 				if (getGridTable().getSelectedItem() == null)
 					return;
-				String id = getGridTable().getSelectedItem().getId();
+				String id = getGridTable().getSelectedItem().getData().getId();
 				addDateT(id);
 			}
 
@@ -104,14 +104,14 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 	
 
 	private void addDate() throws Exception {
-		final CayenneDataObject newObject = getContext().newObject(tableClazz);
+		final ICustomizing newObject = (ICustomizing) getContext().newObject(tableClazz);
 		TableKeyPopupPB popup = new TableKeyPopupPB(newObject, objEntity);
 		final ModalPopup mp = openModalPopup(popup, "Datensatz anlegen", 0, 0, null);
 
 		popup.setCallback(new ICallback() {
 
 			@Override
-			public void ok(CayenneDataObject newObject) {
+			public void ok(ICustomizing newObject) {
 				mp.close();
 				GridTableItem item = new GridTableItem(newObject);
 				getGridTable().getItems().add(item);
@@ -148,29 +148,25 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 	}
 
 	public class GridTableItem extends FIXGRIDItem implements java.io.Serializable {
-		private CayenneDataObject data;
+		private ICustomizing data;
 
 		@Override
 		public void onRowSelect() {
-			if(hasTexts) loadDataT(getId());
+			if(hasTexts) loadDataT(data.getId());
 		}
 
-		public CayenneDataObject getData() {
+		public ICustomizing getData() {
 			return data;
 		}
-
-		public String getId() {
-			return Reflect.on(data).call("getId").get();
-		}
-
-		public GridTableItem(CayenneDataObject data) {
+		
+		public GridTableItem(ICustomizing data) {
 			super();
 			this.data = data;
 		}
 		
 		public void onCopy(ActionEvent event) {
 			try {
-				final CayenneDataObject newObject = (CayenneDataObject) BeanUtils.cloneBean(data);
+				final ICustomizing newObject = (ICustomizing) BeanUtils.cloneBean(data);
 				getContext().registerNewObject(newObject);				
 
 				TableKeyPopupPB popup = new TableKeyPopupPB(newObject, objEntity);
@@ -179,7 +175,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 				popup.setCallback(new ICallback() {
 
 					@Override
-					public void ok(CayenneDataObject newObject) {
+					public void ok(ICustomizing newObject) {
 						mp.close();
 						GridTableItem item = new GridTableItem(newObject);
 						getGridTable().getItems().add(item);
@@ -287,6 +283,8 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 
 			tableClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
 			assert tableClazz != null;
+			
+			if(!ICustomizing.class.isAssignableFrom(tableClazz)) throw new Exception("object must implement interface ICustomizing");
 
 			objEntityT = getContext().getEntityResolver().getObjEntity(table + "T");
 			if (objEntity != null) {
@@ -326,6 +324,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 				ICONNode iconNode = new ICONNode();
 				iconNode.setActionListener(".{onDelete}");
 				iconNode.setImage("/eclntjsfserver/images/cross.png");
+				iconNode.setEnabled(".{data.locked==false}");
 
 				gridcol.addSubNode(iconNode);
 				fixgrid.addSubNode(gridcol);
@@ -364,6 +363,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 					if (objEntity.getPrimaryKeys().contains(objAttribute))
 						continue;
 					String field = objAttribute.getName();
+					if("locked".equals(field)) continue;
 					Metadata metadate = metadataMap.get(field);
 					if (metadate != null && metadate.getTechnical())
 						continue;
@@ -373,7 +373,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 					gridcol.setWidth(100);
 					gridcol.setDynamicwidthsizing(true);
 
-					ComponentNode value = createComponentNodeForResultColumn(objAttribute, true);
+					ComponentNode value = createComponentNodeForResultColumn(objAttribute, true);					
 					gridcol.addSubNode(value);
 					fixgrid.addSubNode(gridcol);
 				}
@@ -448,7 +448,7 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(tableClazz);
 		List<CayenneDataObject> objects = getContext().performQuery(query);
 		for (CayenneDataObject object : objects) {
-			getGridTable().getItems().add(new GridTableItem(object));
+			getGridTable().getItems().add(new GridTableItem((ICustomizing)object));
 		}
 	}
 

@@ -17,12 +17,15 @@ public abstract class _Countries extends CayenneDataObject {
     public static final String CURRENCY_SYMBOL_PROPERTY = "currencySymbol";
     @Deprecated
     public static final String ID_PROPERTY = "id";
+    @Deprecated
+    public static final String LOCKED_PROPERTY = "locked";
 
     public static final String ID_PK_COLUMN = "id";
 
     public static final Property<String> CURRENCY = new Property<String>("currency");
     public static final Property<String> CURRENCY_SYMBOL = new Property<String>("currencySymbol");
     public static final Property<String> ID = new Property<String>("id");
+    public static final Property<Boolean> LOCKED = new Property<Boolean>("locked");
 
     public void setCurrency(String currency) {
         writeProperty("currency", currency);
@@ -43,6 +46,13 @@ public abstract class _Countries extends CayenneDataObject {
     }
     public String getId() {
         return (String)readProperty("id");
+    }
+
+    public void setLocked(Boolean locked) {
+        writeProperty("locked", locked);
+    }
+    public Boolean getLocked() {
+        return (Boolean)readProperty("locked");
     }
 
 }

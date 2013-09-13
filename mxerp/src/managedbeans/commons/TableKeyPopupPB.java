@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 import javax.faces.event.ActionEvent;
 
-import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.map.ObjAttribute;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.commons.lang3.StringUtils;
@@ -19,6 +18,7 @@ import org.eclnt.jsfserver.pagebean.PageBean;
 import org.joor.Reflect;
 
 import utils.Helper;
+import db.erp.ICustomizing;
 
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.TableKeyPopupPB}")
@@ -42,9 +42,9 @@ public class TableKeyPopupPB extends PageBean implements Serializable {
 		return content;
 	}
 
-	private CayenneDataObject newObject;
+	private ICustomizing newObject;
 
-	public CayenneDataObject getNewObject() {
+	public ICustomizing getNewObject() {
 		return newObject;
 	}
 
@@ -54,8 +54,8 @@ public class TableKeyPopupPB extends PageBean implements Serializable {
 	// constructors & initialization
 	// ------------------------------------------------------------------------
 
-	public TableKeyPopupPB(CayenneDataObject newObject, ObjEntity objEntity) throws Exception {
-		this.newObject = newObject;
+	public TableKeyPopupPB(ICustomizing newObject2, ObjEntity objEntity) throws Exception {
+		this.newObject = newObject2;
 		this.objEntity = objEntity;
 		generatePane();
 	}
@@ -110,7 +110,7 @@ public class TableKeyPopupPB extends PageBean implements Serializable {
 	}
 
 	public interface ICallback {
-		public void ok(CayenneDataObject newObject);
+		public void ok(ICustomizing newObject);
 
 		public void cancel();
 	}

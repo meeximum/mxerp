@@ -16,6 +16,8 @@ public abstract class _Metadata extends CayenneDataObject {
     @Deprecated
     public static final String FIELD_PROPERTY = "field";
     @Deprecated
+    public static final String MANDATORY_PROPERTY = "mandatory";
+    @Deprecated
     public static final String TECHNICAL_PROPERTY = "technical";
     @Deprecated
     public static final String VVB_PROPERTY = "vvb";
@@ -25,6 +27,7 @@ public abstract class _Metadata extends CayenneDataObject {
 
     public static final Property<String> ENTITY = new Property<String>("entity");
     public static final Property<String> FIELD = new Property<String>("field");
+    public static final Property<Boolean> MANDATORY = new Property<Boolean>("mandatory");
     public static final Property<Boolean> TECHNICAL = new Property<Boolean>("technical");
     public static final Property<String> VVB = new Property<String>("vvb");
 
@@ -40,6 +43,13 @@ public abstract class _Metadata extends CayenneDataObject {
     }
     public String getField() {
         return (String)readProperty("field");
+    }
+
+    public void setMandatory(Boolean mandatory) {
+        writeProperty("mandatory", mandatory);
+    }
+    public Boolean getMandatory() {
+        return (Boolean)readProperty("mandatory");
     }
 
     public void setTechnical(Boolean technical) {

@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import db.erp.Accounts;
+import db.erp.Partners;
 
 public class PartnerTest {
 
@@ -30,9 +30,9 @@ public class PartnerTest {
 
 	@Test
 	public void testDB() {
-		Expression expression = Accounts.SIC_CODE.eq("1001");
-		SelectQuery<Accounts> query = new SelectQuery<Accounts>(Accounts.class, expression);
-		List<Accounts> accounts = context.performQuery(query);
+		Expression expression = Partners.PARTNER_NO.eq("1001");
+		SelectQuery<Partners> query = new SelectQuery<Partners>(Partners.class, expression);
+		List<Partners> accounts = context.performQuery(query);
  		Assert.assertEquals(true, accounts.size()>0);
  		System.out.println(accounts.get(0).getName());
 		

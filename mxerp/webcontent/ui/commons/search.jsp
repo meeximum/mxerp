@@ -38,7 +38,7 @@
 <t:row id="g_7" >
 <t:pane id="g_40" background="#00000010" border="#00000010" height="100%" width="100%" >
 <t:rowheader id="g_37" bgpaint="rectangle(0,0,100%,100%,#ffffff);rectangle(0,0,100%,100%,#00000000,#00000020,vertical)" border="#00000010" >
-<t:button id="g_38" bgpaint="null!" image="/images/add_document_16_16.png&amp;buffer" text="Neu" />
+<t:button id="g_38" actionListener="#{d.SearchPB.onNew}" bgpaint="null!" image="/images/add_document_16_16.png&amp;buffer" text="Neu" />
 <t:coldistance id="g_42" width="100%" />
 <t:dynamiccontent id="g_23" contentbinding="#{d.SearchPB.variantsBinding}" />
 <t:coldistance id="g_22" />

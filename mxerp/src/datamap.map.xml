@@ -5,46 +5,11 @@
 	 project-version="6">
 	<property name="defaultLockType" value="optimistic"/>
 	<property name="defaultPackage" value="db.erp"/>
-	<property name="defaultCatalog" value="mxerp"/>
-	<db-entity name="accounts" catalog="mxerp">
-		<db-attribute name="account_type" type="VARCHAR" length="100"/>
-		<db-attribute name="annual_revenue" type="VARCHAR" length="100"/>
-		<db-attribute name="assigned_user_id" type="CHAR" length="36"/>
-		<db-attribute name="billing_address_city" type="VARCHAR" length="100"/>
-		<db-attribute name="billing_address_country" type="VARCHAR" length="255"/>
-		<db-attribute name="billing_address_postalcode" type="VARCHAR" length="20"/>
-		<db-attribute name="billing_address_state" type="VARCHAR" length="100"/>
-		<db-attribute name="billing_address_street" type="VARCHAR" length="150"/>
-		<db-attribute name="campaign_id" type="CHAR" length="36"/>
-		<db-attribute name="created_by" type="CHAR" length="36"/>
-		<db-attribute name="date_entered" type="TIMESTAMP" length="19"/>
-		<db-attribute name="date_modified" type="TIMESTAMP" length="19"/>
-		<db-attribute name="deleted" type="BIT"/>
-		<db-attribute name="description" type="LONGVARCHAR" length="65535"/>
-		<db-attribute name="employees" type="VARCHAR" length="10"/>
-		<db-attribute name="id" type="CHAR" isPrimaryKey="true" isMandatory="true" length="36"/>
-		<db-attribute name="industry" type="VARCHAR" length="50"/>
-		<db-attribute name="modified_user_id" type="CHAR" length="36"/>
-		<db-attribute name="name" type="VARCHAR" length="150"/>
-		<db-attribute name="ownership" type="VARCHAR" length="100"/>
-		<db-attribute name="parent_id" type="CHAR" length="36"/>
-		<db-attribute name="phone_alternate" type="VARCHAR" length="100"/>
-		<db-attribute name="phone_fax" type="VARCHAR" length="100"/>
-		<db-attribute name="phone_office" type="VARCHAR" length="100"/>
-		<db-attribute name="rating" type="VARCHAR" length="100"/>
-		<db-attribute name="shipping_address_city" type="VARCHAR" length="100"/>
-		<db-attribute name="shipping_address_country" type="VARCHAR" length="255"/>
-		<db-attribute name="shipping_address_postalcode" type="VARCHAR" length="20"/>
-		<db-attribute name="shipping_address_state" type="VARCHAR" length="100"/>
-		<db-attribute name="shipping_address_street" type="VARCHAR" length="150"/>
-		<db-attribute name="sic_code" type="VARCHAR" length="10"/>
-		<db-attribute name="ticker_symbol" type="VARCHAR" length="10"/>
-		<db-attribute name="website" type="VARCHAR" length="255"/>
-	</db-entity>
 	<db-entity name="countries" catalog="mxerp">
 		<db-attribute name="currency" type="VARCHAR" length="3"/>
 		<db-attribute name="currency_symbol" type="VARCHAR" length="1"/>
 		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+		<db-attribute name="locked" type="BIT"/>
 	</db-entity>
 	<db-entity name="countries_t" catalog="mxerp">
 		<db-attribute name="description" type="VARCHAR" length="100"/>
@@ -54,8 +19,50 @@
 	<db-entity name="metadata" catalog="mxerp">
 		<db-attribute name="entity" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
 		<db-attribute name="field" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
+		<db-attribute name="mandatory" type="BIT" isMandatory="true"/>
 		<db-attribute name="technical" type="BIT" isMandatory="true"/>
 		<db-attribute name="vvb" type="VARCHAR" length="50"/>
+	</db-entity>
+	<db-entity name="partners" catalog="mxerp">
+		<db-attribute name="billing_addr_city" type="VARCHAR" length="100"/>
+		<db-attribute name="billing_addr_country" type="VARCHAR" length="2"/>
+		<db-attribute name="billing_addr_pb" type="VARCHAR" length="100"/>
+		<db-attribute name="billing_addr_pb_pc" type="VARCHAR" length="20"/>
+		<db-attribute name="billing_addr_pc" type="VARCHAR" length="20"/>
+		<db-attribute name="billing_addr_state" type="VARCHAR" length="100"/>
+		<db-attribute name="billing_addr_street" type="VARCHAR" length="150"/>
+		<db-attribute name="birthdate" type="TIMESTAMP" length="19"/>
+		<db-attribute name="changed_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="changed_by" type="VARCHAR" length="20"/>
+		<db-attribute name="corr_language" type="VARCHAR" length="2"/>
+		<db-attribute name="created_at" type="TIMESTAMP" isMandatory="true" length="19"/>
+		<db-attribute name="created_by" type="VARCHAR" isMandatory="true" length="20"/>
+		<db-attribute name="deleted" type="BIT" isMandatory="true"/>
+		<db-attribute name="email" type="VARCHAR" length="100"/>
+		<db-attribute name="grouping" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="36"/>
+		<db-attribute name="industry" type="VARCHAR" length="25"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="name_first" type="VARCHAR" length="45"/>
+		<db-attribute name="name_last" type="VARCHAR" length="45"/>
+		<db-attribute name="name_org1" type="VARCHAR" length="45"/>
+		<db-attribute name="name_org2" type="VARCHAR" length="45"/>
+		<db-attribute name="partner_no" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="phone_fax" type="VARCHAR" length="25"/>
+		<db-attribute name="phone_mobile" type="VARCHAR" length="25"/>
+		<db-attribute name="phone_office" type="VARCHAR" length="25"/>
+		<db-attribute name="salutation" type="VARCHAR" length="5"/>
+		<db-attribute name="shipping_addr_city" type="VARCHAR" length="100"/>
+		<db-attribute name="shipping_addr_country" type="VARCHAR" length="2"/>
+		<db-attribute name="shipping_addr_pb" type="VARCHAR" length="100"/>
+		<db-attribute name="shipping_addr_pb_pc" type="VARCHAR" length="20"/>
+		<db-attribute name="shipping_addr_pc" type="VARCHAR" length="20"/>
+		<db-attribute name="shipping_addr_state" type="VARCHAR" length="100"/>
+		<db-attribute name="shipping_addr_street" type="VARCHAR" length="150"/>
+		<db-attribute name="source" type="VARCHAR" length="45"/>
+		<db-attribute name="type" type="VARCHAR" isMandatory="true" length="1"/>
+		<db-attribute name="vat_no" type="VARCHAR" length="20"/>
+		<db-attribute name="website" type="VARCHAR" length="255"/>
 	</db-entity>
 	<db-entity name="saved_searches" catalog="mxerp">
 		<db-attribute name="data" type="LONGVARBINARY" length="65535"/>
@@ -65,45 +72,11 @@
 		<db-attribute name="name" type="VARCHAR" length="100"/>
 		<db-attribute name="user" type="VARCHAR" isMandatory="true" length="20"/>
 	</db-entity>
-	<obj-entity name="Accounts" className="db.erp.Accounts" dbEntityName="accounts">
-		<obj-attribute name="accountType" type="java.lang.String" db-attribute-path="account_type"/>
-		<obj-attribute name="annualRevenue" type="java.lang.String" db-attribute-path="annual_revenue"/>
-		<obj-attribute name="assignedUserId" type="java.lang.String" db-attribute-path="assigned_user_id"/>
-		<obj-attribute name="billingAddressCity" type="java.lang.String" db-attribute-path="billing_address_city"/>
-		<obj-attribute name="billingAddressCountry" type="java.lang.String" db-attribute-path="billing_address_country"/>
-		<obj-attribute name="billingAddressPostalcode" type="java.lang.String" db-attribute-path="billing_address_postalcode"/>
-		<obj-attribute name="billingAddressState" type="java.lang.String" db-attribute-path="billing_address_state"/>
-		<obj-attribute name="billingAddressStreet" type="java.lang.String" db-attribute-path="billing_address_street"/>
-		<obj-attribute name="campaignId" type="java.lang.String" db-attribute-path="campaign_id"/>
-		<obj-attribute name="createdBy" type="java.lang.String" db-attribute-path="created_by"/>
-		<obj-attribute name="dateEntered" type="java.util.Date" db-attribute-path="date_entered"/>
-		<obj-attribute name="dateModified" type="java.util.Date" db-attribute-path="date_modified"/>
-		<obj-attribute name="deleted" type="java.lang.Boolean" db-attribute-path="deleted"/>
-		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
-		<obj-attribute name="employees" type="java.lang.String" db-attribute-path="employees"/>
-		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
-		<obj-attribute name="industry" type="java.lang.String" db-attribute-path="industry"/>
-		<obj-attribute name="modifiedUserId" type="java.lang.String" db-attribute-path="modified_user_id"/>
-		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
-		<obj-attribute name="ownership" type="java.lang.String" db-attribute-path="ownership"/>
-		<obj-attribute name="parentId" type="java.lang.String" db-attribute-path="parent_id"/>
-		<obj-attribute name="phoneAlternate" type="java.lang.String" db-attribute-path="phone_alternate"/>
-		<obj-attribute name="phoneFax" type="java.lang.String" db-attribute-path="phone_fax"/>
-		<obj-attribute name="phoneOffice" type="java.lang.String" db-attribute-path="phone_office"/>
-		<obj-attribute name="rating" type="java.lang.String" db-attribute-path="rating"/>
-		<obj-attribute name="shippingAddressCity" type="java.lang.String" db-attribute-path="shipping_address_city"/>
-		<obj-attribute name="shippingAddressCountry" type="java.lang.String" db-attribute-path="shipping_address_country"/>
-		<obj-attribute name="shippingAddressPostalcode" type="java.lang.String" db-attribute-path="shipping_address_postalcode"/>
-		<obj-attribute name="shippingAddressState" type="java.lang.String" db-attribute-path="shipping_address_state"/>
-		<obj-attribute name="shippingAddressStreet" type="java.lang.String" db-attribute-path="shipping_address_street"/>
-		<obj-attribute name="sicCode" type="java.lang.String" db-attribute-path="sic_code"/>
-		<obj-attribute name="tickerSymbol" type="java.lang.String" db-attribute-path="ticker_symbol"/>
-		<obj-attribute name="website" type="java.lang.String" db-attribute-path="website"/>
-	</obj-entity>
 	<obj-entity name="Countries" className="db.erp.Countries" dbEntityName="countries">
 		<obj-attribute name="currency" type="java.lang.String" db-attribute-path="currency"/>
 		<obj-attribute name="currencySymbol" type="java.lang.String" db-attribute-path="currency_symbol"/>
 		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
 	</obj-entity>
 	<obj-entity name="CountriesT" className="db.erp.CountriesT" dbEntityName="countries_t">
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
@@ -113,8 +86,50 @@
 	<obj-entity name="Metadata" className="db.erp.Metadata" dbEntityName="metadata">
 		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
 		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
+		<obj-attribute name="mandatory" type="java.lang.Boolean" db-attribute-path="mandatory"/>
 		<obj-attribute name="technical" type="java.lang.Boolean" db-attribute-path="technical"/>
 		<obj-attribute name="vvb" type="java.lang.String" db-attribute-path="vvb"/>
+	</obj-entity>
+	<obj-entity name="Partners" className="db.erp.Partners" lock-type="optimistic" dbEntityName="partners">
+		<obj-attribute name="billingAddrCity" type="java.lang.String" db-attribute-path="billing_addr_city"/>
+		<obj-attribute name="billingAddrCountry" type="java.lang.String" db-attribute-path="billing_addr_country"/>
+		<obj-attribute name="billingAddrPb" type="java.lang.String" db-attribute-path="billing_addr_pb"/>
+		<obj-attribute name="billingAddrPbPc" type="java.lang.String" db-attribute-path="billing_addr_pb_pc"/>
+		<obj-attribute name="billingAddrPc" type="java.lang.String" db-attribute-path="billing_addr_pc"/>
+		<obj-attribute name="billingAddrState" type="java.lang.String" db-attribute-path="billing_addr_state"/>
+		<obj-attribute name="billingAddrStreet" type="java.lang.String" db-attribute-path="billing_addr_street"/>
+		<obj-attribute name="birthdate" type="java.util.Date" db-attribute-path="birthdate"/>
+		<obj-attribute name="changedAt" type="java.util.Date" lock="true" db-attribute-path="changed_at"/>
+		<obj-attribute name="changedBy" type="java.lang.String" db-attribute-path="changed_by"/>
+		<obj-attribute name="corrLanguage" type="java.lang.String" db-attribute-path="corr_language"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="createdBy" type="java.lang.String" db-attribute-path="created_by"/>
+		<obj-attribute name="deleted" type="java.lang.Boolean" db-attribute-path="deleted"/>
+		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
+		<obj-attribute name="grouping" type="java.lang.String" db-attribute-path="grouping"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="industry" type="java.lang.String" db-attribute-path="industry"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="nameFirst" type="java.lang.String" db-attribute-path="name_first"/>
+		<obj-attribute name="nameLast" type="java.lang.String" db-attribute-path="name_last"/>
+		<obj-attribute name="nameOrg1" type="java.lang.String" db-attribute-path="name_org1"/>
+		<obj-attribute name="nameOrg2" type="java.lang.String" db-attribute-path="name_org2"/>
+		<obj-attribute name="partnerNo" type="java.lang.String" db-attribute-path="partner_no"/>
+		<obj-attribute name="phoneFax" type="java.lang.String" db-attribute-path="phone_fax"/>
+		<obj-attribute name="phoneMobile" type="java.lang.String" db-attribute-path="phone_mobile"/>
+		<obj-attribute name="phoneOffice" type="java.lang.String" db-attribute-path="phone_office"/>
+		<obj-attribute name="salutation" type="java.lang.String" db-attribute-path="salutation"/>
+		<obj-attribute name="shippingAddrCity" type="java.lang.String" db-attribute-path="shipping_addr_city"/>
+		<obj-attribute name="shippingAddrCountry" type="java.lang.String" db-attribute-path="shipping_addr_country"/>
+		<obj-attribute name="shippingAddrPb" type="java.lang.String" db-attribute-path="shipping_addr_pb"/>
+		<obj-attribute name="shippingAddrPbPc" type="java.lang.String" db-attribute-path="shipping_addr_pb_pc"/>
+		<obj-attribute name="shippingAddrPc" type="java.lang.String" db-attribute-path="shipping_addr_pc"/>
+		<obj-attribute name="shippingAddrState" type="java.lang.String" db-attribute-path="shipping_addr_state"/>
+		<obj-attribute name="shippingAddrStreet" type="java.lang.String" db-attribute-path="shipping_addr_street"/>
+		<obj-attribute name="source" type="java.lang.String" db-attribute-path="source"/>
+		<obj-attribute name="type" type="java.lang.String" db-attribute-path="type"/>
+		<obj-attribute name="vatNo" type="java.lang.String" db-attribute-path="vat_no"/>
+		<obj-attribute name="website" type="java.lang.String" db-attribute-path="website"/>
 	</obj-entity>
 	<obj-entity name="SavedSearches" className="db.erp.SavedSearches" dbEntityName="saved_searches">
 		<obj-attribute name="data" type="byte[]" db-attribute-path="data"/>
