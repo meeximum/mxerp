@@ -80,7 +80,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 	private String entityName;
 
-	private String detailView;
+	private String pageBean;
 
 	private String savedSearchName;
 
@@ -135,9 +135,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			wpsi.setId(SearchPB.this.entityName + ":" + getId());
 			wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entityName);
 			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, getId());
-			wpsi.setParam(Constants.WP_PARAMS_DETAILVIEW, SearchPB.this.detailView);
 			wpsi.setOpenMultipleInstances(false);
-			wpsi.setPageBeanName("DetailPB");
+			wpsi.setPageBeanName(SearchPB.this.pageBean);
 			openWorkpage(wpsi);
 		}
 
@@ -161,7 +160,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	public SearchPB(IWorkpageDispatcher workpageDispatcher) throws Exception {
 		super(workpageDispatcher);
 		entityName = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITY);
-		detailView = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_DETAILVIEW);
+		pageBean = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_PAGEBEAN);
 
 		objEntity = getContext().getEntityResolver().getObjEntity(entityName);
 		assert objEntity != null;
@@ -298,7 +297,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		wpsi.setId(SearchPB.this.entityName + ":" + "NEW");
 		wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entityName);
 		wpsi.setParam(Constants.WP_PARAMS_ENTITYID, "NEW");
-		wpsi.setParam(Constants.WP_PARAMS_DETAILVIEW, SearchPB.this.detailView);
+		wpsi.setParam(Constants.WP_PARAMS_PAGEBEAN, SearchPB.this.pageBean);
 		wpsi.setOpenMultipleInstances(false);
 		wpsi.setPageBeanName("DetailPB");
 		openWorkpage(wpsi);
@@ -425,8 +424,9 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			expressions.add(expression);
 		}
 
+		expressions.add(IEntity.DELETED.eq(false));
+		
 		Expression expression = ExpressionFactory.joinExp(Expression.AND, expressions);
-		expression = expression.andExp(IEntity.DELETED.eq(false));
 
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);
 		query.setFetchLimit(fetchLimit);

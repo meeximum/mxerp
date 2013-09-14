@@ -2,4 +2,5 @@
 	<managedpackage name="managedbeans.commons" />
 	<managedpackage name="managedbeans.masterdata" />
 	<managedpackage name="managedbeans.trees" />
+	<managedpackage name="managedbeans.entities" />
 </dispatcherinfo>

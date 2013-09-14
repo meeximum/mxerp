@@ -12,7 +12,7 @@
 <h:form>
 <f:subview id="ui_detail-views_partnerg_sv">
 <t:rowdistance id="g_17" height="5" />
-<t:rowinclude id="g_21" page="/ui/commons/detail-header.jsp" />
+<t:rowinclude id="g_21" contentreplacedrilldown="DetailPB:PartnerPB" page="/ui/commons/detail-header.jsp" />
 <t:rowdistance id="g_22" height="5" />
 <t:row id="g_14" >
 <t:pane id="g_15" height="100%" rowdistance="5" width="100%" >
@@ -22,10 +22,10 @@
 <t:colsynchedpane id="g_37" coldistance="10" rowdistance="5" >
 <t:colsynchedrow id="g_39" >
 <t:label id="g_33" text="Partnernr." />
-<t:field id="g_34" text="#{d.DetailPB.data.partnerNo}" width="100" />
+<t:field id="g_34" enabled="#{d.PartnerPB.inEditMode}" text="#{d.PartnerPB.data.partnerNo}" width="100" />
 <t:coldistance id="g_35" />
 <t:label id="g_23" text="Name" />
-<t:field id="g_24" enabled="#{d.DetailPB.inEditMode}" text="#{d.DetailPB.data.name}" width="250" />
+<t:field id="g_24" enabled="#{d.PartnerPB.inEditMode}" text="#{d.PartnerPB.data.name}" width="250" />
 </t:colsynchedrow>
 </t:colsynchedpane>
 </t:row>

@@ -5,9 +5,6 @@ import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionEvent;
-import javax.servlet.http.HttpSession;
-
-import managedbeans.utils.UserAccess;
 
 import org.eclnt.editor.annotations.CCGenClass;
 import org.eclnt.jsfserver.defaultscreens.Statusbar;
@@ -17,6 +14,7 @@ import org.eclnt.jsfserver.managedbean.IDispatcher;
 import org.eclnt.jsfserver.util.HttpSessionAccess;
 
 import utils.Helper;
+import utils.UserTracker;
 
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.LogonUI}")
@@ -51,9 +49,8 @@ public class LogonUI extends DefaultDispatchedBean implements Serializable {
 		if(("admin".equals(user) && "admin".equals(password)) || "mxerp".equals(HttpSessionAccess.getCurrentClientId())) {
 			// set server language
 			FacesContext.getCurrentInstance().getViewRoot().setLocale(new Locale(language));
-			// set user in session
-			HttpSession session = HttpSessionAccess.getCurrentHttpSession();
-			session.setAttribute(UserAccess.USER_KEY, user);			
+			// set user in session					
+			UserTracker.addUser(user);
 			IndexUI indexUI = (IndexUI)getOwningDispatcher().getDispatchedBean(IndexUI.class);
 			indexUI.setPage("/main.jsp");
 		} else {

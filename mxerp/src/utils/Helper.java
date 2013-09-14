@@ -9,6 +9,7 @@ import java.util.Locale;
 
 import javax.faces.context.FacesContext;
 import javax.servlet.ServletContext;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclnt.jsfserver.resources.ResourceManager;
@@ -91,5 +92,14 @@ public class Helper {
 			stream = classLoader.getResourceAsStream(stripped);
 		}
 		return stream;
+	}
+	
+	public static String getClientIP() {
+		return HttpSessionAccess.getCurrentRequest().getHeader(
+				Constants.ECLNT_IP);
+	}
+
+	public static HttpSession getSession() {
+		return HttpSessionAccess.getCurrentRequest().getSession();
 	}
 }

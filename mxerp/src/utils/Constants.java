@@ -12,7 +12,7 @@ public class Constants {
 	
 	// Workplace parameters
 	public static final String WP_PARAMS_ENTITY = "entity";
-	public static final String WP_PARAMS_DETAILVIEW = "detailview";
+	public static final String WP_PARAMS_PAGEBEAN = "detailview";
 	public static final String WP_PARAMS_ENTITYID = "entityid";
 	public static final String WP_PARAMS_TABLE = "table";
 	public static final String WP_PARAMS_SAVEDSEARCH = "savedsearch";

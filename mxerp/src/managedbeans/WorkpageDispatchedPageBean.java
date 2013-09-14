@@ -28,11 +28,12 @@ import org.eclnt.jsfserver.elements.impl.DYNAMICCONTENTBinding;
 import org.eclnt.jsfserver.elements.impl.MENUITEMComponent;
 import org.eclnt.jsfserver.util.HttpSessionAccess;
 import org.eclnt.jsfserver.util.useraccess.UserAccessMgr;
-import org.eclnt.workplace.IWorkpage;
 import org.eclnt.workplace.IWorkpageContainer;
 import org.eclnt.workplace.IWorkpageDispatcher;
-import org.eclnt.workplace.WorkpageByPageBean;
+import org.eclnt.workplace.IWorkpageLifecycleListener;
+import org.eclnt.workplace.IWorkpageStarter;
 import org.eclnt.workplace.WorkpageStartInfo;
+import org.eclnt.workplace.WorkpageStarterFactory;
 
 import services.variants.IVariants;
 import services.variants.Variant;
@@ -55,6 +56,68 @@ public class WorkpageDispatchedPageBean extends org.eclnt.workplace.WorkpageDisp
 			variantsObject = getWorkpage().getId() == null ? getClass().getSimpleName() : getClass().getSimpleName() + "_" + getWorkpage().getId();
 			variantsManager = new VariantsManager((IVariants) WorkpageDispatchedPageBean.this, Helper.getUserName(), variantsObject);
 		}
+		getWorkpage().addLifecycleListener(new IWorkpageLifecycleListener() {
+			
+			@Override
+			public void setCloseContinueOperation(Runnable closeContinueOperation) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void reactOnShownInPopup() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void reactOnShownInContentArea() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void reactOnHiddenInContentArea() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void reactOnDestroyed() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public boolean reactOnBeforeHiddenInContentArea() {
+				return beforeHideWorkpage();
+			}
+			
+			@Override
+			public Runnable getCloseContinueOperation() {
+				// TODO Auto-generated method stub
+				return null;
+			}
+			
+			@Override
+			public void closeForced() {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public boolean close() {
+				return beforeCloseWorkpage();
+			}
+		});
+	}
+	
+	protected boolean beforeCloseWorkpage() {
+		return true;
+	}
+	
+	protected boolean beforeHideWorkpage() {
+		return true;
 	}
 
 	@Override
@@ -207,15 +270,25 @@ public class WorkpageDispatchedPageBean extends org.eclnt.workplace.WorkpageDisp
 	}
 	
 	protected void openWorkpage(WorkpageStartInfo wpsi) {
+		IWorkpageStarter wps = WorkpageStarterFactory.getWorkpageStarter();		
 		IWorkpageDispatcher wpd = (IWorkpageDispatcher) getOwningDispatcher().getTopOwner();
-		IWorkpageContainer wpc = wpd.getWorkpageContainer();
+		IWorkpageContainer wpc = wpd.getWorkpageContainer();		
+		wps.startWorkpage(wpd, wpc, wpsi);
 		
-		IWorkpage wp = wpc.getWorkpageForId(wpsi.getId());
-		if (wp != null) {
-			wpc.switchToWorkpage(wp);
+//		IWorkpage wp = wpc.getWorkpageForId(wpsi.getId());
+//		if (wp != null) {
+//			wpc.switchToWorkpage(wp);
+//		} else {
+//			wpc.addWorkpage(new WorkpageByPageBean(wpd, wpsi.getText(), wpsi));
+//		}
+	}
+	
+	protected void closeWorkpage(boolean force) {
+		if(force) {
+			getWorkpageContainer().closeWorkpageForced(getWorkpage());
 		} else {
-			wpc.addWorkpage(new WorkpageByPageBean(wpd, wpsi.getText(), wpsi));
-		}
+			getWorkpageContainer().closeWorkpage(getWorkpage());
+		}		
 	}
 
 }

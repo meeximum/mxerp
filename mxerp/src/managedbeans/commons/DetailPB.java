@@ -15,7 +15,6 @@ import org.apache.cayenne.exp.Expression;
 import org.apache.cayenne.map.ObjEntity;
 import org.apache.cayenne.query.SelectQuery;
 import org.apache.commons.lang3.StringUtils;
-import org.eclnt.editor.annotations.CCGenClass;
 import org.eclnt.jsfserver.defaultscreens.Statusbar;
 import org.eclnt.jsfserver.defaultscreens.YESNOPopup;
 import org.eclnt.jsfserver.defaultscreens.YESNOPopup.IYesNoCancelListener;
@@ -23,53 +22,62 @@ import org.eclnt.workplace.IWorkpageDispatcher;
 import org.joor.Reflect;
 
 import services.entities.IEntity;
+import services.entities.LockManager;
 import utils.CayenneUtils;
 import utils.Constants;
 import utils.Helper;
 import db.erp.Metadata;
+import exceptions.EntityLockedException;
 import exceptions.ValidationException;
 
-// TODO: Check onClose if not in EDIT mode!
-// TODO: Delete functionality
 @SuppressWarnings("serial")
-@CCGenClass(expressionBase = "#{d.DetailPB}")
-public class DetailPB extends WorkpageDispatchedPageBean implements Serializable {
+public abstract class DetailPB extends WorkpageDispatchedPageBean implements Serializable {
 	public enum Mode {
 		EDIT, READ
 	}
 
 	public void onDelete(ActionEvent event) {
-		try {
-			YESNOPopup ynp = YESNOPopup.createInstance("Löschen", String.format("Wollen sie wirklich %s löschen?", data.toString()), new IYesNoCancelListener() {
-				public void reactOnCancel() {
-				}
 
-				public void reactOnNo() {
-				}
+		YESNOPopup ynp = YESNOPopup.createInstance("Löschen", String.format("Wollen sie wirklich %s löschen?", data.toString()), new IYesNoCancelListener() {
+			public void reactOnCancel() {
+			}
 
-				public void reactOnYes() {
+			public void reactOnNo() {
+			}
+
+			public void reactOnYes() {
+				try {
+					LockManager.lockEntity(getId());
 					data.setChangedAt(new Date());
 					data.setChangedBy(Helper.getUserName());
 					data.setDeleted(true);
 					context.commitChanges();
-					getWorkpageContainer().closeWorkpageForced(getWorkpage());
+					closeWorkpage(true);
+					LockManager.unlockEntity(entityName + entityId);
+				} catch (EntityLockedException ele) {
+					Statusbar.outputWarningWithPopup(String.format("Datensatz ist druch %s gesperrt!", ele.getUser())).setLeftTopReferenceCentered();
+				}  catch (Exception ex) {
+					logger.error(Helper.getStackTraceAsString(ex), ex);
+					Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
 				}
+			}
+		});
+		ynp.getModalPopup().setLeftTopReferenceCentered();
 
-			});
-			ynp.getModalPopup().setLeftTopReferenceCentered();
-		} catch (Exception ex) {
-			logger.error(Helper.getStackTraceAsString(ex), ex);
-			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
-		}
+	}
+	
+	public String getId() {
+		return entityName + ":" + entityId;
 	}
 
 	public void onRollback(ActionEvent event) {
 		context.rollbackChanges();
 		if (newEntity) {
-			getWorkpageContainer().closeWorkpageForced(getWorkpage());
+			closeWorkpage(true);
 		} else {
 			mode = Mode.READ;
 		}
+		LockManager.unlockEntity(getId());
 	}
 
 	public void onCommit(ActionEvent event) {
@@ -88,6 +96,7 @@ public class DetailPB extends WorkpageDispatchedPageBean implements Serializable
 			newEntity = false;
 			getWorkpage().setTitle(data.toString());
 			Statusbar.outputSuccess("Daten erfolgreich gesichert!");
+			LockManager.unlockEntity(getId());
 		} catch (Exception ex) {
 			logger.error(Helper.getStackTraceAsString(ex), ex);
 			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
@@ -97,8 +106,14 @@ public class DetailPB extends WorkpageDispatchedPageBean implements Serializable
 	}
 
 	public void onEdit(ActionEvent event) {
-		// set global lock
-		mode = Mode.EDIT;
+		try {
+			// check global lock
+			LockManager.lockEntity(getId());
+			// set global lock
+			mode = Mode.EDIT;
+		} catch (EntityLockedException ele) {
+			Statusbar.outputWarningWithPopup(String.format("Datensatz ist druch %s gesperrt!", ele.getUser())).setLeftTopReferenceCentered();
+		}
 	}
 
 	// ------------------------------------------------------------------------
@@ -113,7 +128,6 @@ public class DetailPB extends WorkpageDispatchedPageBean implements Serializable
 
 	private String entityName;
 	private String entityId;
-	private String detailView;
 
 	private ObjEntity objEntity;
 	private Class<CayenneDataObject> entityClazz;
@@ -133,16 +147,15 @@ public class DetailPB extends WorkpageDispatchedPageBean implements Serializable
 	public boolean isInReadMode() {
 		return mode == Mode.READ;
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public DetailPB(IWorkpageDispatcher workpageDispatcher) throws Exception {
 		super(workpageDispatcher);
-	
+
 		context = CayenneUtils.createNewContext();
 
 		entityName = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITY);
-		entityId = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITYID);
-		detailView = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_DETAILVIEW);
+		entityId = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITYID);		
 
 		objEntity = getContext().getEntityResolver().getObjEntity(entityName);
 		entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
@@ -191,19 +204,23 @@ public class DetailPB extends WorkpageDispatchedPageBean implements Serializable
 		}
 	}
 
-	public String getPageName() {
-		return detailView;
+	private boolean isCloseHideOfWorkpagePossible() {
+		if (mode == Mode.EDIT) {
+			Statusbar.outputWarningWithPopup("Daten zuerst speichern!").setLeftTopReferenceCentered();
+			return false;
+		} else {
+			return true;
+		}
 	}
 
-	public String getRootExpressionUsedInPage() {
-		return "#{d.DetailPB}";
+	@Override
+	protected boolean beforeCloseWorkpage() {
+		return isCloseHideOfWorkpagePossible();
 	}
 
-	// ------------------------------------------------------------------------
-	// public usage
-	// ------------------------------------------------------------------------
+	@Override
+	protected boolean beforeHideWorkpage() {
+		return isCloseHideOfWorkpagePossible();
+	}
 
-	// ------------------------------------------------------------------------
-	// private usage
-	// ------------------------------------------------------------------------
 }
