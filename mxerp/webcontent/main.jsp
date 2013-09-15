@@ -18,6 +18,8 @@
 <t:coldistance id="g_6" width="100%" />
 <t:combofield id="g_7" actionListener="#{d.MainUI.onSavedSearchAction}" flush="true" flushtimer="500" keepfocus="true" popupmenu="SAVEDSEARCH" text="#{d.MainUI.savedSearch}" userhint="gesicherte Suchen" width="200" />
 <t:coldistance id="g_8" width="50" />
+<t:icon id="g_1" image="/images/person.png" tooltip="Benutzereinstellungen" />
+<t:coldistance id="g_39" />
 <t:hyperlink id="g_9" font="size:12;weight:bold" image="/images/bulb.png" text="Hilfe" url="http://www.meeximum.at" />
 </t:row>
 <t:row id="g_10" >

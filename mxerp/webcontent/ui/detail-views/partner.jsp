@@ -21,11 +21,11 @@
 <t:row id="g_20" >
 <t:colsynchedpane id="g_37" coldistance="10" rowdistance="5" >
 <t:colsynchedrow id="g_39" >
-<t:label id="g_33" text="Partnernr." />
-<t:field id="g_34" enabled="#{d.PartnerPB.inEditMode}" text="#{d.PartnerPB.data.partnerNo}" width="100" />
+<t:label id="g_33" image="/eclntjsfserver/images/cross.png" text="Name" />
+<t:field id="g_34" enabled="#{d.PartnerPB.inEditMode}" text="#{d.PartnerPB.data.nameOrg1}" width="250" />
 <t:coldistance id="g_35" />
-<t:label id="g_23" text="Name" />
-<t:field id="g_24" enabled="#{d.PartnerPB.inEditMode}" text="#{d.PartnerPB.data.name}" width="250" />
+<t:label id="g_23" text="Name 2" />
+<t:field id="g_24" enabled="#{d.PartnerPB.inEditMode}" text="#{d.PartnerPB.data.nameOrg2}" width="250" />
 </t:colsynchedrow>
 </t:colsynchedpane>
 </t:row>

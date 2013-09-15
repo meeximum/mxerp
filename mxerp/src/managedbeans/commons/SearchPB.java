@@ -67,6 +67,16 @@ import db.erp.SavedSearches;
 @CCGenClass(expressionBase = "#{d.SearchPB}")
 public class SearchPB extends WorkpageDispatchedPageBean implements Serializable, IVariants {
 
+	private boolean selectDeleted = false;
+		
+	public boolean isSelectDeleted() {
+		return selectDeleted;
+	}
+
+	public void setSelectDeleted(boolean selectDeleted) {
+		this.selectDeleted = selectDeleted;
+	}
+
 	private Map<String, Metadata> metadataMap;
 
 	private enum Operator {
@@ -424,7 +434,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			expressions.add(expression);
 		}
 
-		expressions.add(IEntity.DELETED.eq(false));
+		if(!selectDeleted) expressions.add(IEntity.DELETED.eq(false));
 		
 		Expression expression = ExpressionFactory.joinExp(Expression.AND, expressions);
 
@@ -528,6 +538,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		fixgrid.setWidth("100%");
 		fixgrid.setHeight("100%");
 		fixgrid.setSbvisibleamount("50");
+		fixgrid.setAvoidroundtrips(true);
 
 		for (ObjAttribute objAttribute : objEntity.getAttributes()) {
 

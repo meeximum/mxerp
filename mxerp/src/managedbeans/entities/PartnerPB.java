@@ -6,10 +6,15 @@ import org.eclnt.editor.annotations.CCGenClass;
 import org.eclnt.workplace.IWorkpageDispatcher;
 
 import utils.Constants;
+import db.erp.Partners;
 
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.PartnerPB}")
 public class PartnerPB extends DetailPB {
+	
+	public Partners getPartner() {
+		return (Partners)getData();
+	}
 
 	private String detailView;
 	
@@ -26,5 +31,16 @@ public class PartnerPB extends DetailPB {
 	public String getRootExpressionUsedInPage() {
 		return "#{d.PartnerPB}";
 	}
+
+	@Override
+	protected void beforeSave() {
+		super.beforeSave();
+		// set partnerno when new
+		
+		// concatenate name
+		getPartner().generateName();
+	}
+	
+	
 
 }

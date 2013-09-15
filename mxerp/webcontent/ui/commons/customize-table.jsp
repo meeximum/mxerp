@@ -32,7 +32,7 @@
 <t:row id="g_17" >
 <t:fixgrid id="g_18" objectbinding="#{d.CustomizeTablePB.gridTableT}" >
 <t:gridcol id="g_21" text="Sprache" width="80" >
-<t:combobox id="g_11" validvaluesbinding="#{h.vvb.language}" value=".{vvb.language}" />
+<t:combobox id="g_11" validvaluesbinding="#{h.vvb.languages}" value=".{vvb.language}" />
 </t:gridcol>
 <t:gridcol id="g_22" text="Beschreibung" width="500" >
 <t:field id="g_24" text=".{vvb.description}" width="100" />

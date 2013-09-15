@@ -29,6 +29,24 @@ public class CustomizingFT extends WorkplaceFunctionTree implements IWPFunctionT
 	    node.setOpenMultipleInstances(false);
 	    node.setText(Helper.getLiteral("countries"));
 	    node.setStatus(FIXGRIDTreeItem.STATUS_ENDNODE);
+	    
+	    // languages
+	    node = new FormattedFunctionNode(getFtree().getRootNode(), Constants.UI_COMMONS_PATH + "customize-table.jsp");
+	    node.setId("languages");
+	    node.setParam(Constants.WP_PARAMS_TABLE, "Languages");
+	    node.setPageBeanName("CustomizeTablePB");
+	    node.setOpenMultipleInstances(false);
+	    node.setText(Helper.getLiteral("languages"));
+	    node.setStatus(FIXGRIDTreeItem.STATUS_ENDNODE);
+	    
+	    // groupings
+	    node = new FormattedFunctionNode(getFtree().getRootNode(), Constants.UI_COMMONS_PATH + "customize-table.jsp");
+	    node.setId("groupings");
+	    node.setParam(Constants.WP_PARAMS_TABLE, "Groupings");
+	    node.setPageBeanName("CustomizeTablePB");
+	    node.setOpenMultipleInstances(false);
+	    node.setText(Helper.getLiteral("groupings"));
+	    node.setStatus(FIXGRIDTreeItem.STATUS_ENDNODE);
 
 	  }
 

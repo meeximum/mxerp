@@ -22,6 +22,10 @@
 <t:coldistance id="g_29" />
 <t:formattedfield id="g_9" align="right" format="int" value="#{d.SearchPB.fetchLimit}" width="50" />
 </t:row>
+<t:row id="g_46" >
+<t:coldistance id="g_47" width="100%" />
+<t:checkbox id="g_49" selected="#{d.SearchPB.selectDeleted}" text="gelöschte auch selektieren" />
+</t:row>
 <t:row id="g_10" >
 <t:button id="g_11" actionListener="#{d.SearchPB.onSearch}" image="/eclntjsfserver/images/magnifier.png&amp;buffer" text="Suchen" />
 <t:coldistance id="g_12" />

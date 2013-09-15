@@ -35,6 +35,27 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	public enum Mode {
 		EDIT, READ
 	}
+	
+	public boolean getRenderDeleteInfo() {
+		return data.getDeleted();
+	}
+	
+	public boolean getRenderDeleteBtn() {
+		return data.getDeleted()==false && isInReadMode();
+	}
+	
+	public boolean getRenderCommitBtn() {
+		return isInEditMode();
+	}
+	
+	public boolean getRenderRollbackBtn() {
+		return isInEditMode();
+	}
+	
+	public boolean getRenderEditBtn() {
+		return data.getDeleted()==false && isInReadMode();
+	}
+	
 
 	public void onDelete(ActionEvent event) {
 
@@ -81,7 +102,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	}
 
 	public void onCommit(ActionEvent event) {
-		try {
+		try {		
 			checkMandatoryFields();
 			// when created then no change date is filled
 			if (data.getChangedAt() == null) {
@@ -91,10 +112,12 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 				data.setChangedAt(new Date());
 				data.setChangedBy(Helper.getUserName());
 			}
+			beforeSave();
 			context.commitChanges();
+			afterSave();
 			mode = Mode.READ;
 			newEntity = false;
-			getWorkpage().setTitle(data.toString());
+			getWorkpage().setTitle(data.toString());			
 			Statusbar.outputSuccess("Daten erfolgreich gesichert!");
 			LockManager.unlockEntity(getId());
 		} catch (Exception ex) {
@@ -109,6 +132,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 		try {
 			// check global lock
 			LockManager.lockEntity(getId());
+			loadEntity();
 			// set global lock
 			mode = Mode.EDIT;
 		} catch (EntityLockedException ele) {
@@ -183,14 +207,17 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 		} else {
 			mode = Mode.READ;
 
-			Expression expression = IEntity.ID.eq(entityId);
-			SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);
-
-			data = (IEntity) context.performQuery(query).get(0);
+			loadEntity();
 
 			getWorkpage().setTitle(data.toString());
 		}
 
+	}
+
+	private void loadEntity() {
+		Expression expression = IEntity.ID.eq(entityId);			
+		SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);
+		data = (IEntity) context.performQuery(query).get(0);
 	}
 
 	private void checkMandatoryFields() throws ValidationException {
@@ -221,6 +248,14 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	@Override
 	protected boolean beforeHideWorkpage() {
 		return isCloseHideOfWorkpagePossible();
+	}
+	
+	protected void beforeSave() {
+		
+	}
+	
+	protected void afterSave() {
+		
 	}
 
 }

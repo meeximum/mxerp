@@ -12,12 +12,18 @@
 <h:form>
 <f:subview id="ui_commons_detail-headerg_sv">
 <t:row id="g_29" >
-<t:button id="g_31" actionListener="#{d.DetailPB.onEdit}" image="/images/edit_16_16.png" rendered="#{d.DetailPB.inReadMode}" text="Ändern" />
+<t:button id="g_31" actionListener="#{d.DetailPB.onEdit}" image="/images/edit_16_16.png" rendered="#{d.DetailPB.renderEditBtn}" text="Ändern" />
 <t:coldistance id="g_2" rendered="#{d.DetailPB.inReadMode}" />
-<t:button id="g_33" actionListener="#{d.DetailPB.onDelete}" rendered="#{d.DetailPB.inReadMode}" text="Löschen" />
-<t:button id="g_13" actionListener="#{d.DetailPB.onCommit}" rendered="#{d.DetailPB.inEditMode}" text="Commit" />
+<t:button id="g_33" actionListener="#{d.DetailPB.onDelete}" rendered="#{d.DetailPB.renderDeleteBtn}" text="Löschen" />
+<t:button id="g_13" actionListener="#{d.DetailPB.onCommit}" rendered="#{d.DetailPB.renderCommitBtn}" text="Commit" />
 <t:coldistance id="g_26" rendered="#{d.DetailPB.inEditMode}" />
-<t:button id="g_27" actionListener="#{d.DetailPB.onRollback}" rendered="#{d.DetailPB.inEditMode}" text="Rollback" />
+<t:button id="g_27" actionListener="#{d.DetailPB.onRollback}" rendered="#{d.DetailPB.renderRollbackBtn}" text="Rollback" />
+<t:pane id="g_1" rendered="#{d.DetailPB.renderDeleteInfo}" >
+<t:row id="g_35" >
+<t:icon id="g_3" image="/eclntjsfserver/images/statusbar_error.png" />
+<t:label id="g_5" font="size:14;weight:bold" text="Datensatz ist als gelöscht markiert!" />
+</t:row>
+</t:pane>
 </t:row>
 <t:pageaddons id="g_pa"/>
 </f:subview>
