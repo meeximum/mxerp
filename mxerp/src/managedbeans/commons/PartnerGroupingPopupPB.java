@@ -1,12 +1,21 @@
 package managedbeans.commons;
 
 import java.io.Serializable;
+import java.util.List;
 
+import javax.faces.event.ActionEvent;
+
+import org.apache.cayenne.ObjectContext;
 import org.eclnt.editor.annotations.CCGenClass;
+import org.eclnt.jsfserver.elements.BaseActionEvent;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDItem;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDListBinding;
 import org.eclnt.jsfserver.pagebean.PageBean;
 
+import utils.Helper;
+import db.erp.GroupingsV;
+
+@SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.PartnerGroupingPopupPB}")
 public class PartnerGroupingPopupPB extends PageBean implements Serializable {
 	private FIXGRIDListBinding<GridGroupingItem> gridGrouping = new FIXGRIDListBinding<GridGroupingItem>();
@@ -20,6 +29,23 @@ public class PartnerGroupingPopupPB extends PageBean implements Serializable {
 	}
 
 	public class GridGroupingItem extends FIXGRIDItem implements java.io.Serializable {
+		private GroupingsV grouping;
+		
+		public GroupingsV getGrouping() {
+			return grouping;
+		}
+				
+		public GridGroupingItem(GroupingsV grouping) {
+			super();
+			this.grouping = grouping;
+		}
+
+		public void onSelect(ActionEvent event) {
+			BaseActionEvent bae = (BaseActionEvent)event;
+			Integer type = Integer.valueOf(bae.getSourceConfiginfo());
+			callback.onSelect(grouping.getId(), type);
+		}
+		
 	}
 
 
@@ -27,7 +53,10 @@ public class PartnerGroupingPopupPB extends PageBean implements Serializable {
 	// constructors & initialization
 	// ------------------------------------------------------------------------
 
-	public PartnerGroupingPopupPB() {
+	public PartnerGroupingPopupPB(ObjectContext context) {
+		gridGrouping.getItems().clear();
+		List<GroupingsV> groupings = GroupingsV.getActive(context, Helper.getLanguageServer());
+		for(GroupingsV grouping : groupings) gridGrouping.getItems().add(new GridGroupingItem(grouping));		
 	}
 
 	public String getPageName() {
@@ -37,13 +66,14 @@ public class PartnerGroupingPopupPB extends PageBean implements Serializable {
 	public String getRootExpressionUsedInPage() {
 		return "#{d.PartnerGroupingPopupPB}";
 	}
-
-	// ------------------------------------------------------------------------
-	// public usage
-	// ------------------------------------------------------------------------
-
-
-	// ------------------------------------------------------------------------
-	// private usage
-	// ------------------------------------------------------------------------
+	
+	private ICallback callback;
+	
+	public void prepare(ICallback callback) {
+		this.callback = callback;
+	}
+	
+	public interface ICallback {
+		public void onSelect(String grouping, Integer type);
+	}
 }

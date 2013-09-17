@@ -12,6 +12,8 @@ import org.apache.cayenne.exp.Property;
 public abstract class _Metadata extends CayenneDataObject {
 
     @Deprecated
+    public static final String DOMAIN_PROPERTY = "domain";
+    @Deprecated
     public static final String ENTITY_PROPERTY = "entity";
     @Deprecated
     public static final String FIELD_PROPERTY = "field";
@@ -27,12 +29,20 @@ public abstract class _Metadata extends CayenneDataObject {
     public static final String ENTITY_PK_COLUMN = "entity";
     public static final String FIELD_PK_COLUMN = "field";
 
+    public static final Property<String> DOMAIN = new Property<String>("domain");
     public static final Property<String> ENTITY = new Property<String>("entity");
     public static final Property<String> FIELD = new Property<String>("field");
     public static final Property<Boolean> MANDATORY = new Property<Boolean>("mandatory");
     public static final Property<Boolean> READ_ONLY = new Property<Boolean>("readOnly");
     public static final Property<Boolean> TECHNICAL = new Property<Boolean>("technical");
     public static final Property<String> VVB = new Property<String>("vvb");
+
+    public void setDomain(String domain) {
+        writeProperty("domain", domain);
+    }
+    public String getDomain() {
+        return (String)readProperty("domain");
+    }
 
     public void setEntity(String entity) {
         writeProperty("entity", entity);

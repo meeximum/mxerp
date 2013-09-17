@@ -4,6 +4,7 @@ public class Constants {
 	// Resources
 	public static final String LITERALS = "literals";
 	public static final String MESSAGES = "messages";
+	public static final String DOMAINS = "domains";
 	
 	// UI paths
 	public static final String UI_MASTER_PATH = "/ui/master-data/";
@@ -16,6 +17,8 @@ public class Constants {
 	public static final String WP_PARAMS_ENTITYID = "entityid";
 	public static final String WP_PARAMS_TABLE = "table";
 	public static final String WP_PARAMS_SAVEDSEARCH = "savedsearch";
+	public static final String WP_PARAMS_GROUPING = "grouping";
+	public static final String WP_PARAMS_TYPE = "type";
 
 	// HTTP paremeters
 	public static final String ECLNT_LANGUAGE = "eclnt-language";
@@ -24,9 +27,13 @@ public class Constants {
 	public static final String ECLNT_IP = "eclnt-ip";
 	public static final String ECLNT_USERNAME = "eclnt-username";
 	
+	// Session parameters
+	public static final String SESSION_INVALIDATE = "invalidate";
+	
 	public static final String ASTERIX = "*";
 	
 	public static final String UTF8 = "UTF-8";
 	
 	public static final String DB_ERP_PACKAGE = "db.erp";
+
 }

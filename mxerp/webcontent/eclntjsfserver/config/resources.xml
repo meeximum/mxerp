@@ -1,5 +1,7 @@
 <resources>
   <resource name="literals" package="resources"/>
   <resource name="messages" package="resources"/>
-  <resource name="_accounts" package="resources"/>
+  <resource name="_partners" package="resources"/>
+  <resource name="_partnerviews" package="resources"/>
+  <resource name="domains" package="resources"/>
 </resources>

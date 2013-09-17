@@ -6,6 +6,7 @@ import org.eclnt.editor.annotations.CCGenClass;
 import org.eclnt.workplace.IWorkpageDispatcher;
 
 import utils.Constants;
+import db.erp.PartnerViews;
 import db.erp.Partners;
 
 @SuppressWarnings("serial")
@@ -20,8 +21,17 @@ public class PartnerPB extends DetailPB {
 	
 	public PartnerPB(IWorkpageDispatcher workpageDispatcher) throws Exception {
 		super(workpageDispatcher);
-		// TODO: remove logic from SearchPB
-		detailView = Constants.UI_DETAILVIEWS_PATH + "partner.jsp";
+		
+		if(isNewEntity()) {
+			String grouping = getWorkpage().getParam(Constants.WP_PARAMS_GROUPING);
+			String type = getWorkpage().getParam(Constants.WP_PARAMS_TYPE);
+			getPartner().setGrouping(grouping);
+			getPartner().setType(type);
+		}		
+		
+		PartnerViews partnerView = PartnerViews.getByPartner(getContext(), getPartner());
+		String view = partnerView==null?"partner.jsp":partnerView.getView();
+		detailView = Constants.UI_DETAILVIEWS_PATH + view;
 	}
 	
 	public String getPageName() {
@@ -39,8 +49,8 @@ public class PartnerPB extends DetailPB {
 		
 		// concatenate name
 		getPartner().generateName();
-	}
-	
+	}	
+		
 	
 
 }

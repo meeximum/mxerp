@@ -159,10 +159,18 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	private Map<String, Metadata> metadataMap;
 
 	private ObjectContext context;
+	
+	protected ObjectContext getContext() {
+		return context;
+	}
 
 	private Mode mode;
 
 	private boolean newEntity = false;
+	
+	protected boolean isNewEntity() {
+		return newEntity;
+	}
 
 	public boolean isInEditMode() {
 		return mode == Mode.EDIT;
@@ -198,8 +206,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 			data.setCreatedAt(new Date());
 			data.setCreatedBy(Helper.getUserName());
 			data.setDeleted(false);
-			Reflect.on(data).call("setType", "O");
-			Reflect.on(data).call("setGrouping", "CUST01");
+
 			// TODO: put into db class create method (handle prefill of
 			// partnerno
 

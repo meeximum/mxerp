@@ -22,9 +22,9 @@ public class IndexUI extends DefaultDispatchedBean implements Serializable {
 	public IndexUI(IDispatcher dispatcher) {
 		super(dispatcher);
 
-		page = "/logon.jsp";
+		page = "/logon.jsp";	
+		
 	}
-
 
 	// ------------------------------------------------------------------------
 }

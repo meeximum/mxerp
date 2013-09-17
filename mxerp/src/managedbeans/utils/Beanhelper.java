@@ -87,7 +87,7 @@ public class Beanhelper implements Serializable {
 				return vvb;
 
 			try {
-				vvb = VvbService.getVvb((String) key, BaseContext.getThreadObjectContext(), Helper.getLanguageServer());
+				vvb = VvbService.getVvbForEntity((String) key, BaseContext.getThreadObjectContext(), Helper.getLanguageServer());
 			} catch (Exception ex) {
 				logger.error(ex, ex);
 			}
@@ -95,4 +95,32 @@ public class Beanhelper implements Serializable {
 			return vvb;
 		}
 	}
+	
+	// -----------------------------------------------
+		// Domain Manager
+		// -----------------------------------------------
+		private DomainsMap dom = new DomainsMap();
+
+		public DomainsMap getDom() {
+			return dom;
+		}
+
+
+		private static class DomainsMap extends HashMap<String, ValidValuesBinding> {
+
+			@Override
+			public ValidValuesBinding get(Object key) {
+				ValidValuesBinding vvb = new ValidValuesBinding();
+				if (key == null || (key instanceof String) == false)
+					return vvb;
+
+				try {
+					vvb = VvbService.getVvbForDomain((String) key, BaseContext.getThreadObjectContext());
+				} catch (Exception ex) {
+					logger.error(ex, ex);
+				}
+
+				return vvb;
+			}
+		}
 }

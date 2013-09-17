@@ -22,7 +22,7 @@ public class Vvb {
 	
 	@Test
 	public void testCountriesT() throws ClassNotFoundException {		
-		ValidValuesBinding vvb = VvbService.getVvb("Countries", context, "de");
+		ValidValuesBinding vvb = VvbService.getVvbForEntity("Countries", context, "de");
 		ValidValue vv = vvb.getValidValueByValue("AT");
 		Assert.assertNotNull(vv);
 		Assert.assertEquals("Österreich", vv.getText());

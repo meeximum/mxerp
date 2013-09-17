@@ -31,11 +31,6 @@ import org.eclnt.jsfserver.elements.componentnodes.FIXGRIDNode;
 import org.eclnt.jsfserver.elements.componentnodes.FORMATTEDFIELDNode;
 import org.eclnt.jsfserver.elements.componentnodes.GRIDCOLNode;
 import org.eclnt.jsfserver.elements.componentnodes.ICONNode;
-import org.eclnt.jsfserver.elements.componentnodes.LABELNode;
-import org.eclnt.jsfserver.elements.componentnodes.PANENode;
-import org.eclnt.jsfserver.elements.componentnodes.ROWNode;
-import org.eclnt.jsfserver.elements.componentnodes.SCROLLPANENode;
-import org.eclnt.jsfserver.elements.componentnodes.TEXTPANENode;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDItem;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDListBinding;
 import org.eclnt.jsfserver.elements.impl.ROWDYNAMICCONTENTBinding;
@@ -55,22 +50,23 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 	public void onRollback(ActionEvent event) {
 		try {
 			getContext().rollbackChanges();
+			loadData();
 			Statusbar.outputSuccess(Helper.getMessage("data_reset_succ"));
 		} catch (Exception ex) {
 			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
 		}
-		loadData();
+		
 
 	}
 
 	public void onCommit(ActionEvent event) {
 		try {
 			getContext().commitChanges();
-			Statusbar.outputSuccess(Helper.getMessage("data_write_succ"));
+			loadData();
+			Statusbar.outputSuccess(Helper.getMessage("data_write_succ"));			
 		} catch (Exception ex) {
 			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
 		}
-		loadData();
 	}
 
 	private ROWDYNAMICCONTENTBinding content = new ROWDYNAMICCONTENTBinding();
@@ -287,19 +283,18 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 			if(!ICustomizing.class.isAssignableFrom(tableClazz)) throw new Exception("object must implement interface ICustomizing");
 
 			objEntityT = getContext().getEntityResolver().getObjEntity(table + "T");
-			if (objEntity != null) {
+			if (objEntityT != null) {
 				tableTClazz = (Class<CayenneDataObject>) Class.forName(objEntityT.getClassName());
 				hasTexts = true;
-			}
-				
+			}				
 
 			metadataMap = Metadata.getByEntityAsMap(getContext(), table);
 
 			generateTableGrid();
 			loadData();
-		} catch (Exception e) {
-			logger.error(e, e);
-			renderError(e);
+		} catch (Exception ex) {
+			logger.error(Helper.getStackTraceAsString(ex), ex);
+			renderError(ex, content);
 		}
 	}
 
@@ -395,53 +390,6 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 		return content;
 	}
 
-	public void renderError(Exception e) {
-
-		PANENode paneNode = new PANENode();
-		paneNode.setHeight("100%");
-		paneNode.setWidth("100%");
-
-		{
-			ROWNode rowNode = new ROWNode();
-
-			LABELNode labelNode = new LABELNode();
-			labelNode.setFont("size:20;weight:bold");
-			labelNode.setForeground("#ff0000");
-			labelNode.setText(e.toString() + " / " + e.getMessage());
-
-			rowNode.addSubNode(labelNode);
-
-			paneNode.addSubNode(rowNode);
-		}
-
-		{
-			ROWNode rowNode = new ROWNode();
-
-			SCROLLPANENode scrollpaneNode = new SCROLLPANENode();
-			scrollpaneNode.setHeight("100%");
-			scrollpaneNode.setWidth("100%");
-
-			{
-				ROWNode rowNode2 = new ROWNode();
-
-				TEXTPANENode textpaneNode = new TEXTPANENode();
-				textpaneNode.setContenttype("text/plain");
-				textpaneNode.setHeight("100%");
-				textpaneNode.setWidth("100%");
-				textpaneNode.setText(Helper.getStackTraceAsString(e));
-
-				rowNode2.addSubNode(textpaneNode);
-				scrollpaneNode.addSubNode(rowNode2);
-
-			}
-
-			rowNode.addSubNode(scrollpaneNode);
-			paneNode.addSubNode(rowNode);
-		}
-
-		content.setContentNode(paneNode);
-	}
-
 	@SuppressWarnings("unchecked")
 	private void loadData() {
 		getGridTable().getItems().clear();
@@ -510,20 +458,37 @@ public class CustomizeTablePB extends WorkpageDispatchedPageBean implements Seri
 			value = formattedFieldNode;
 		} else {
 			Metadata metadate = metadataMap.get(field);
-			if (metadate != null && StringUtils.isNotBlank(metadate.getVvb())) {
-				COMBOBOXNode combobox = new COMBOBOXNode();
-				combobox.setValidvaluesbinding("#{h.vvb." + metadate.getVvb() + "}");
-				combobox.setValue(".{data." + objAttribute.getName() + "}");
-				combobox.setEnabled(enabled);
-				combobox.setWidth(150);
-				value = combobox;
-			} else {
-				FIELDNode fieldNode = new FIELDNode();
-				fieldNode.setText(".{data." + objAttribute.getName() + "}");
-				fieldNode.setEnabled(enabled);
-				value = fieldNode;
-			}
+			value = createComponentNodeForMetadate(objAttribute.getName(), enabled, metadate);
 		}
 		return value;
+	}
+	
+	public ComponentNode createComponentNodeForMetadate(String name, boolean enabled, Metadata metadate) {
+		if(metadate!=null) {
+			boolean isVvb = StringUtils.isNotBlank(metadate.getVvb());
+			boolean isDom = StringUtils.isNotBlank(metadate.getDomain());
+
+			String validValuesbinding = null;
+
+			if (isVvb) {
+				validValuesbinding = "#{h.vvb." + metadate.getVvb() + "}";
+			} else if (isDom) {
+				validValuesbinding = "#{h.dom." + metadate.getDomain() + "}";
+			}
+
+			if (validValuesbinding != null) {
+				COMBOBOXNode combobox = new COMBOBOXNode();
+				combobox.setValidvaluesbinding(validValuesbinding);
+				combobox.setValue(".{data." + name + "}");
+				combobox.setEnabled(enabled);
+				combobox.setWidth(150);
+				return combobox;
+			}
+		}
+
+		FIELDNode fieldNode = new FIELDNode();
+		fieldNode.setText(".{data." + name + "}");
+		fieldNode.setEnabled(enabled);
+		return fieldNode;
 	}
 }

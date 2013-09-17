@@ -9,23 +9,41 @@
 		<db-attribute name="currency" type="VARCHAR" length="3"/>
 		<db-attribute name="currency_symbol" type="VARCHAR" length="1"/>
 		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
-		<db-attribute name="locked" type="BIT"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
 	</db-entity>
 	<db-entity name="countries_t" catalog="mxerp">
 		<db-attribute name="description" type="VARCHAR" length="100"/>
 		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
 		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
 	</db-entity>
+	<db-entity name="domains" catalog="mxerp">
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
+		<db-attribute name="value" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="100"/>
+	</db-entity>
 	<db-entity name="groupings" catalog="mxerp">
 		<db-attribute name="active" type="BIT" isMandatory="true"/>
 		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
 		<db-attribute name="kind" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
 		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="number_range" type="VARCHAR" isMandatory="true" length="40"/>
+		<db-attribute name="organizations" type="BIT" isMandatory="true"/>
+		<db-attribute name="persons" type="BIT" isMandatory="true"/>
 	</db-entity>
 	<db-entity name="groupings_t" catalog="mxerp">
 		<db-attribute name="description" type="VARCHAR" length="50"/>
 		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
 		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+	</db-entity>
+	<db-entity name="groupings_v" catalog="mxerp">
+		<db-attribute name="active" type="BIT" isMandatory="true"/>
+		<db-attribute name="description" type="VARCHAR" length="50"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="kind" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="number_range" type="VARCHAR" isMandatory="true" length="40"/>
+		<db-attribute name="organizations" type="BIT" isMandatory="true"/>
+		<db-attribute name="persons" type="BIT" isMandatory="true"/>
 	</db-entity>
 	<db-entity name="languages" catalog="mxerp">
 		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
@@ -38,6 +56,7 @@
 		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
 	</db-entity>
 	<db-entity name="metadata" catalog="mxerp">
+		<db-attribute name="domain" type="VARCHAR" length="50"/>
 		<db-attribute name="entity" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
 		<db-attribute name="field" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
 		<db-attribute name="mandatory" type="BIT" isMandatory="true"/>
@@ -45,9 +64,24 @@
 		<db-attribute name="technical" type="BIT" isMandatory="true"/>
 		<db-attribute name="vvb" type="VARCHAR" length="50"/>
 	</db-entity>
+	<db-entity name="number_ranges" catalog="mxerp">
+		<db-attribute name="active" type="BIT" isMandatory="true"/>
+		<db-attribute name="actual" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="digits" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="high" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="40"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="low" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="per_year" type="BIT" isMandatory="true"/>
+		<db-attribute name="prefix" type="VARCHAR" length="10"/>
+		<db-attribute name="rolling" type="BIT" isMandatory="true"/>
+		<db-attribute name="warn_level" type="INTEGER" length="10"/>
+	</db-entity>
 	<db-entity name="partner_views" catalog="mxerp">
-		<db-attribute name="grouping" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
-		<db-attribute name="type" type="INTEGER" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="grouping" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="40"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="type" type="VARCHAR" isMandatory="true" length="10"/>
 		<db-attribute name="view" type="VARCHAR" isMandatory="true" length="50"/>
 	</db-entity>
 	<db-entity name="partners" catalog="mxerp">
@@ -62,8 +96,8 @@
 		<db-attribute name="changed_at" type="TIMESTAMP" length="19"/>
 		<db-attribute name="changed_by" type="VARCHAR" length="20"/>
 		<db-attribute name="corr_language" type="VARCHAR" length="2"/>
-		<db-attribute name="created_at" type="TIMESTAMP" isMandatory="true" length="19"/>
-		<db-attribute name="created_by" type="VARCHAR" isMandatory="true" length="20"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="created_by" type="VARCHAR" length="20"/>
 		<db-attribute name="deleted" type="BIT" isMandatory="true"/>
 		<db-attribute name="email" type="VARCHAR" length="100"/>
 		<db-attribute name="grouping" type="VARCHAR" isMandatory="true" length="10"/>
@@ -87,7 +121,7 @@
 		<db-attribute name="shipping_addr_state" type="VARCHAR" length="100"/>
 		<db-attribute name="shipping_addr_street" type="VARCHAR" length="150"/>
 		<db-attribute name="source" type="VARCHAR" length="45"/>
-		<db-attribute name="type" type="INTEGER" isMandatory="true" length="1"/>
+		<db-attribute name="type" type="VARCHAR" isMandatory="true" length="1"/>
 		<db-attribute name="vat_no" type="VARCHAR" length="20"/>
 		<db-attribute name="website" type="VARCHAR" length="255"/>
 	</db-entity>
@@ -110,16 +144,34 @@
 		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
 		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
 	</obj-entity>
+	<obj-entity name="Domains" className="db.erp.Domains" dbEntityName="domains">
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="value" type="java.lang.String" db-attribute-path="value"/>
+	</obj-entity>
 	<obj-entity name="Groupings" className="db.erp.Groupings" dbEntityName="groupings">
 		<obj-attribute name="active" type="java.lang.Boolean" db-attribute-path="active"/>
 		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
 		<obj-attribute name="kind" type="java.lang.String" db-attribute-path="kind"/>
 		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="numberRange" type="java.lang.String" db-attribute-path="number_range"/>
+		<obj-attribute name="organizations" type="java.lang.Boolean" db-attribute-path="organizations"/>
+		<obj-attribute name="persons" type="java.lang.Boolean" db-attribute-path="persons"/>
 	</obj-entity>
 	<obj-entity name="GroupingsT" className="db.erp.GroupingsT" dbEntityName="groupings_t">
 		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
 		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
 		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
+	</obj-entity>
+	<obj-entity name="GroupingsV" className="db.erp.GroupingsV" readOnly="true" dbEntityName="groupings_v">
+		<obj-attribute name="active" type="java.lang.Boolean" db-attribute-path="active"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="kind" type="java.lang.String" db-attribute-path="kind"/>
+		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="numberRange" type="java.lang.String" db-attribute-path="number_range"/>
+		<obj-attribute name="organizations" type="java.lang.Boolean" db-attribute-path="organizations"/>
+		<obj-attribute name="persons" type="java.lang.Boolean" db-attribute-path="persons"/>
 	</obj-entity>
 	<obj-entity name="Languages" className="db.erp.Languages" dbEntityName="languages">
 		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
@@ -132,6 +184,7 @@
 		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
 	</obj-entity>
 	<obj-entity name="Metadata" className="db.erp.Metadata" dbEntityName="metadata">
+		<obj-attribute name="domain" type="java.lang.String" db-attribute-path="domain"/>
 		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
 		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
 		<obj-attribute name="mandatory" type="java.lang.Boolean" db-attribute-path="mandatory"/>
@@ -139,9 +192,24 @@
 		<obj-attribute name="technical" type="java.lang.Boolean" db-attribute-path="technical"/>
 		<obj-attribute name="vvb" type="java.lang.String" db-attribute-path="vvb"/>
 	</obj-entity>
+	<obj-entity name="NumberRanges" className="db.erp.NumberRanges" dbEntityName="number_ranges">
+		<obj-attribute name="active" type="java.lang.Boolean" db-attribute-path="active"/>
+		<obj-attribute name="actual" type="java.lang.Integer" db-attribute-path="actual"/>
+		<obj-attribute name="digits" type="java.lang.Integer" db-attribute-path="digits"/>
+		<obj-attribute name="high" type="java.lang.Integer" db-attribute-path="high"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="low" type="java.lang.Integer" db-attribute-path="low"/>
+		<obj-attribute name="perYear" type="java.lang.Boolean" db-attribute-path="per_year"/>
+		<obj-attribute name="prefix" type="java.lang.String" db-attribute-path="prefix"/>
+		<obj-attribute name="rolling" type="java.lang.Boolean" db-attribute-path="rolling"/>
+		<obj-attribute name="warnLevel" type="java.lang.Integer" db-attribute-path="warn_level"/>
+	</obj-entity>
 	<obj-entity name="PartnerViews" className="db.erp.PartnerViews" dbEntityName="partner_views">
 		<obj-attribute name="grouping" type="java.lang.String" db-attribute-path="grouping"/>
-		<obj-attribute name="type" type="db.enums.PartnerType" db-attribute-path="type"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="type" type="java.lang.String" db-attribute-path="type"/>
 		<obj-attribute name="view" type="java.lang.String" db-attribute-path="view"/>
 	</obj-entity>
 	<obj-entity name="Partners" className="db.erp.Partners" lock-type="optimistic" dbEntityName="partners">
@@ -181,7 +249,7 @@
 		<obj-attribute name="shippingAddrState" type="java.lang.String" db-attribute-path="shipping_addr_state"/>
 		<obj-attribute name="shippingAddrStreet" type="java.lang.String" db-attribute-path="shipping_addr_street"/>
 		<obj-attribute name="source" type="java.lang.String" db-attribute-path="source"/>
-		<obj-attribute name="type" type="db.enums.PartnerType" db-attribute-path="type"/>
+		<obj-attribute name="type" type="java.lang.String" db-attribute-path="type"/>
 		<obj-attribute name="vatNo" type="java.lang.String" db-attribute-path="vat_no"/>
 		<obj-attribute name="website" type="java.lang.String" db-attribute-path="website"/>
 	</obj-entity>

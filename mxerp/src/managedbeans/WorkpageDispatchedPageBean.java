@@ -24,8 +24,14 @@ import org.eclnt.jsfserver.defaultscreens.Statusbar;
 import org.eclnt.jsfserver.defaultscreens.YESNOPopup;
 import org.eclnt.jsfserver.defaultscreens.YESNOPopup.IYesNoCancelListener;
 import org.eclnt.jsfserver.elements.BaseComponentTag;
+import org.eclnt.jsfserver.elements.componentnodes.LABELNode;
+import org.eclnt.jsfserver.elements.componentnodes.PANENode;
+import org.eclnt.jsfserver.elements.componentnodes.ROWNode;
+import org.eclnt.jsfserver.elements.componentnodes.SCROLLPANENode;
+import org.eclnt.jsfserver.elements.componentnodes.TEXTPANENode;
 import org.eclnt.jsfserver.elements.impl.DYNAMICCONTENTBinding;
 import org.eclnt.jsfserver.elements.impl.MENUITEMComponent;
+import org.eclnt.jsfserver.elements.impl.ROWDYNAMICCONTENTBinding;
 import org.eclnt.jsfserver.util.HttpSessionAccess;
 import org.eclnt.jsfserver.util.useraccess.UserAccessMgr;
 import org.eclnt.workplace.IWorkpageContainer;
@@ -289,6 +295,53 @@ public class WorkpageDispatchedPageBean extends org.eclnt.workplace.WorkpageDisp
 		} else {
 			getWorkpageContainer().closeWorkpage(getWorkpage());
 		}		
+	}
+	
+	protected void renderError(Exception e, ROWDYNAMICCONTENTBinding content) {
+
+		PANENode paneNode = new PANENode();
+		paneNode.setHeight("100%");
+		paneNode.setWidth("100%");
+
+		{
+			ROWNode rowNode = new ROWNode();
+
+			LABELNode labelNode = new LABELNode();
+			labelNode.setFont("size:20;weight:bold");
+			labelNode.setForeground("#ff0000");
+			labelNode.setText(e.toString() + " / " + e.getMessage());
+
+			rowNode.addSubNode(labelNode);
+
+			paneNode.addSubNode(rowNode);
+		}
+
+		{
+			ROWNode rowNode = new ROWNode();
+
+			SCROLLPANENode scrollpaneNode = new SCROLLPANENode();
+			scrollpaneNode.setHeight("100%");
+			scrollpaneNode.setWidth("100%");
+
+			{
+				ROWNode rowNode2 = new ROWNode();
+
+				TEXTPANENode textpaneNode = new TEXTPANENode();
+				textpaneNode.setContenttype("text/plain");
+				textpaneNode.setHeight("100%");
+				textpaneNode.setWidth("100%");
+				textpaneNode.setText(Helper.getStackTraceAsString(e));
+
+				rowNode2.addSubNode(textpaneNode);
+				scrollpaneNode.addSubNode(rowNode2);
+
+			}
+
+			rowNode.addSubNode(scrollpaneNode);
+			paneNode.addSubNode(rowNode);
+		}
+
+		content.setContentNode(paneNode);
 	}
 
 }

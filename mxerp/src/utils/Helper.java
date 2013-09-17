@@ -36,6 +36,11 @@ public class Helper {
 		String value = ResourceManager.getRuntimeInstance().readProperty(Constants.MESSAGES, property);
 		return StringUtils.isEmpty(value) ? property : value;
 	}
+	
+	public static String getDomain(String property) {
+		String value = ResourceManager.getRuntimeInstance().readProperty(Constants.DOMAINS, property);
+		return StringUtils.isEmpty(value) ? property : value;
+	}
 
 	public static boolean isFileInWebRoot(String filename) {
 		FacesContext context = FacesContext.getCurrentInstance();

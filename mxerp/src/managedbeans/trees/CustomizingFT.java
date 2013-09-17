@@ -47,6 +47,24 @@ public class CustomizingFT extends WorkplaceFunctionTree implements IWPFunctionT
 	    node.setOpenMultipleInstances(false);
 	    node.setText(Helper.getLiteral("groupings"));
 	    node.setStatus(FIXGRIDTreeItem.STATUS_ENDNODE);
+	    
+	    // partner views
+	    node = new FormattedFunctionNode(getFtree().getRootNode(), Constants.UI_COMMONS_PATH + "customize-table.jsp");
+	    node.setId("partner_views");
+	    node.setParam(Constants.WP_PARAMS_TABLE, "PartnerViews");
+	    node.setPageBeanName("CustomizeTablePB");
+	    node.setOpenMultipleInstances(false);
+	    node.setText(Helper.getLiteral("partner_views"));
+	    node.setStatus(FIXGRIDTreeItem.STATUS_ENDNODE);
+	    
+	    // numberranges
+	    node = new FormattedFunctionNode(getFtree().getRootNode(), Constants.UI_COMMONS_PATH + "customize-table.jsp");
+	    node.setId("number_ranges");
+	    node.setParam(Constants.WP_PARAMS_TABLE, "NumberRanges");
+	    node.setPageBeanName("CustomizeTablePB");
+	    node.setOpenMultipleInstances(false);
+	    node.setText(Helper.getLiteral("number_ranges"));
+	    node.setStatus(FIXGRIDTreeItem.STATUS_ENDNODE);
 
 	  }
 

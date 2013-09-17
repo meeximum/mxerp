@@ -1,7 +1,6 @@
 package db.erp;
 
 import services.entities.IEntity;
-import db.enums.PartnerType;
 
 
 
@@ -15,10 +14,10 @@ public class Partners extends _Partners implements IEntity {
 	
 	public void generateName() {
 		String name;
-		if(PartnerType.ORGANISATION.equals(getType())) {
-			name = (getNameOrg1()==null?"":getNameOrg1())  + " " + (getNameOrg2()==null?"":getNameOrg2());
+		if("P".equals(getType())) {
+			name = (getNameFirst()==null?"":getNameFirst()) + " " + (getNameLast()==null?"":getNameLast()); 			
 		} else {
-			name = (getNameFirst()==null?"":getNameFirst()) + " " + (getNameLast()==null?"":getNameLast()); 
+			name = (getNameOrg1()==null?"":getNameOrg1())  + " " + (getNameOrg2()==null?"":getNameOrg2());
 		}
 		setName(name.trim());
 	}

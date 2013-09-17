@@ -2,6 +2,7 @@ package managedbeans;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.faces.event.ActionEvent;
@@ -11,6 +12,7 @@ import managedbeans.trees.IWPFunctionTree;
 import managedbeans.trees.MasterDataFT;
 import managedbeans.trees.ReportingFT;
 
+import org.apache.cayenne.access.DataContext;
 import org.apache.commons.beanutils.BeanUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.eclnt.editor.annotations.CCGenClass;
@@ -21,6 +23,7 @@ import org.eclnt.jsfserver.elements.BaseActionEvent;
 import org.eclnt.jsfserver.elements.events.BaseActionEventFlush;
 import org.eclnt.jsfserver.elements.events.BaseActionEventValueHelp;
 import org.eclnt.jsfserver.elements.impl.OUTLOOKBARITEMComponent;
+import org.eclnt.jsfserver.util.HttpSessionAccess;
 import org.eclnt.workplace.IWorkpageDispatcher;
 import org.eclnt.workplace.WorkpageStartInfo;
 
@@ -113,6 +116,14 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 
 	public MainUI(IWorkpageDispatcher dispatcher) throws Exception {
 		super(dispatcher);
+		
+		// invalidate
+	    Boolean invalidateCayenne = Boolean.valueOf(HttpSessionAccess.getCurrentRequest().getParameter(Constants.SESSION_INVALIDATE));
+	    if (invalidateCayenne == Boolean.TRUE) {
+	      invalidateCayenneCache();
+	      Statusbar.outputMessageWithPopup("Daten wurden invalidiert!").setLeftTopReferenceCentered();
+	    }
+		
 		treeList = new ArrayList<IWPFunctionTree>();		
 		masterDataFT = new MasterDataFT(dispatcher);
 		treeList.add(masterDataFT);
@@ -187,6 +198,17 @@ public class MainUI extends WorkpageDispatchedPageBean implements Serializable {
 		}		
 		return wpsi;
 	}
+	
+	@SuppressWarnings("unchecked")
+	private void invalidateCayenneCache() {
+		DataContext context = (DataContext)getContext();	    
+		context.getObjectStore().getDataRowCache().clear();
+	    context.getQueryCache().clear();
+	    Iterator<?> iter = context.getObjectStore().getObjectIterator();
+	    while (iter.hasNext()) {
+	      context.invalidateObjects(iter.next());
+	    }
+	  }
 	
 	
 

@@ -14,15 +14,18 @@
 <t:row id="g_1" >
 <t:pane id="g_11" >
 <t:row id="g_12" >
-<t:fixgrid id="g_5" avoidroundtrips="true" objectbinding="#{d.PartnerGroupingPopupPB.gridGrouping}" selectorcolumn="0" suppressheadline="true" width="304" >
-<t:gridcol id="g_6" text="Column" width="100" >
-<t:label id="g_8" text="label" />
+<t:fixgrid id="g_5" avoidroundtrips="true" drawoddevenrows="true" objectbinding="#{d.PartnerGroupingPopupPB.gridGrouping}" rowheight="32" sbvisibleamount="6" selectorcolumn="0" suppressheadline="true" width="305" >
+<t:gridcol id="g_6" text="Column" width="86" >
+<t:label id="g_8" text=".{grouping.id}" />
 </t:gridcol>
-<t:gridcol id="g_14" text="Column" width="100" >
-<t:label id="g_15" text="label" />
+<t:gridcol id="g_14" text="Column" width="150" >
+<t:label id="g_15" text=".{grouping.description}" />
 </t:gridcol>
-<t:gridcol id="g_7" text="Column" width="100" >
-<t:label id="g_9" text="label" />
+<t:gridcol id="g_7" text="Column" width="32" >
+<t:icon id="g_17" actionListener=".{onSelect}" configinfo="O" enabled=".{grouping.organizations}" image="/images/company_32_32.png" tooltip="Neue Firma erstellen" />
+</t:gridcol>
+<t:gridcol id="g_18" text="Column" width="32" >
+<t:icon id="g_19" actionListener=".{onSelect}" configinfo="P" enabled=".{grouping.persons}" image="/images/person_32_32.png" tooltip="Neue Person erstellen" />
 </t:gridcol>
 </t:fixgrid>
 </t:row>
