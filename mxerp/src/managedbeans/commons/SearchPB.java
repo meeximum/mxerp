@@ -326,11 +326,11 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			popupPB.prepare(new ICallback() {
 
 				@Override
-				public void onSelect(String grouping, Integer type) {
+				public void onSelect(String grouping, String type) {
 					mp.close();
 					Map<String, String> paramMap = new HashMap<String, String>(2);
 					paramMap.put(Constants.WP_PARAMS_GROUPING, grouping);
-					paramMap.put(Constants.WP_PARAMS_TYPE, String.valueOf(type));	
+					paramMap.put(Constants.WP_PARAMS_TYPE, type);	
 					openWorkpageForNewEntity(paramMap);					
 				}
 				

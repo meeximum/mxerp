@@ -18,9 +18,13 @@ public abstract class _NumberRanges extends CayenneDataObject {
     @Deprecated
     public static final String DIGITS_PROPERTY = "digits";
     @Deprecated
+    public static final String ENTITY_PROPERTY = "entity";
+    @Deprecated
     public static final String HIGH_PROPERTY = "high";
     @Deprecated
     public static final String ID_PROPERTY = "id";
+    @Deprecated
+    public static final String KEY_PROPERTY = "key";
     @Deprecated
     public static final String LOCKED_PROPERTY = "locked";
     @Deprecated
@@ -39,8 +43,10 @@ public abstract class _NumberRanges extends CayenneDataObject {
     public static final Property<Boolean> ACTIVE = new Property<Boolean>("active");
     public static final Property<Integer> ACTUAL = new Property<Integer>("actual");
     public static final Property<Integer> DIGITS = new Property<Integer>("digits");
+    public static final Property<String> ENTITY = new Property<String>("entity");
     public static final Property<Integer> HIGH = new Property<Integer>("high");
     public static final Property<String> ID = new Property<String>("id");
+    public static final Property<String> KEY = new Property<String>("key");
     public static final Property<Boolean> LOCKED = new Property<Boolean>("locked");
     public static final Property<Integer> LOW = new Property<Integer>("low");
     public static final Property<Boolean> PER_YEAR = new Property<Boolean>("perYear");
@@ -69,6 +75,13 @@ public abstract class _NumberRanges extends CayenneDataObject {
         return (Integer)readProperty("digits");
     }
 
+    public void setEntity(String entity) {
+        writeProperty("entity", entity);
+    }
+    public String getEntity() {
+        return (String)readProperty("entity");
+    }
+
     public void setHigh(Integer high) {
         writeProperty("high", high);
     }
@@ -81,6 +94,13 @@ public abstract class _NumberRanges extends CayenneDataObject {
     }
     public String getId() {
         return (String)readProperty("id");
+    }
+
+    public void setKey(String key) {
+        writeProperty("key", key);
+    }
+    public String getKey() {
+        return (String)readProperty("key");
     }
 
     public void setLocked(Boolean locked) {
@@ -124,5 +144,9 @@ public abstract class _NumberRanges extends CayenneDataObject {
     public Integer getWarnLevel() {
         return (Integer)readProperty("warnLevel");
     }
+
+    protected abstract void onPostPersist();
+
+    protected abstract void onPostUpdate();
 
 }

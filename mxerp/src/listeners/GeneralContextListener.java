@@ -18,7 +18,7 @@ public class GeneralContextListener implements ServletContextListener, HttpSessi
 
 	}
 
-	public void contextInitialized(ServletContextEvent arg0) {
+	public void contextInitialized(ServletContextEvent sce) {
 
 	}
 

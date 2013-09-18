@@ -257,11 +257,11 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 		return isCloseHideOfWorkpagePossible();
 	}
 	
-	protected void beforeSave() {
+	protected void beforeSave() throws Exception {
 		
 	}
 	
-	protected void afterSave() {
+	protected void afterSave() throws Exception {
 		
 	}
 

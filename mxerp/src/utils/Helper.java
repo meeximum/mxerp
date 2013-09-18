@@ -107,4 +107,8 @@ public class Helper {
 	public static HttpSession getSession() {
 		return HttpSessionAccess.getCurrentRequest().getSession();
 	}
+	
+	public static boolean isEmpty(Integer integer) {
+		return integer==null||integer==0;
+	}
 }

@@ -3,9 +3,13 @@ package managedbeans.entities;
 import managedbeans.commons.DetailPB;
 
 import org.eclnt.editor.annotations.CCGenClass;
+import org.eclnt.jsfserver.defaultscreens.Statusbar;
 import org.eclnt.workplace.IWorkpageDispatcher;
 
+import services.entities.Entity;
+import services.entities.NumberRangeManager;
 import utils.Constants;
+import db.erp.NumberRanges;
 import db.erp.PartnerViews;
 import db.erp.Partners;
 
@@ -43,9 +47,14 @@ public class PartnerPB extends DetailPB {
 	}
 
 	@Override
-	protected void beforeSave() {
+	protected void beforeSave() throws Exception {
 		super.beforeSave();
 		// set partnerno when new
+		NumberRanges numberRange = NumberRangeManager.get(Entity.PARTNER, getPartner().getGrouping());
+		getPartner().setPartnerNo(numberRange.increment());
+		if(numberRange.isWarnLevelReached()) {
+			Statusbar.outputWarningWithPopup(String.format("Achtung der Nummernkreis hat nur noch %d freie Nummern!", numberRange.getHigh()-numberRange.getActual())).setLeftTopReferenceCentered();;
+		}
 		
 		// concatenate name
 		getPartner().generateName();

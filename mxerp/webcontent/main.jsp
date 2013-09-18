@@ -24,7 +24,7 @@
 </t:row>
 <t:row id="g_10" >
 <t:pane id="g_11" height="100%" width="26" >
-<t:rowworkpagefavorites id="g_12" objectbinding="#{d.WorkplaceFavorites}" stylevariant="null!" />
+<t:rowworkpagefavorites id="g_12" objectbinding="#{d.Favorites}" />
 <t:rowdistance id="g_13" height="25" />
 </t:pane>
 <t:splitpane id="g_14" dividerlocation="#{d.MainUI.dividerlocation}" height="100%" onetouchexpandable="true" orientation="horizontal" width="100%" >

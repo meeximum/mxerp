@@ -42,7 +42,7 @@ public class PartnerGroupingPopupPB extends PageBean implements Serializable {
 
 		public void onSelect(ActionEvent event) {
 			BaseActionEvent bae = (BaseActionEvent)event;
-			Integer type = Integer.valueOf(bae.getSourceConfiginfo());
+			String type = bae.getSourceConfiginfo();
 			callback.onSelect(grouping.getId(), type);
 		}
 		
@@ -74,6 +74,6 @@ public class PartnerGroupingPopupPB extends PageBean implements Serializable {
 	}
 	
 	public interface ICallback {
-		public void onSelect(String grouping, Integer type);
+		public void onSelect(String grouping, String type);
 	}
 }
