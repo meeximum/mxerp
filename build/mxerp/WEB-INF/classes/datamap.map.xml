@@ -1,0 +1,363 @@
+<?xml version="1.0" encoding="utf-8"?>
+<data-map xmlns="http://cayenne.apache.org/schema/3.0/modelMap"
+	 xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	 xsi:schemaLocation="http://cayenne.apache.org/schema/3.0/modelMap http://cayenne.apache.org/schema/3.0/modelMap.xsd"
+	 project-version="6">
+	<property name="defaultLockType" value="optimistic"/>
+	<property name="defaultPackage" value="db.erp"/>
+	<property name="defaultCatalog" value="mxerp"/>
+	<db-entity name="audit_header" catalog="mxerp">
+		<db-attribute name="action" type="VARCHAR" isMandatory="true" length="1"/>
+		<db-attribute name="created_at" type="TIMESTAMP" isMandatory="true" length="19"/>
+		<db-attribute name="created_by" type="VARCHAR" isMandatory="true" length="20"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="36"/>
+		<db-attribute name="record_id" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="table_name" type="VARCHAR" isMandatory="true" length="100"/>
+	</db-entity>
+	<db-entity name="audit_position" catalog="mxerp">
+		<db-attribute name="field" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="header" type="VARCHAR" isMandatory="true" length="36"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="36"/>
+		<db-attribute name="value_new" type="VARCHAR" length="150"/>
+		<db-attribute name="value_old" type="VARCHAR" length="150"/>
+	</db-entity>
+	<db-entity name="countries" catalog="mxerp">
+		<db-attribute name="currency" type="VARCHAR" length="3"/>
+		<db-attribute name="currency_symbol" type="VARCHAR" length="1"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+	</db-entity>
+	<db-entity name="countries_t" catalog="mxerp">
+		<db-attribute name="description" type="VARCHAR" length="100"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+	</db-entity>
+	<db-entity name="domains" catalog="mxerp">
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
+		<db-attribute name="value" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="100"/>
+	</db-entity>
+	<db-entity name="groupings" catalog="mxerp">
+		<db-attribute name="active" type="BIT" isMandatory="true"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="kind" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="number_range" type="VARCHAR" isMandatory="true" length="40"/>
+		<db-attribute name="organizations" type="BIT" isMandatory="true"/>
+		<db-attribute name="persons" type="BIT" isMandatory="true"/>
+	</db-entity>
+	<db-entity name="groupings_t" catalog="mxerp">
+		<db-attribute name="description" type="VARCHAR" length="50"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+	</db-entity>
+	<db-entity name="groupings_v" catalog="mxerp">
+		<db-attribute name="active" type="BIT" isMandatory="true"/>
+		<db-attribute name="description" type="VARCHAR" length="50"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="10"/>
+		<db-attribute name="kind" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="number_range" type="VARCHAR" isMandatory="true" length="40"/>
+		<db-attribute name="organizations" type="BIT" isMandatory="true"/>
+		<db-attribute name="persons" type="BIT" isMandatory="true"/>
+	</db-entity>
+	<db-entity name="languages" catalog="mxerp">
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="logon" type="BIT" isMandatory="true"/>
+	</db-entity>
+	<db-entity name="languages_t" catalog="mxerp">
+		<db-attribute name="description" type="VARCHAR" length="50"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+		<db-attribute name="language" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="2"/>
+	</db-entity>
+	<db-entity name="metadata" catalog="mxerp">
+		<db-attribute name="domain" type="VARCHAR" length="50"/>
+		<db-attribute name="field" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
+		<db-attribute name="mandatory" type="BIT" isMandatory="true"/>
+		<db-attribute name="object" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="40"/>
+		<db-attribute name="read_only" type="BIT" isMandatory="true"/>
+		<db-attribute name="technical" type="BIT" isMandatory="true"/>
+		<db-attribute name="vvb" type="VARCHAR" length="50"/>
+	</db-entity>
+	<db-entity name="number_ranges" catalog="mxerp">
+		<db-attribute name="active" type="BIT" isMandatory="true"/>
+		<db-attribute name="actual" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="digits" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="entity" type="VARCHAR" isMandatory="true" length="40"/>
+		<db-attribute name="high" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="40"/>
+		<db-attribute name="key" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="low" type="INTEGER" isMandatory="true" length="10"/>
+		<db-attribute name="per_year" type="BIT" isMandatory="true"/>
+		<db-attribute name="prefix" type="VARCHAR" length="10"/>
+		<db-attribute name="rolling" type="BIT" isMandatory="true"/>
+		<db-attribute name="warn_level" type="INTEGER" length="10"/>
+	</db-entity>
+	<db-entity name="partner_views" catalog="mxerp">
+		<db-attribute name="grouping" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="40"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="type" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="view" type="VARCHAR" isMandatory="true" length="50"/>
+	</db-entity>
+	<db-entity name="partners" catalog="mxerp">
+		<db-attribute name="billing_addr_city" type="VARCHAR" length="100"/>
+		<db-attribute name="billing_addr_country" type="VARCHAR" length="2"/>
+		<db-attribute name="billing_addr_pb" type="VARCHAR" length="100"/>
+		<db-attribute name="billing_addr_pb_pc" type="VARCHAR" length="20"/>
+		<db-attribute name="billing_addr_pc" type="VARCHAR" length="20"/>
+		<db-attribute name="billing_addr_state" type="VARCHAR" length="100"/>
+		<db-attribute name="billing_addr_street" type="VARCHAR" length="150"/>
+		<db-attribute name="birthdate" type="TIMESTAMP" length="19"/>
+		<db-attribute name="changed_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="changed_by" type="VARCHAR" length="20"/>
+		<db-attribute name="corr_language" type="VARCHAR" length="2"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="created_by" type="VARCHAR" length="20"/>
+		<db-attribute name="deleted" type="BIT" isMandatory="true"/>
+		<db-attribute name="email" type="VARCHAR" length="100"/>
+		<db-attribute name="grouping" type="VARCHAR" isMandatory="true" length="10"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="36"/>
+		<db-attribute name="industry" type="VARCHAR" length="25"/>
+		<db-attribute name="name" type="VARCHAR" isMandatory="true" length="100"/>
+		<db-attribute name="name_first" type="VARCHAR" length="45"/>
+		<db-attribute name="name_last" type="VARCHAR" length="45"/>
+		<db-attribute name="name_org1" type="VARCHAR" length="45"/>
+		<db-attribute name="name_org2" type="VARCHAR" length="45"/>
+		<db-attribute name="partner_no" type="VARCHAR" isMandatory="true" length="20"/>
+		<db-attribute name="phone_fax" type="VARCHAR" length="25"/>
+		<db-attribute name="phone_mobile" type="VARCHAR" length="25"/>
+		<db-attribute name="phone_office" type="VARCHAR" length="25"/>
+		<db-attribute name="salutation" type="VARCHAR" length="5"/>
+		<db-attribute name="shipping_addr_city" type="VARCHAR" length="100"/>
+		<db-attribute name="shipping_addr_country" type="VARCHAR" length="2"/>
+		<db-attribute name="shipping_addr_pb" type="VARCHAR" length="100"/>
+		<db-attribute name="shipping_addr_pb_pc" type="VARCHAR" length="20"/>
+		<db-attribute name="shipping_addr_pc" type="VARCHAR" length="20"/>
+		<db-attribute name="shipping_addr_state" type="VARCHAR" length="100"/>
+		<db-attribute name="shipping_addr_street" type="VARCHAR" length="150"/>
+		<db-attribute name="source" type="VARCHAR" length="45"/>
+		<db-attribute name="type" type="VARCHAR" isMandatory="true" length="1"/>
+		<db-attribute name="vat_no" type="VARCHAR" length="20"/>
+		<db-attribute name="website" type="VARCHAR" length="255"/>
+	</db-entity>
+	<db-entity name="saved_searches" catalog="mxerp">
+		<db-attribute name="data" type="LONGVARBINARY" length="65535"/>
+		<db-attribute name="entity" type="VARCHAR" isMandatory="true" length="50"/>
+		<db-attribute name="global" type="BIT" isMandatory="true"/>
+		<db-attribute name="id" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="36"/>
+		<db-attribute name="name" type="VARCHAR" length="100"/>
+		<db-attribute name="user" type="VARCHAR" isMandatory="true" length="20"/>
+	</db-entity>
+	<db-entity name="user_presets" catalog="mxerp">
+		<db-attribute name="entity" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="40"/>
+		<db-attribute name="field" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="100"/>
+		<db-attribute name="user" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="20"/>
+		<db-attribute name="value" type="VARCHAR" isMandatory="true" length="100"/>
+	</db-entity>
+	<db-entity name="users" catalog="mxerp">
+		<db-attribute name="active" type="BIT" isMandatory="true"/>
+		<db-attribute name="changed_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="changed_by" type="VARCHAR" length="20"/>
+		<db-attribute name="created_at" type="TIMESTAMP" length="19"/>
+		<db-attribute name="created_by" type="VARCHAR" length="20"/>
+		<db-attribute name="deleted" type="BIT" isMandatory="true"/>
+		<db-attribute name="last_login" type="TIMESTAMP" length="19"/>
+		<db-attribute name="last_login_ip" type="VARCHAR" length="15"/>
+		<db-attribute name="locked" type="BIT" isMandatory="true"/>
+		<db-attribute name="logon_language" type="VARCHAR" isMandatory="true" length="2"/>
+		<db-attribute name="partner" type="VARCHAR" length="36"/>
+		<db-attribute name="password" type="VARCHAR" length="40"/>
+		<db-attribute name="user" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="20"/>
+	</db-entity>
+	<obj-entity name="AuditHeader" className="db.erp.AuditHeader" dbEntityName="audit_header">
+		<obj-attribute name="action" type="java.lang.String" db-attribute-path="action"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="createdBy" type="java.lang.String" db-attribute-path="created_by"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="recordId" type="java.lang.String" db-attribute-path="record_id"/>
+		<obj-attribute name="tableName" type="java.lang.String" db-attribute-path="table_name"/>
+	</obj-entity>
+	<obj-entity name="AuditPosition" className="db.erp.AuditPosition" dbEntityName="audit_position">
+		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="valueNew" type="java.lang.String" db-attribute-path="value_new"/>
+		<obj-attribute name="valueOld" type="java.lang.String" db-attribute-path="value_old"/>
+	</obj-entity>
+	<obj-entity name="Countries" className="db.erp.Countries" lock-type="optimistic" dbEntityName="countries">
+		<obj-attribute name="currency" type="java.lang.String" db-attribute-path="currency"/>
+		<obj-attribute name="currencySymbol" type="java.lang.String" db-attribute-path="currency_symbol"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+	</obj-entity>
+	<obj-entity name="CountriesT" className="db.erp.CountriesT" lock-type="optimistic" dbEntityName="countries_t">
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
+	</obj-entity>
+	<obj-entity name="Domains" className="db.erp.Domains" dbEntityName="domains">
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="value" type="java.lang.String" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="Groupings" className="db.erp.Groupings" dbEntityName="groupings">
+		<obj-attribute name="active" type="java.lang.Boolean" db-attribute-path="active"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="kind" type="java.lang.String" db-attribute-path="kind"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="numberRange" type="java.lang.String" db-attribute-path="number_range"/>
+		<obj-attribute name="organizations" type="java.lang.Boolean" db-attribute-path="organizations"/>
+		<obj-attribute name="persons" type="java.lang.Boolean" db-attribute-path="persons"/>
+	</obj-entity>
+	<obj-entity name="GroupingsT" className="db.erp.GroupingsT" dbEntityName="groupings_t">
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
+	</obj-entity>
+	<obj-entity name="GroupingsV" className="db.erp.GroupingsV" readOnly="true" dbEntityName="groupings_v">
+		<obj-attribute name="active" type="java.lang.Boolean" db-attribute-path="active"/>
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="kind" type="java.lang.String" db-attribute-path="kind"/>
+		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="numberRange" type="java.lang.String" db-attribute-path="number_range"/>
+		<obj-attribute name="organizations" type="java.lang.Boolean" db-attribute-path="organizations"/>
+		<obj-attribute name="persons" type="java.lang.Boolean" db-attribute-path="persons"/>
+	</obj-entity>
+	<obj-entity name="Languages" className="db.erp.Languages" dbEntityName="languages">
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="logon" type="java.lang.Boolean" db-attribute-path="logon"/>
+	</obj-entity>
+	<obj-entity name="LanguagesT" className="db.erp.LanguagesT" dbEntityName="languages_t">
+		<obj-attribute name="description" type="java.lang.String" db-attribute-path="description"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="language" type="java.lang.String" db-attribute-path="language"/>
+	</obj-entity>
+	<obj-entity name="Metadata" className="db.erp.Metadata" dbEntityName="metadata">
+		<obj-attribute name="domain" type="java.lang.String" db-attribute-path="domain"/>
+		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
+		<obj-attribute name="mandatory" type="java.lang.Boolean" db-attribute-path="mandatory"/>
+		<obj-attribute name="object" type="java.lang.String" db-attribute-path="object"/>
+		<obj-attribute name="readOnly" type="java.lang.Boolean" db-attribute-path="read_only"/>
+		<obj-attribute name="technical" type="java.lang.Boolean" db-attribute-path="technical"/>
+		<obj-attribute name="vvb" type="java.lang.String" db-attribute-path="vvb"/>
+	</obj-entity>
+	<obj-entity name="NumberRanges" className="db.erp.NumberRanges" dbEntityName="number_ranges">
+		<obj-attribute name="active" type="java.lang.Boolean" db-attribute-path="active"/>
+		<obj-attribute name="actual" type="java.lang.Integer" db-attribute-path="actual"/>
+		<obj-attribute name="digits" type="java.lang.Integer" db-attribute-path="digits"/>
+		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
+		<obj-attribute name="high" type="java.lang.Integer" db-attribute-path="high"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="key" type="java.lang.String" db-attribute-path="key"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="low" type="java.lang.Integer" db-attribute-path="low"/>
+		<obj-attribute name="perYear" type="java.lang.Boolean" db-attribute-path="per_year"/>
+		<obj-attribute name="prefix" type="java.lang.String" db-attribute-path="prefix"/>
+		<obj-attribute name="rolling" type="java.lang.Boolean" db-attribute-path="rolling"/>
+		<obj-attribute name="warnLevel" type="java.lang.Integer" db-attribute-path="warn_level"/>
+		<post-persist method-name="onPostPersist"/>
+		<post-update method-name="onPostUpdate"/>
+	</obj-entity>
+	<obj-entity name="PartnerViews" className="db.erp.PartnerViews" dbEntityName="partner_views">
+		<obj-attribute name="grouping" type="java.lang.String" db-attribute-path="grouping"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="type" type="java.lang.String" db-attribute-path="type"/>
+		<obj-attribute name="view" type="java.lang.String" db-attribute-path="view"/>
+	</obj-entity>
+	<obj-entity name="Partners" className="db.erp.Partners" lock-type="optimistic" dbEntityName="partners">
+		<obj-attribute name="billingAddrCity" type="java.lang.String" db-attribute-path="billing_addr_city"/>
+		<obj-attribute name="billingAddrCountry" type="java.lang.String" db-attribute-path="billing_addr_country"/>
+		<obj-attribute name="billingAddrPb" type="java.lang.String" db-attribute-path="billing_addr_pb"/>
+		<obj-attribute name="billingAddrPbPc" type="java.lang.String" db-attribute-path="billing_addr_pb_pc"/>
+		<obj-attribute name="billingAddrPc" type="java.lang.String" db-attribute-path="billing_addr_pc"/>
+		<obj-attribute name="billingAddrState" type="java.lang.String" db-attribute-path="billing_addr_state"/>
+		<obj-attribute name="billingAddrStreet" type="java.lang.String" db-attribute-path="billing_addr_street"/>
+		<obj-attribute name="birthdate" type="java.util.Date" db-attribute-path="birthdate"/>
+		<obj-attribute name="changedAt" type="java.util.Date" lock="true" db-attribute-path="changed_at"/>
+		<obj-attribute name="changedBy" type="java.lang.String" db-attribute-path="changed_by"/>
+		<obj-attribute name="corrLanguage" type="java.lang.String" db-attribute-path="corr_language"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="createdBy" type="java.lang.String" db-attribute-path="created_by"/>
+		<obj-attribute name="deleted" type="java.lang.Boolean" db-attribute-path="deleted"/>
+		<obj-attribute name="email" type="java.lang.String" db-attribute-path="email"/>
+		<obj-attribute name="grouping" type="java.lang.String" db-attribute-path="grouping"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="industry" type="java.lang.String" db-attribute-path="industry"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="nameFirst" type="java.lang.String" db-attribute-path="name_first"/>
+		<obj-attribute name="nameLast" type="java.lang.String" db-attribute-path="name_last"/>
+		<obj-attribute name="nameOrg1" type="java.lang.String" db-attribute-path="name_org1"/>
+		<obj-attribute name="nameOrg2" type="java.lang.String" db-attribute-path="name_org2"/>
+		<obj-attribute name="partnerNo" type="java.lang.String" db-attribute-path="partner_no"/>
+		<obj-attribute name="phoneFax" type="java.lang.String" db-attribute-path="phone_fax"/>
+		<obj-attribute name="phoneMobile" type="java.lang.String" db-attribute-path="phone_mobile"/>
+		<obj-attribute name="phoneOffice" type="java.lang.String" db-attribute-path="phone_office"/>
+		<obj-attribute name="salutation" type="java.lang.String" db-attribute-path="salutation"/>
+		<obj-attribute name="shippingAddrCity" type="java.lang.String" db-attribute-path="shipping_addr_city"/>
+		<obj-attribute name="shippingAddrCountry" type="java.lang.String" db-attribute-path="shipping_addr_country"/>
+		<obj-attribute name="shippingAddrPb" type="java.lang.String" db-attribute-path="shipping_addr_pb"/>
+		<obj-attribute name="shippingAddrPbPc" type="java.lang.String" db-attribute-path="shipping_addr_pb_pc"/>
+		<obj-attribute name="shippingAddrPc" type="java.lang.String" db-attribute-path="shipping_addr_pc"/>
+		<obj-attribute name="shippingAddrState" type="java.lang.String" db-attribute-path="shipping_addr_state"/>
+		<obj-attribute name="shippingAddrStreet" type="java.lang.String" db-attribute-path="shipping_addr_street"/>
+		<obj-attribute name="source" type="java.lang.String" db-attribute-path="source"/>
+		<obj-attribute name="type" type="java.lang.String" db-attribute-path="type"/>
+		<obj-attribute name="vatNo" type="java.lang.String" db-attribute-path="vat_no"/>
+		<obj-attribute name="website" type="java.lang.String" db-attribute-path="website"/>
+		<pre-update method-name="onPreUpdate"/>
+	</obj-entity>
+	<obj-entity name="SavedSearches" className="db.erp.SavedSearches" dbEntityName="saved_searches">
+		<obj-attribute name="data" type="byte[]" db-attribute-path="data"/>
+		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
+		<obj-attribute name="global" type="java.lang.Boolean" db-attribute-path="global"/>
+		<obj-attribute name="id" type="java.lang.String" db-attribute-path="id"/>
+		<obj-attribute name="name" type="java.lang.String" db-attribute-path="name"/>
+		<obj-attribute name="user" type="java.lang.String" db-attribute-path="user"/>
+	</obj-entity>
+	<obj-entity name="UserPresets" className="db.erp.UserPresets" dbEntityName="user_presets">
+		<obj-attribute name="entity" type="java.lang.String" db-attribute-path="entity"/>
+		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
+		<obj-attribute name="user" type="java.lang.String" db-attribute-path="user"/>
+		<obj-attribute name="value" type="java.lang.String" db-attribute-path="value"/>
+	</obj-entity>
+	<obj-entity name="Users" className="db.erp.Users" dbEntityName="users">
+		<obj-attribute name="active" type="java.lang.Boolean" db-attribute-path="active"/>
+		<obj-attribute name="changedAt" type="java.util.Date" lock="true" db-attribute-path="changed_at"/>
+		<obj-attribute name="changedBy" type="java.lang.String" db-attribute-path="changed_by"/>
+		<obj-attribute name="createdAt" type="java.util.Date" db-attribute-path="created_at"/>
+		<obj-attribute name="createdBy" type="java.lang.String" db-attribute-path="created_by"/>
+		<obj-attribute name="deleted" type="java.lang.Boolean" db-attribute-path="deleted"/>
+		<obj-attribute name="lastLogin" type="java.util.Date" db-attribute-path="last_login"/>
+		<obj-attribute name="lastLoginIp" type="java.lang.String" db-attribute-path="last_login_ip"/>
+		<obj-attribute name="locked" type="java.lang.Boolean" db-attribute-path="locked"/>
+		<obj-attribute name="logonLanguage" type="java.lang.String" db-attribute-path="logon_language"/>
+		<obj-attribute name="partner" type="java.lang.String" db-attribute-path="partner"/>
+		<obj-attribute name="password" type="java.lang.String" db-attribute-path="password"/>
+		<obj-attribute name="user" type="java.lang.String" db-attribute-path="user"/>
+	</obj-entity>
+	<db-relationship name="auditPositions" source="audit_header" target="audit_position" toMany="true">
+		<db-attribute-pair source="id" target="header"/>
+	</db-relationship>
+	<db-relationship name="auditHeader" source="audit_position" target="audit_header" toMany="false">
+		<db-attribute-pair source="header" target="id"/>
+	</db-relationship>
+	<db-relationship name="languagesTs" source="languages" target="languages_t" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="id"/>
+	</db-relationship>
+	<db-relationship name="languagesTs1" source="languages" target="languages_t" toDependentPK="true" toMany="true">
+		<db-attribute-pair source="id" target="language"/>
+	</db-relationship>
+	<db-relationship name="toLanguages" source="languages_t" target="languages" toMany="false">
+		<db-attribute-pair source="id" target="id"/>
+	</db-relationship>
+	<db-relationship name="toLanguages1" source="languages_t" target="languages" toMany="false">
+		<db-attribute-pair source="language" target="id"/>
+	</db-relationship>
+	<obj-relationship name="auditPositions" source="AuditHeader" target="AuditPosition" deleteRule="Deny" db-relationship-path="auditPositions"/>
+	<obj-relationship name="auditHeader" source="AuditPosition" target="AuditHeader" deleteRule="Nullify" db-relationship-path="auditHeader"/>
+</data-map>

@@ -1,0 +1,14 @@
+<system>
+	<useraccess name="managedbeans.utils.UserAccess" />
+	<ccappletccwebstart cclibs="all">
+	  <clientparam name="fontfactor" value="1.0"/>
+<!-- 	  <clientparam name="splashimagehttp" value="/images/egger_mes.jpg"/> -->
+<!-- 	  <clientparam name="splashimage" value="/images/egger_mes.jpg"/> -->
+	  <clientparam name="headerline" value="false"/>
+	  <clientparam name="maximized" value="true"/>
+	</ccappletccwebstart>
+	<streamstore 
+        name="org.eclnt.jsfserver.streamstore.StreamStoreFile" 
+        rootdir="/usr/share/tomcat7/eclntstreamstore/"
+    />
+</system>

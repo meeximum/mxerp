@@ -1,5 +1,5 @@
 <system>
-	<useraccess name="managedbeans.utils.UserAccess" />
+	<useraccess name="at.mxerp.managedbeans.utils.UserAccess" />
 	<ccappletccwebstart cclibs="all">
 	  <clientparam name="fontfactor" value="1.0"/>
 <!-- 	  <clientparam name="splashimagehttp" value="/images/egger_mes.jpg"/> -->

@@ -1,0 +1,205 @@
+<style  extends="default" >
+    <tag name="button" variant="default">
+        <set attribute="foreground" value="#FFFFFF"/>
+        <set attribute="contentareafilled" value="false"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#FFFFFF30,#FFFFFF10,vertical)"/>
+    </tag>
+    <tag name="buttonmenu" variant="default">
+        <set attribute="foreground" value="#FFFFFF"/>
+    </tag>
+    <tag name="buttonpopup" variant="default">
+        <set attribute="foreground" value="#FFFFFF"/>
+    </tag>
+    <tag name="checkbox" variant="default">
+        <set attribute="foreground" value="#FFFFFF"/>
+    </tag>
+    <tag name="colline" variant="default">
+        <set attribute="background" value="#C0C0C0"/>
+        <set attribute="height" value="10"/>
+        <set attribute="width" value="1"/>
+    </tag>
+    <tag name="combofield" variant="default">
+        <set attribute="background" value="#FFFFFFC0"/>
+    </tag>
+    <tag name="combofield" variant="INGRID">
+        <set attribute="background" value="#FFFFFFC0"/>
+    </tag>
+    <tag name="field" variant="default">
+        <set attribute="background" value="#FFFFFF"/>
+        <set attribute="touchsupport" value="true"/>
+    </tag>
+    <tag name="field" variant="INGRID">
+        <set attribute="background" value="#FFFFFF80"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,50%,#c0c0c008);rectangle(0,50%,100%,50%,#00000006)"/>
+        <set attribute="touchsupport" value="true"/>
+    </tag>
+    <tag name="foldablepane" variant="default">
+        <set attribute="border" value="#FFFFFF30"/>
+        <set attribute="headerbgpaint" value="rectangle(0,0,100%,100%,#FF808020,#80000020,vertical)"/>
+        <set attribute="foreground" value="#FFFFFF"/>
+        <set attribute="innerpadding" value="10"/>
+        <set attribute="innerborder" value="left:0;right:0;bottom:0;top:0;color:#C0C0C0"/>
+        <set attribute="padding" value="0"/>
+        <set attribute="font" value="size:11;weight:bold"/>
+        <set attribute="image" value="/eclntjsfserver/images/foldablepanedefaulticon.png"/>
+        <set attribute="titlepadding" value="7"/>
+    </tag>
+    <tag name="foldablepopupinclude" variant="default">
+        <set attribute="innerpadding" value="0"/>
+        <set attribute="popupwidth" value="600"/>
+        <set attribute="popupheight" value="400"/>
+    </tag>
+    <tag name="filechooser" variant="default">
+        <set attribute="background" value="#FFFFFF"/>
+    </tag>
+    <tag name="fileupload" variant="default">
+        <set attribute="background" value="#FFFFFF"/>
+    </tag>
+    <tag name="fixgrid" variant="default">
+        <!-- <set attribute="background" value="#202020"/> -->
+        <set attribute="border" value="#FFFFFF30"/>
+        <set attribute="bordercolor" value="#FFFFFF30"/>
+        <set attribute="borderheight" value="1"/>
+        <set attribute="borderwidth" value="1"/>
+        <set attribute="scrollbartype" value="light"/>
+    </tag>
+    <tag name="formattedfield" variant="default">
+        <set attribute="background" value="#FFFFFF"/>
+    </tag>
+    <tag name="gridcol" variant="default">
+        <set attribute="foreground" value="#FFFFFF"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#FF808020,#80000020,vertical)"/>
+        <set attribute="border" value="bottom:1;left:0;right:0;top:0;color:#C0C0C0"/>
+        <set attribute="padding" value="bottom:1;left:0;right:0;top:0"/>
+        <set attribute="font" value="weight:bold"/>
+    </tag>
+    <tag name="label" variant="default">
+        <set attribute="foreground" value="#F0F0F0"/>
+    </tag>
+    <tag name="label" variant="INGRID">
+        <set attribute="foreground" value="#F0F0F0"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,50%,#c0c0c010);rectangle(0,50%,100%,50%,#00000010)"/>
+    </tag>
+    <tag name="link" variant="default">
+        <set attribute="foreground" value="#F0F0E0"/>
+    </tag>
+    <tag name="menubar" variant="default">
+        <set attribute="foreground" value="#FFFFFF"/>
+        <set attribute="background" value="#C0C0FF10"/>
+    </tag>
+    <tag name="pane" variant="BUTTONPOPUP">
+        <set attribute="padding" value="10"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#706060,#302020,vertical)"/>
+    </tag>
+    <tag name="radiobutton" variant="default">
+        <set attribute="foreground" value="#FFFFFF"/>
+    </tag>
+    <tag name="rowbodypane" variant="default">
+        <set attribute="padding" value="20"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#404A40,#000A00,vertical);grid(75,#FFFFFF0a)"/>
+        <set attribute="border" value="bottom:0;top:0;left:0;right:0"/>
+    </tag>
+    <tag name="rowheader" variant="default">
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#FFFFFF20,#00000010,vertical)"/>
+        <set attribute="border" value="bottom:1;color:#FFFFFF10"/>
+        <set attribute="padding" value="3"/>
+    </tag>
+    <tag name="rowline" variant="default">
+        <set attribute="background" value="#FFFFFF10"/>
+        <set attribute="height" value="1"/>
+    </tag>
+    <tag name="rowtitlebar" variant="default">
+        <set attribute="border" value="top:0;left:0;right:0;bottom:1;color:#909090"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#606070,#202030,vertical)"/>
+        <set attribute="font" value="size:15;weight:bold"/>
+        <set attribute="foreground" value="#FFFFFF"/>
+        <set attribute="padding" value="3"/>
+    </tag>
+    <tag name="rowstatusbar" variant="default">
+        <set attribute="background" value="#F0F0F0"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#fefeff,#e1e6f5,vertical)"/>
+        <set attribute="padding" value="3"/>
+        <set attribute="image" value="#{eclntdefscr.statusbar.image}"/>
+        <set attribute="text" value="#{eclntdefscr.statusbar.text}"/>       
+        <set attribute="border" value="top:1;left:0;right:0;bottom:0;color:#909090"/>
+    </tag>
+    <tag name="scrollpane" variant="default">
+        <set attribute="scrollbartype" value="light"/>
+    </tag>
+    <tag name="shadowedpane" variant="default">
+        <set attribute="background" value="#00000020"/>
+        <set attribute="shadowdistance" value="5"/>
+        <set attribute="shadowbackground" value="#0000000b"/>
+    </tag>
+    <tag name="tabbedline" variant="default">
+        <set attribute="bgpaintdefault" value="rectangle(0,0,100%,30,#FFFFFF40,#00000040,vertical)"/>       
+        <set attribute="bgpaintrollover" value="rectangle(0,0,100%,30,#FFFFC080,#20200080,vertical)"/>       
+        <set attribute="bgpaintselected" value="rectangle(0,0,100%,30,#FFFFFF80,#00000080,vertical)"/>       
+        <set attribute="font" value="size:11"/>       
+        <set attribute="foregrounddefault" value="#C0C0C0"/>       
+        <set attribute="foregroundselected" value="#ffffff"/>       
+        <set attribute="tabheight" value="15"/>       
+        <set attribute="width" value="100%"/>       
+    </tag>
+    <tag name="tabbedpanetab" variant="default">
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#FFFFFF,#F0F0F8,vertical)"/>       
+        <set attribute="padding" value="10"/>       
+    </tag>
+    <tag name="textpane" variant="default">
+        <set attribute="background" value="#00000000"/>       
+        <set attribute="foreground" value="#f0f0f0"/>       
+    </tag>
+    <tag name="textpane" variant="TRANSPARENT">
+        <set attribute="background" value="#00000000"/>       
+        <set attribute="foreground" value="#f0f0f0"/>       
+    </tag>
+    <tag name="textarea" variant="default">
+        <set attribute="background" value="#00000000"/>       
+        <set attribute="foreground" value="#f0f0f0"/>       
+    </tag>
+    <tag name="treenode" variant="default">
+        <set attribute="foreground" value="#F0F0F0"/>       
+        <set attribute="bgpaint" value="rectangle(0,0,100%,50%,#c0c0c008);rectangle(0,50%,100%,50%,#00000006)"/>
+    </tag>
+    
+    <!--  WORKPAGE VARIANTS -->
+    <tag name="tabbedline" variant="WP_WORKPAGESELECTOR">
+        <set attribute="bgpaintdefault" value="rectangle(0,0,100%,30,#FFFFFF40,#00000040,vertical)"/>       
+        <set attribute="bgpaintrollover" value="rectangle(0,0,100%,30,#FFFFC080,#20200080,vertical)"/>       
+        <set attribute="bgpaintselected" value="rectangle(0,0,100%,30,#FFFFFF80,#00000080,vertical)"/>       
+        <set attribute="font" value="size:11"/>       
+        <set attribute="foregrounddefault" value="#C0C0C0"/>       
+        <set attribute="foregroundselected" value="#ffffff"/>       
+        <set attribute="tabheight" value="15"/>       
+        <set attribute="width" value="100%"/>       
+    </tag>
+    
+    <!--  IDVALUESELECTION VARIANTS -->
+    <tag name="pane" variant="IDVALUESELECTION">
+        <set attribute="bgpaint" value="rectangle(0,0,100%,100%,#504848,#100808,vertical)"/>
+        <set attribute="border" value="top:0;bottom:0;left:0;right:0"/>
+    </tag>
+    <tag name="fixgrid" variant="IDVALUESELECTION">
+        <!-- <set attribute="background" value="#E0E0E0"/> -->
+        <set attribute="borderheight" value="0"/>
+        <set attribute="borderwidth" value="1"/>
+    </tag>
+    <tag name="label" variant="IDVALUESELECTION">
+        <set attribute="foreground" value="#F0F0F0"/>
+        <set attribute="bgpaint" value="rectangle(0,0,100%,50%,#c0c0c008);rectangle(0,50%,100%,50%,#00000006)"/>
+    </tag>
+    <tag name="rowheader" variant="IDVALUESELECTION">
+        <set attribute="background" value="#FFFFFF10"/>
+        <set attribute="border" value="top:0"/>
+        <set attribute="padding" value="3"/>
+    </tag> 
+    <tag name="rowbodypane" variant="IDVALUESELECTION">
+        <set attribute="background" value="#00000000"/>
+    </tag>
+    <tag  name="textpane" variant="IDVALUESELECTION">
+        <set attribute="background" value="#FFFFFF10"/>
+        <set attribute="foreground" value="#E0E0E0"/>
+    </tag>
+    
+    
+</style>

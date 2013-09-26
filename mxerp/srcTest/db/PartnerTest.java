@@ -11,7 +11,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import db.erp.Partners;
+import at.mxerp.db.erp.Partners;
 
 public class PartnerTest {
 

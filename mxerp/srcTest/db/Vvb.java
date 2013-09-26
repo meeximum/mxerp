@@ -9,7 +9,7 @@ import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 
-import services.vvb.VvbService;
+import at.mxerp.services.vvb.VvbService;
 
 public class Vvb {
 	private ObjectContext context;
@@ -17,7 +17,7 @@ public class Vvb {
 	@Before
 	public void setUp() throws Exception {
 		ServerRuntime runtime = new ServerRuntime("cayenne-mxerp.xml");
-		context = runtime.newContext();
+		context = runtime.newContext();		
 	}
 	
 	@Test

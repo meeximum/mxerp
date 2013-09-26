@@ -1,7 +1,7 @@
 <resources>
-  <resource name="literals" package="resources"/>
-  <resource name="messages" package="resources"/>
-  <resource name="_partners" package="resources"/>
-  <resource name="_partnerviews" package="resources"/>
-  <resource name="domains" package="resources"/>
+  <resource name="literals" package="at.mxerp.resources"/>
+  <resource name="messages" package="at.mxerp.resources"/>
+  <resource name="_partners" package="at.mxerp.resources"/>
+  <resource name="_partnerviews" package="at.mxerp.resources"/>
+  <resource name="domains" package="at.mxerp.resources"/>
 </resources>

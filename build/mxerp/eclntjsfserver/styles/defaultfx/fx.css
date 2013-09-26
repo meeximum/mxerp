@@ -1,0 +1,1404 @@
+.root
+{
+    -cc-background-default: #f4f4f4;
+    -cc-dark-selected-from: #607890;
+    -cc-dark-selected-to: derive(#607890,-30%); 
+    -cc-dark-selected: linear-gradient(to bottom, -cc-dark-selected-from, -cc-dark-selected-to);
+    -cc-dark-selectedbutton-from: derive(#A9C1D9,70%);
+    -cc-dark-selectedbutton-to: #A9C1D9;
+    -cc-dark-selectedbutton: linear-gradient(to bottom, -cc-dark-selectedbutton-from, -cc-dark-selectedbutton-to);
+    -cc-dark-default-from: #fcfcfc;
+    -cc-dark-default-to: #dddddd; 
+    -cc-dark-default: linear-gradient(to bottom, -cc-dark-default-from, -cc-dark-default-to);
+    -cc-dark2-from: derive(#A9C1D9,70%);
+    -cc-dark2-to: #A9C1D9;
+    -cc-dark2: linear-gradient(to bottom, -cc-dark2-from, -cc-dark2-to);
+    -cc-button: -cc-dark-default;
+    -cc-header-to: derive(-cc-background-default,-10%);
+    -cc-header: -cc-background-default;
+    
+    -fx-base: -cc-background-default;
+}
+
+.specialText
+{
+    -fx-font-size: 8pt
+}
+
+.cc_dragdropline
+{
+    -fx-fill: #FF8080;
+    -fx-stroke-width: 1px;
+}
+	
+.button
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 10 5 10;
+}   
+.cc_button_sp 
+{
+    -fx-background-color: -cc-button;
+}
+.cc_button
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 10 4 10;
+}   
+
+
+.cc_analogclock_circle
+{
+    -fx-fill: linear-gradient(to bottom, #f0f0f0, #c0c0c0);
+}
+.cc_analogclock_hour
+{
+	-fx-stroke-width: 5;
+    -fx-smooth: true;
+}
+.cc_analogclock_minute
+{
+    -fx-stroke-width: 5;
+    -fx-smooth: true;
+}
+.cc_analogclock_second
+{
+    -fx-stroke-width: 1;
+}
+.cc_analogclock_fiver
+{
+	-fx-stroke: #808080;
+    -fx-stroke-width: 1;
+}
+
+.cc_buttonoutlookbar_sp
+{
+    -fx-background-color: -cc-dark-default;
+}
+.cc_buttonoutlookbar
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 5 10 5 10;
+    -fx-font-weight: normal;
+}   
+.cc_buttonoutlookbarselected_sp
+{
+    -fx-background-color: -cc-dark-selected;
+}
+.cc_buttonoutlookbarselected
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 5 10 5 10;
+    -fx-font-weight: bold;
+}   
+
+/* ----------------------------------------------------------------------------
+    BUTTONTABBEDLINE
+   ---------------------------------------------------------------------------- */
+
+.cc_buttontabbedline_sp
+{
+    -fx-background-color: -cc-dark-default;
+    -fx-background-insets: 1 1 -10 1;
+}
+.cc_buttontabbedline
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000020;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: 1 1 -10 1;
+    -fx-font-weight: normal;
+}
+.cc_buttontabbedline_first_sp
+{
+    -fx-background-color: -cc-dark-default;
+    -fx-background-insets: 1 1 -10 1;
+}
+.cc_buttontabbedline_first
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000020;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: 1 1 -10 1;
+    -fx-font-weight: normal;
+}
+.cc_buttontabbedline_last_sp
+{
+    -fx-background-color: -cc-dark-default;
+    -fx-background-insets: 1 1 -10 1;
+}
+.cc_buttontabbedline_last
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000020;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: 1 1 -10 1;
+    -fx-font-weight: normal;
+}
+.cc_buttontabbedline_only_sp
+{
+    -fx-background-color: -cc-dark-default;
+    -fx-background-insets: 1 1 -10 1;
+}
+.cc_buttontabbedline_only
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000020;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: 1 1 -10 1;
+    -fx-font-weight: normal;
+}
+
+.cc_buttontabbedlineselected_sp
+{
+    -fx-background-color: -cc-dark-selectedbutton;
+    -fx-background-insets: 0 0 -10 0;
+}
+.cc_buttontabbedlineselected
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: 0 0 -10 0;
+    -fx-font-weight: bold;
+}
+.cc_buttontabbedlineselected_first_sp
+{
+    -fx-background-color: -cc-dark-selectedbutton;
+    -fx-background-insets: 0 0 -10 0;
+}
+.cc_buttontabbedlineselected_first
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: 0 0 -10 0;
+    -fx-font-weight: bold;
+}
+.cc_buttontabbedlineselected_last_sp
+{
+    -fx-background-color: -cc-dark-selectedbutton;
+    -fx-background-insets: 0 0 -10 0;
+}
+.cc_buttontabbedlineselected_last
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: 0 0 -10 0;
+    -fx-font-weight: bold;
+}
+.cc_buttontabbedlineselected_only_sp
+{
+    -fx-background-color: -cc-dark-selectedbutton;
+    -fx-background-insets: 0 0 -10 0;
+}
+.cc_buttontabbedlineselected_only
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: 0 0 -10 0;
+    -fx-font-weight: bold;
+}
+
+.cc_buttontabbedlinemenuicon_sp
+{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+.cc_buttontabbedlinemenuicon
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+.cc_buttontabbedlinelefticon_sp
+{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+.cc_buttontabbedlinelefticon
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+.cc_buttontabbedlinerighticon_sp
+{
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+.cc_buttontabbedlinerighticon
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-width: 0;
+}
+
+/* ----------------------------------------------------------------------------
+    BUTTONTABBEDLINE - CCTL01
+   ---------------------------------------------------------------------------- */
+
+.cc_buttontabbedline_cctl01_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedline_cctl01
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: normal;
+}
+
+.cc_buttontabbedlineselected_cctl01_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedlineselected_cctl01
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: bold;
+}
+
+/* ----------------------------------------------------------------------------
+    BUTTONTABBEDLINE - CCTL02
+   ---------------------------------------------------------------------------- */
+
+.cc_buttontabbedline_cctl02_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedline_cctl02
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: normal;
+}
+
+.cc_buttontabbedlineselected_cctl02_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedlineselected_cctl02
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: bold;
+}
+
+/* ----------------------------------------------------------------------------
+    BUTTONTABBEDLINE - CCTL03
+   ---------------------------------------------------------------------------- */
+
+.cc_buttontabbedline_cctl03_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedline_cctl03
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: normal;
+}
+
+.cc_buttontabbedlineselected_cctl03_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedlineselected_cctl03
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: bold;
+}
+
+/* ----------------------------------------------------------------------------
+    BUTTONTABBEDLINE - CCTL04
+   ---------------------------------------------------------------------------- */
+
+.cc_buttontabbedline_cctl04_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedline_cctl04
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: normal;
+}
+
+.cc_buttontabbedlineselected_cctl04_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedlineselected_cctl04
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: bold;
+}
+
+/* ----------------------------------------------------------------------------
+    BUTTONTABBEDLINE - CCTLBREADCRUMB01
+   ---------------------------------------------------------------------------- */
+
+.cc_buttontabbedline_cctlbreadcrumb01_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedline_cctlbreadcrumb01
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: normal;
+}
+
+.cc_buttontabbedlineselected_cctlbreadcrumb01_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_buttontabbedlineselected_cctlbreadcrumb01
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 10 5 10;
+    -fx-border-color: transparent;
+    -fx-border-width: 0;
+    -fx-font-weight: bold;
+}
+
+/* ----------------------------------------------------------------------------
+   ---------------------------------------------------------------------------- */
+
+.cc_buttonbuttonandmenu_sp 
+{
+    -fx-background-color: -cc-button;
+}
+.cc_buttonbuttonandmenu
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 25 5 10;
+    -fx-background-image: url("fximages/buttonmenuicon.png");
+    -fx-background-position: right;
+    -fx-background-repeat: no-repeat;
+}
+
+.cc_combobox_sp 
+{
+    -fx-background-color: #ffffff;
+}
+.cc_combobox
+{
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 0;
+}
+.cc_combobox:editable .text-field {
+    -fx-background-color: transparent;
+    -fx-padding: 3 5 2 5;
+    -fx-vpos: CENTER;
+    -fx-content-display: LEFT;
+}
+    
+.combo-box-base .arrow-button {
+    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0 1 1 0, 0 1 1 0, 0 2 2 0;
+    -fx-padding: 0.5em 0.416667em 0.5em 0.416667em; /* 6 5 6 5  */
+}
+
+.cc_autocomplete_sp 
+{
+    -fx-background-color: #ffffff;
+}
+.cc_autocomplete
+{
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 0;
+}
+.cc_autocomplete:focus
+{
+    -fx-background-color: transparent;
+    -fx-padding: 0;
+}
+.cc_autocomplete:editable .text-field {
+    -fx-background-color: transparent;
+	-fx-padding: 3 5 2 5;
+    -fx-vpos: CENTER;
+    -fx-content-display: LEFT;
+}
+.cc_autocomplete .arrow-button {
+    -fx-background-color: transparent;
+}
+.cc_autocomplete .arrow {
+    -fx-background-color: transparent;
+}
+
+.cc_colorpicker_sp 
+{
+    -fx-background-color: #FFFFFF;
+}
+.cc_colorpicker
+{
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 2 2 3 2;
+}
+
+.cc_combofield_sp 
+{
+    -fx-background-color: #ffffff;
+}
+.cc_combofield
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.TextFieldSkin";
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 15 3 3;
+}
+.cc_combofieldicon
+{
+    -fx-border-width: 0;
+    -fx-background-color: -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 1, 2, 3;
+    -fx-background-radius: 0 3 3 0, 0 2 2 0, 0 1 1 0;
+    -fx-background-image: url("fximages/combofieldicon.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+.cc_longtextfield_sp 
+{
+    -fx-background-color: #ffffff;
+}
+.cc_longtextfield
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.TextFieldSkin";
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 18 3 3;
+}
+.cc_longtextfieldicon
+{
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+    -fx-background-image: url("fximages/opentextpopup.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+.cc_spinner_sp 
+{
+    -fx-background-color: #ffffff;
+}
+.cc_spinner
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.TextFieldSkin";
+    -fx-background-color: #transparent;
+    -fx-background-insets: 0;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 10 3 3;
+}
+.cc_spinnericonup
+{
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+    -fx-background-image: url("fximages/spinnericonup.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+.cc_spinnericondown
+{
+    -fx-border-width: 0;
+    -fx-background-color: transparent;
+    -fx-background-image: url("fximages/spinnericondown.png");
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+.cc_checkbox_sp
+{
+}
+.cc_checkbox
+{
+    -fx-padding: 3;
+}
+
+.cc_radiobutton_sp
+{
+}
+.cc_radiobutton
+{
+    -fx-padding: 3;
+}
+
+.cc_menubar_sp 
+{
+}
+.cc_menubar
+{
+    -fx-background-color: -cc-header;
+}
+.cc_menubar .menu-button .label 
+{
+    -fx-text-fill: #000000;
+}
+.cc_menubar .menu-button:hover, .cc_menubar .menu-button:focused, .cc_menubar .menu-button:showing 
+{
+    -fx-background-color: -cc-dark2;
+}
+
+.cc_tabpane_body_sp
+{
+    -fx-background-color: -cc-background-default;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1;
+}   
+
+.cc_field_sp 
+{
+    -fx-background-color: #ffffff;
+}
+.cc_field
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.TextFieldSkin";
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 3 3 3;
+}
+
+.cc_passwordfield_sp 
+{
+    -fx-background-color: #ffffff;
+}
+.cc_passwordfield
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.PasswordFieldSkin";
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 3 3 3;
+}
+
+.cc_gridheaderlabel_sp 
+{
+    -fx-font-weight: bold;
+}
+.cc_gridheaderlabel
+{
+    -fx-padding: 2 2 2 2
+}   
+
+.cc_gridheaderlabelcontainer_sp 
+{
+    -fx-background-color: -cc-dark2;
+}
+.cc_gridheaderlabelcontainer
+{
+}   
+
+
+.cc_label_sp 
+{
+    -fx-cursor: default;
+}
+.cc_label
+{
+    -fx-cursor: default;
+	-fx-border-color: transparent;
+}   
+
+.cc_pane_sp 
+{
+    -fx-cursor: default;
+}
+.cc_pane
+{
+    -fx-cursor: default;
+}   
+
+.cc_outest
+{
+    -fx-background-color: #FFFFFF;
+}
+
+.cc_pagecontainer_sp 
+{
+}
+.cc_pagecontainer
+{
+}
+
+.cc_scrollpane_sp 
+{
+    -fx-background-color: -cc-background-default;
+}
+.cc_scrollpane
+{
+    -fx-background-color: transparent;
+    -fx-border-width: 0;
+    -fx-padding: 0;
+}   
+
+.cc_sizeablepanestretcher_sp
+{
+}
+
+.cc_sizeablepanestretcher
+{
+}
+
+.cc_textarea_sp 
+{
+    -fx-background-color: #ffffff;
+}
+.cc_textarea
+{
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 3 3 3;
+    -fx-text-fill: #000000;
+}   
+.cc_textarea:disabled
+{   
+    -fx-text-fill: #000000;
+    -fx-opacity: 1;
+}   
+
+.cc_toggle_sp 
+{
+}
+.cc_toggle
+{
+  -fx-border-color: transparent;
+  -fx-cursor: hand;
+}   
+
+/********** DATESELECTION **********/
+.cc_panedateselection_sp 
+{
+    -fx-background-color: -fx-base;
+    -fx-border-color: #C0C0C0;
+}
+.cc_panedateselection
+{
+}   
+
+.cc_labeldateselection_sp 
+{
+}
+.cc_labeldateselection
+{
+  -fx-border-color: transparent;
+  -fx-cursor: hand;
+}   
+
+
+/********** TOUCHFIELD **********/
+.cc_touchfieldgeneric_sp 
+{
+    -fx-background-color: -fx-base;
+    -fx-padding: 5;
+    -fx-border-color: #C0C0C0;
+}
+.cc_touchfieldgeneric
+{
+}   
+.cc_buttontouch_sp 
+{
+    -fx-background-color: -fx-base;
+}
+.cc_buttontouch
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #00000010;
+    -fx-border-width: 1;
+    -fx-padding: 3 10 5 10;
+    -fx-font-weight: bold;
+}   
+.cc_buttontouchfunction_sp 
+{
+    -fx-background-color: -cc-button;
+}
+.cc_buttontouchfunction
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #00000010;
+    -fx-border-width: 1;
+    -fx-padding: 3 10 5 10;
+    -fx-font-weight: bold;
+}   
+
+/********** FLEXGRID **********/
+.cc_flexgridpane_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_flexgridpane
+{
+    -fx-background-color: transparent;
+    -fx-padding: 1;
+}
+.cc_flexgridscrollcontainer_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_flexgridscrollcontainer
+{
+    -fx-background-color: transparent;
+    -fx-border-width: 1;
+    -fx-border-color: #00000050;
+}
+.cc_flexgridrow_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_flexgridrow
+{
+    -fx-background-color: transparent;
+}
+.cc_flexgridscrollpane_sp
+{
+    -fx-background-color: transparent;
+}
+.cc_flexgridscrollpane
+{
+    -fx-background-color: transparent;
+}
+
+/********** HEADER **********/
+.cc_pane_header_sp 
+{
+    -fx-background-color: -cc-background-default;
+    -fx-padding: 3;
+    -fx-border-width: 0 0 1 0;
+    -fx-border-color: #a0a0a0;
+}
+.cc_pane_header
+{
+}   
+
+/********** FOLDABLEPANE **********/
+.cc_pane_foldable_outerpane_sp
+{
+    -fx-border-width: 1 1 1 1;
+    -fx-border-color: #00000030;
+}
+.cc_pane_foldable_headerpane_sp
+{
+    -fx-background-color: -cc-dark2;
+    -fx-padding: 2;
+    -fx-background-radius: 3 3 0 0;
+}
+.cc_button_foldable_title_sp
+{
+}
+.cc_button_foldable_title
+{
+    -fx-font-weight: bold;
+}
+.cc_pane_foldable_innerpane_sp
+{
+    -fx-padding: 10;
+}
+
+/********** FOLDABLEPANE Tiled Area**********/
+.cc_pane_foldable_cctiledarea_foldablepane_outerpane_sp
+{
+    -fx-border-width: 1 1 1 1;
+    -fx-border-color: #00000030;
+}
+.cc_pane_foldable_cctiledarea_foldablepane_headerpane_sp
+{
+    -fx-background-color: -cc-dark2;
+    -fx-padding: 2;
+    -fx-background-radius: 3 3 0 0;
+}
+.cc_button_foldable_cctiledarea_foldablepane_title_sp
+{
+}
+.cc_button_foldable_cctiledarea_foldablepane_title
+{
+    -fx-font-weight: bold;
+}
+.cc_pane_foldable_cctiledarea_foldablepane_innerpane_sp
+{
+    -fx-padding: 10;
+}
+
+/********** FOLDABLEVERTICALPANE **********/
+.cc_pane_foldablevertical_outerpane_sp
+{
+    -fx-border-width: 1 1 1 1;
+    -fx-border-color: #00000030;
+}
+.cc_pane_foldablevertical_headerpane_sp
+{
+    -fx-background-color: -cc-dark2;
+    -fx-padding: 2;
+    -fx-background-radius: 3 3 0 0;
+}
+.cc_link_foldablevertical_title_sp
+{
+}
+.cc_link_foldablevertical_title
+{
+    -fx-font-weight: bold;
+}
+.cc_pane_foldablevertical_innerpane_sp
+{
+    -fx-padding: 10;
+}
+
+.cc_paintareaitem_infolabel
+{
+    -fx-background-color: #FFFFFF;
+    -fx-font-size: 9pt;
+}
+
+/********** TITLEBAR **********/
+.cc_pane_titlebar_sp 
+{
+    /* -fx-background-color:-cc-dark-selected; */
+    -fx-background-color: -cc-dark-default;
+    /* -fx-background-color: linear-gradient(to bottom, #285e7b, #234457); */
+    -fx-padding: 0 10 0 0;
+    -fx-border-color: #00000040;
+    -fx-border-width: 1 1 1 1;
+}
+.cc_pane_titlebar
+{
+}   
+.cc_label_titlebar_sp 
+{
+}
+.cc_label_titlebar
+{
+    -fx-font-size: 14;
+    -fx-font-weight: bold;
+    -fx-padding: 3;
+    -fx-text-fill: #000000;
+}   
+
+/********** WP_WORKPAGESELECTOR *********/
+.cc_buttontabbedline_wp_workpageselector_sp
+{
+    -fx-background-color: -cc-dark-default;
+    -fx-background-insets: -10 0 0 0;
+}
+.cc_buttontabbedline_wp_workpageselector
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 4 5 4;
+    -fx-border-color: #00000040;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: -10 0 0 0;
+    -fx-font-weight: normal;
+}
+.cc_buttontabbedlineselected_wp_workpageselector_sp
+{
+    /* -fx-background-color: -cc-dark-selected; */
+    -fx-background-color: -cc-dark-default;
+    -fx-background-insets: -10 0 0 0;
+}
+.cc_buttontabbedlineselected_wp_workpageselector
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-padding: 5 4 5 4;
+    -fx-border-color: #00000020;
+    -fx-border-width: 1 1 1 1;
+    -fx-border-insets: -10 0 0 0;
+    -fx-font-weight: bold;
+}
+
+/********** WP_OUTLOOKBARITEM *********/
+.cc_buttonoutlookbar_wp_outlookbaritem_sp
+{
+    -fx-background-color: -cc-dark-default;
+}
+.cc_buttonoutlookbar_wp_outlookbaritem
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 3 10 3 10;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-alignment: baseline-left;
+    -fx-text-fill: #808080;
+}   
+.cc_buttonoutlookbarselected_wp_outlookbaritem_sp
+{
+    -fx-background-color: -cc-dark-selected;
+}
+.cc_buttonoutlookbarselected_wp_outlookbaritem
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #00000030;
+    -fx-border-width: 1 0 0 0;
+    -fx-padding: 3 10 3 10;
+    -fx-font-weight: bold;
+    -fx-font-size: 14;
+    -fx-alignment: baseline-left;
+    -fx-text-fill: #FFFFFF;
+}   
+
+.cc_buttonbuttonandmenu_wp_perspectivemanager_sp 
+{
+    -fx-background-color: -cc-button;
+}
+.cc_buttonbuttonandmenu_wp_perspectivemanager
+{
+    -fx-skin: "com.sun.javafx.scene.control.skin.ButtonSkin";
+    -fx-cursor: hand;
+    -fx-background-color: transparent;
+    -fx-border-color: #a0a0a0;
+    -fx-border-width: 1;
+    -fx-padding: 3 25 5 10;
+    -fx-background-image: url("fximages/buttonmenuicon.png");
+    -fx-background-position: right;
+    -fx-background-repeat: no-repeat;
+}
+
+/********** Slider **********/
+.cc_slider_sp
+{   
+}
+.cc_slider
+{   
+	-fx-padding: 3;
+}
+
+/********** WP_TILESPLITPANESPLIT **********/
+.cc_splitpanesplit_wp_tilesplitpanesplit_sp 
+{
+}
+.cc_splitpanesplitt_wp_tilesplitpanesplit
+{
+    -fx-border-width: 1;
+    -fx-border-color: #a0a0a0;
+}   
+
+/********** Button **********/
+.cc-button 
+{
+    -fx-cursor: hand;
+}
+.cc-button:focused 
+{
+    -fx-cursor: hand;
+    -fx-background-color: -fx-focus-color, -fx-outer-border, -fx-inner-border, -fx-body-color;
+    -fx-background-insets: 0, 1, 2, 3;
+    -fx-background-radius:  5, 4, 3, 2;
+}
+.cc-button:hover 
+{
+    -fx-cursor: hand;
+}
+.cc-button:armed 
+{
+    -fx-cursor: hand;
+}
+
+
+
+/********** ScrollPane  **********/
+.cc-scroll-pane 
+{
+    -fx-background-color: -fx-box-border,#FF0000;
+}
+.cc-scroll-pane:focused 
+{
+    -fx-background-color: -fx-focus-color, -fx-box-border, transparent;
+}
+.cc-scroll-pane:disabled 
+{
+    -fx-opacity: -fx-disabled-opacity;
+}
+
+/********** TabArea **********/
+.tab-content-area 
+{
+    -fx-background-color: transparent;
+    -fx-padding: 0.0em; /* 0 */
+    -fx-border-width: 1;
+    -fx-border-color: #00000030;
+    -fx-border-radius: 3;
+}
+.tab:top 
+{
+}
+.tab
+{
+    -fx-background-insets: 0;
+    -fx-background-color: #00000020;
+    -fx-background-radius: 3 3 0 0;
+    -fx-border-color: #00000020;
+    -fx-border-width: 1 1 0 1;
+    -fx-border-radius: 3 3 0 0;
+    -fx-cursor: hand;
+    -fx-padding: 0em 0.5em 0em 0.5em; /* 1 6 1 6 */
+}
+.tab:selected 
+{
+    -fx-background-insets: 0;
+    -fx-background-color: transparent;
+    -fx-background-radius: 3 3 0 0;
+    -fx-border-color: #00000050;
+    -fx-border-width: 1 1 0 1;
+    -fx-border-radius: 3 3 0 0;
+}
+.tab-pane *.tab-header-background 
+{
+    -fx-background-color: transparent;
+    -fx-border-color: #00000030;
+    -fx-border-width: 0 0 0 0;
+    -fx-effect: null;
+}
+.tab-pane:top *.tab-header-area 
+{
+    -fx-padding: 0em 0.166667em 0em 0.833em; /* 5 2 0 10 */
+}
+.tab-pane .headers-region 
+{
+    -fx-effect: null;
+}
+
+/********** TextArea **********/
+.cc-text-area 
+{
+    -fx-border-color: #00000080;
+    -fx-border-width: 1;
+    -fx-border-radius: 3;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 3 3 3 3;
+    -fx-opacity: 1;
+}
+.cc-text-area:focused 
+{
+    -fx-border-color: -fx-focus-color;
+    -fx-background-color: #FFFF0010;
+    -fx-background-insets: 0;
+    -fx-background-radius: 3;
+    -fx-opacity: 1;
+}
+.cc-text-area:disabled 
+{
+    -fx-background-color: #00000018;
+    -fx-border-color: #00000040;
+    -fx-background-insets: 0;
+    -fx-background-radius: 3;
+    -fx-opacity: 1;
+}
+
+/********** TextField **********/
+.cc-text-field 
+{
+    -fx-border-color: #00000080;
+    -fx-border-width: 1;
+    -fx-border-radius: 3;
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 3 3 3 3;
+    -fx-opacity: 1;
+}
+.cc-text-field:focused 
+{
+    -fx-border-color: -fx-focus-color;
+    -fx-background-color: #FFFF0010;
+    -fx-background-insets: 0;
+    -fx-background-radius: 3;
+    -fx-opacity: 1;
+}
+.cc-text-field:disabled 
+{
+    -fx-background-color: #00000018;
+    -fx-border-color: #00000040;
+    -fx-background-insets: 0;
+    -fx-background-radius: 3;
+    -fx-opacity: 1;
+}
+
+/*
+ * GlassPane
+ */
+.cc_glassedpane_textlabel
+{
+    -fx-background-color: #c0c0c0;
+	-fx-padding: 2 2 2 2;
+    -fx-font-size: 12pt;
+    -fx-border-color: #808080;
+    -fx-border-width: 1;
+}   
+ 
+
+
+/*******************************************************************************
+ *                                                                             *
+ * ScrollBar                                                                   *
+ *                                                                             *
+ ******************************************************************************/
+
+.scroll-bar {
+    -fx-skin: "com.sun.javafx.scene.control.skin.ScrollBarSkin";
+}
+
+.scroll-bar:horizontal {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,30%) 5%, derive(-fx-color,-17%) 100%);
+    -fx-background-insets: 0, 1;
+}
+
+.scroll-bar:horizontal:focused {
+    -fx-background-color:
+        -fx-focus-color,
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,30%) 5%, derive(-fx-color,-17%) 100%);
+    -fx-background-insets: 0,0.5,1;
+}
+
+.scroll-bar:vertical {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to top, derive(-fx-color,30%) 5%, derive(-fx-color,-17%) 100%);
+    -fx-background-insets: 0, 1;
+}
+
+.scroll-bar:vertical:focused {
+    -fx-background-color:
+        -fx-focus-color,
+        -fx-box-border,
+        linear-gradient(to top, derive(-fx-color,30%) 5%, derive(-fx-color,-17%) 100%);
+    -fx-background-insets: 0,0.5,1;
+}
+
+.scroll-bar:horizontal .thumb {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,95%), derive(-fx-color,10%)),
+        linear-gradient(to bottom, derive(-fx-color,38%), derive(-fx-color,-16%));
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0.5em; /* makes sure this remains circular */
+}
+
+.scroll-bar:vertical .thumb {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to right, derive(-fx-color,95%), derive(-fx-color,10%)),
+        linear-gradient(to right, derive(-fx-color,38%), derive(-fx-color,-16%));
+    -fx-background-insets: 0, 1, 2;
+    -fx-background-radius: 0.5em; /* makes sure this remains circular */
+}
+
+.scroll-bar:focused .thumb {
+    -fx-color: -fx-focused-base;
+}
+
+.scroll-bar .thumb:hover {
+    -fx-color: -fx-hover-base;
+}
+
+/* Uncomment when RT-10521 is fixed.
+.scroll-bar .thumb:pressed {
+    -fx-color: -fx-pressed-base;
+}
+*/
+
+.scroll-bar:horizontal .track {
+     -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,-15%), derive(-fx-color,2.2%) 20%, derive(-fx-color,60%));
+    -fx-background-insets:  0, 1;
+    -fx-background-radius: 0.5em; /* makes sure this remains circular */
+}
+.scroll-bar:horizontal .track-background {
+     -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,-15%), derive(-fx-color,2.2%) 20%, derive(-fx-color,60%));
+    -fx-background-insets:  0, 1;
+}
+
+.scroll-bar:vertical .track {
+     -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to right, derive(-fx-color,-15%), derive(-fx-color,2.2%) 20%, derive(-fx-color,60%));
+    -fx-background-insets:  0, 1;
+    -fx-background-radius: 0.5em; /* makes sure this remains circular */
+}
+
+.scroll-bar:vertical .track-background {
+     -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to right, derive(-fx-color,-15%), derive(-fx-color,2.2%) 20%, derive(-fx-color,60%));
+    -fx-background-insets:  0, 1;
+}
+
+.scroll-bar .increment-button {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,30%) 5%, derive(-fx-color,-17%));
+    -fx-background-insets:  0, 1;
+    -fx-padding: 0.25em; /* 3 */
+}
+
+.scroll-bar .decrement-button {
+    -fx-background-color:
+        -fx-box-border,
+        linear-gradient(to bottom, derive(-fx-color,30%) 5%, derive(-fx-color,-17%));
+    -fx-background-insets:  0, 1;
+    -fx-padding: 0.25em; /* 3 */
+}
+
+.scroll-bar:horizontal .increment-arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.5em 0.333333em 0.0em 0.0em; /* 6 4 0 0 */
+    -fx-shape: "M 4 0 L 0 -3 L 0 3 z";
+}
+
+.scroll-bar:vertical .increment-arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.333333em 0.5em 0.0em 0.0em; /* 4 6 0 0 */
+    -fx-shape: "M -3 0 L 0 4 L 3 0 z";
+}
+
+.scroll-bar:horizontal .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.5em 0.333333em 0.0em 0.0em; /* 6 4 0 0 */
+    -fx-shape: "M 0 0 L 4 -3 L 4 3 z";
+}
+
+.scroll-bar:vertical .decrement-arrow {
+    -fx-background-color: -fx-mark-highlight-color, -fx-mark-color;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-padding: 0.333333em 0.5em 0.0em 0.0em; /* 4 6 0 0 */
+    -fx-shape: "M -3 0 L 0 -4 L 3 0 z";
+}
+
+.scroll-bar:disabled {
+    -fx-opacity: -fx-disabled-opacity;
+}
+

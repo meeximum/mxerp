@@ -1,0 +1,13 @@
+<html>
+<head>
+<script type="text/javascript" src="ccht.js"></script>
+</head>
+<body>
+<input id="testdate" type="text" value="20130501" onblur="ccReformatToFormat(this,'date');">
+<script>
+var ccDF = document.getElementById("testdate");
+ccFormatValueToFormat(ccDF,"date");
+ccDF.ccBeforeValue = ccDF.value;
+</script>
+</body>
+</html>

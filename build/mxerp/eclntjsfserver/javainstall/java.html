@@ -1,0 +1,33 @@
+<script src="java.js"></script>
+    
+
+<html>
+<body style="font-family: Trebuchet MS">
+<h1>Java Client Configuration</h1>
+<h2>Official Java Download Page</h2>
+<a href="http://www.java.com/getjava/">Click here to visit Sun's Java Download Page.</a>
+<h2>Install newest Java Version</h2>
+<a href="javascript:installNewestVersion()">Click here to install.</a>
+<h2>Installed JREs</h2>
+<div id="INSTALLEDJRES"/>
+</body>
+</html>
+
+
+<script>
+var jres = deployJava.getJREs();
+var tempS = "";
+for (var i=0; i<jres.length; i++)
+    tempS = tempS + jres[i] + "<br>";
+document.getElementById("INSTALLEDJRES").innerHTML = tempS;
+
+function installNewestVersion()
+{
+    deployJava.installLatestJRE();
+}
+function installVersion()
+{
+    var version = document.getElementById("JAVAVERSION").value;
+    deployJava.installJRE(version);
+}
+</script>

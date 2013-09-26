@@ -11,17 +11,17 @@
 <f:view>
 <h:form>
 <f:subview id="ui_commons_table-key-popupg_sv">
-<t:row id="g_13" >
-<t:pane id="g_14" height="200" padding="2" rowdistance="5" width="400" >
-<t:rowdynamiccontent id="g_17" contentbinding="#{d.TableKeyPopupPB.content}" />
-<t:row id="g_15" >
-<t:button id="g_16" actionListener="#{d.TableKeyPopupPB.onOk}" text="Ok" />
-<t:coldistance id="g_20" />
-<t:button id="g_18" actionListener="#{d.TableKeyPopupPB.onCancel}" text="Cancel" />
+<t:row id="g_1" >
+<t:pane id="g_2" height="200" padding="2" rowdistance="5" width="400" >
+<t:rowdynamiccontent id="g_3" contentbinding="#{d.TableKeyPopupPB.content}" />
+<t:row id="g_4" >
+<t:button id="g_5" actionListener="#{d.TableKeyPopupPB.onOk}" hotkey="10" text="Ok" />
+<t:coldistance id="g_6" />
+<t:button id="g_7" actionListener="#{d.TableKeyPopupPB.onCancel}" text="Cancel" />
 </t:row>
 </t:pane>
 </t:row>
-<t:rowstatusbar id="g_9" />
+<t:rowstatusbar id="g_8" />
 <t:pageaddons id="g_pa"/>
 </f:subview>
 </h:form>

@@ -16,13 +16,13 @@
 
     <managed-bean>
         <managed-bean-name>d</managed-bean-name>
-        <managed-bean-class>managedbeans.Dispatcher</managed-bean-class>
+        <managed-bean-class>at.mxerp.managedbeans.Dispatcher</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
     
     <managed-bean>
         <managed-bean-name>h</managed-bean-name>
-        <managed-bean-class>managedbeans.utils.Beanhelper</managed-bean-class>
+        <managed-bean-class>at.mxerp.managedbeans.utils.Beanhelper</managed-bean-class>
         <managed-bean-scope>session</managed-bean-scope>
     </managed-bean>
 	

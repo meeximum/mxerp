@@ -1,0 +1,7 @@
+<dispatcherinfo>
+	<managedpackage name="at.mxerp.managedbeans.commons" />
+	<managedpackage name="at.mxerp.managedbeans.masterdata" />
+	<managedpackage name="at.mxerp.managedbeans.trees" />
+	<managedpackage name="at.mxerp.managedbeans.entities" />
+	<managedpackage name="at.mxerp.managedbeans.misc" />
+</dispatcherinfo>
