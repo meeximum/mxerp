@@ -14,6 +14,8 @@ public abstract class _SavedSearches extends CayenneDataObject {
     @Deprecated
     public static final String DATA_PROPERTY = "data";
     @Deprecated
+    public static final String DEFAULT_PROPERTY = "default";
+    @Deprecated
     public static final String ENTITY_PROPERTY = "entity";
     @Deprecated
     public static final String GLOBAL_PROPERTY = "global";
@@ -27,6 +29,7 @@ public abstract class _SavedSearches extends CayenneDataObject {
     public static final String ID_PK_COLUMN = "id";
 
     public static final Property<byte[]> DATA = new Property<byte[]>("data");
+    public static final Property<Boolean> DEFAULT = new Property<Boolean>("default");
     public static final Property<String> ENTITY = new Property<String>("entity");
     public static final Property<Boolean> GLOBAL = new Property<Boolean>("global");
     public static final Property<String> ID = new Property<String>("id");
@@ -38,6 +41,13 @@ public abstract class _SavedSearches extends CayenneDataObject {
     }
     public byte[] getData() {
         return (byte[])readProperty("data");
+    }
+
+    public void setDefault(Boolean _default) {
+        writeProperty("default", _default);
+    }
+    public Boolean getDefault() {
+        return (Boolean)readProperty("default");
     }
 
     public void setEntity(String entity) {

@@ -41,11 +41,26 @@
     <styleValue>
         <name>disabledbackground</name>
         <value>#00000018</value>
-    </styleValue>    
+    </styleValue>
+    
+    <!--
+        texthighlightbgpaint: <bgpaint-command>
+        In the CLIENTHIGHLIGHTTEXT component certain text components are highlighted when the text matches.
+        This is the bgpaint that is applied to the whole text component in case of matching. 
+     -->    
     <styleValue>
         <name>texthighlightbgpaint</name>
         <value>rectangle(0,0,100%,100%,#FFFF8080)</value>
     </styleValue>    
+
+    <!-- 
+        sound: true/false
+        Definition if there is any audio output by the client or not. 
+     -->
+    <styleValue>
+        <name>sound</name><value>true</value>
+    </styleValue>    
+    
     
     <styleInfo>
         <styleClass>cc_autocomplete</styleClass>

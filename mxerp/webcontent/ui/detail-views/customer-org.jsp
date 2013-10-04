@@ -42,7 +42,7 @@
 <t:coldistance id="g_37" width="10" />
 </t:foldablepaneheaderrow>
 <t:row id="g_22" >
-<t:fixgrid id="g_39" avoidroundtrips="true" objectbinding="#{d.PartnerPB.gridContacts}" width="100%" >
+<t:fixgrid id="g_39" avoidroundtrips="true" objectbinding="#{d.PartnerPB.gridContacts}" selectorcolumn="1" width="100%" >
 <t:gridcol id="g_40" text="Name" width="200" >
 <t:label id="g_42" text=".{partner2.name}" />
 </t:gridcol>

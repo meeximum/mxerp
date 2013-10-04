@@ -55,8 +55,8 @@ import at.mxerp.managedbeans.commons.PartnerGroupingPopupPB.ICallback;
 import at.mxerp.services.entities.Entity;
 import at.mxerp.services.entities.IEntity;
 import at.mxerp.services.savedsearches.SavedSearch;
-import at.mxerp.services.savedsearches.SavedSearchesService;
 import at.mxerp.services.savedsearches.SavedSearch.SavedSearchValues;
+import at.mxerp.services.savedsearches.SavedSearchesService;
 import at.mxerp.services.variants.IVariants;
 import at.mxerp.services.variants.Variant;
 import at.mxerp.services.variants.Variant.GridValues;
@@ -171,7 +171,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	@SuppressWarnings("unchecked")
 	public SearchPB(IWorkpageDispatcher workpageDispatcher) {
 		super(workpageDispatcher);
-		try {			
+		try {
 			entity = Entity.valueOf(workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITY));
 			pageBean = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_PAGEBEAN);
 
@@ -186,15 +186,16 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 				Metadata metadate = metadataMap.get(field);
 				if (metadate != null && metadate.getTechnical())
 					continue;
-				String description = Helper.getColumnNameForObject(entity.getObjName(), objAttribute.getDbAttributeName());
+				String description = Helper.getColumnNameForObject(entity.getObjName(),
+						objAttribute.getDbAttributeName());
 				fieldsVVB.addValidValue(field, description);
 			}
 			entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
 			assert entityClazz != null;
-			
+
 			selectionRowObjects.clear();
 
-			loadSavedSearch(workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_SAVEDSEARCH));			
+			loadSavedSearch(workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_SAVEDSEARCH));
 
 			getGridResult().getItems().clear();
 
@@ -206,20 +207,39 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	}
 
 	public void loadSavedSearch(String savedSearchId) throws Exception {
+		SavedSearch savedSearch;
+		SavedSearches savedSearches;
 		boolean isSavedSearchSet = false;
 		if (StringUtils.isNotBlank(savedSearchId)) {
-			SavedSearches savedSearches = SavedSearches.findById(savedSearchId, getLocalContext());
+			savedSearches = SavedSearches.findById(savedSearchId, getLocalContext());
 			if (savedSearches != null) {
 				setSavedSearchName(savedSearches.getName());
-				SavedSearch savedSearch = JAXBService.unmarshall(new String(savedSearches.getData(), Constants.UTF8), SavedSearch.class);
+				savedSearch = JAXBService.unmarshall(new String(savedSearches.getData(), Constants.UTF8),
+						SavedSearch.class);
 				for (Entry<Integer, SavedSearch.SavedSearchValues> entry : savedSearch.getSavedSearchMap().entrySet()) {
 					String id = UUID.randomUUID().toString().replaceAll("-", "");
 					SavedSearch.SavedSearchValues value = entry.getValue();
-					SelectionRowObject selectionRowObject = new SelectionRowObject(id, value.getField(), Operator.valueOf(value.getOperator()), value.getValueLow(), value.getValueHigh());
+					SelectionRowObject selectionRowObject = new SelectionRowObject(id, value.getField(),
+							Operator.valueOf(value.getOperator()), value.getValueLow(), value.getValueHigh());
 					selectionRowObjects.put(entry.getKey(), id, selectionRowObject);
 					isSavedSearchSet = true;
 				}
 				getWorkpage().getWorkpageStartInfo().setParam(Constants.WP_PARAMS_SAVEDSEARCH, "");
+			}
+		} else {
+			savedSearches = SavedSearches
+					.findByUserAndEntityAndDefault(Helper.getUserName(), entity, getLocalContext());
+			if (savedSearches != null) {
+				savedSearch = JAXBService.unmarshall(new String(savedSearches.getData(), Constants.UTF8),
+						SavedSearch.class);
+				for (Entry<Integer, SavedSearch.SavedSearchValues> entry : savedSearch.getSavedSearchMap().entrySet()) {
+					String id = UUID.randomUUID().toString().replaceAll("-", "");
+					SavedSearch.SavedSearchValues value = entry.getValue();
+					SelectionRowObject selectionRowObject = new SelectionRowObject(id, value.getField(),
+							Operator.valueOf(value.getOperator()), value.getValueLow(), value.getValueHigh());
+					selectionRowObjects.put(entry.getKey(), id, selectionRowObject);
+					isSavedSearchSet = true;
+				}
 			}
 		}
 		if (!isSavedSearchSet)
@@ -246,7 +266,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			selectionRowObject.recreateSelectionRow();
 		} catch (Exception ex) {
 			logger.error(ex);
-			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
+			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex))
+					.setLeftTopReferenceCentered();
 		}
 	}
 
@@ -257,7 +278,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			addSelectionRowForSpecificField(field);
 		} catch (Exception ex) {
 			logger.error(ex);
-			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
+			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex))
+					.setLeftTopReferenceCentered();
 		}
 	}
 
@@ -266,14 +288,16 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			init();
 		} catch (Exception ex) {
 			logger.error(ex);
-			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
+			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex))
+					.setLeftTopReferenceCentered();
 		}
 	}
 
 	public void onSaveSearch(ActionEvent event) {
 		try {
 			SavedSearches savedSearches = null;
-			List<SavedSearches> savedSearchesOld = SavedSearches.findByUserAndName(Helper.getUserName(), savedSearchName, getLocalContext());
+			List<SavedSearches> savedSearchesOld = SavedSearches.findByUserAndName(Helper.getUserName(),
+					savedSearchName, getLocalContext());
 			if (CollectionUtils.isNotEmpty(savedSearchesOld)) {
 				savedSearches = savedSearchesOld.get(0);
 			} else {
@@ -320,7 +344,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 					mp.close();
 				}
 			});
-			
+
 			popupPB.prepare(new ICallback() {
 
 				@Override
@@ -328,20 +352,20 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 					mp.close();
 					Map<String, String> paramMap = new HashMap<String, String>(2);
 					paramMap.put(Constants.WP_PARAMS_GROUPING, grouping);
-					paramMap.put(Constants.WP_PARAMS_TYPE, type);	
-					openWorkpageForNewEntity(paramMap);					
+					paramMap.put(Constants.WP_PARAMS_TYPE, type);
+					openWorkpageForNewEntity(paramMap);
 				}
-				
+
 			});
-						
+
 			mp.setCloseonclickoutside(true);
 			mp.setLeftTopReferenceCentered();
 
 		} else {
 			openWorkpageForNewEntity();
-		}		
+		}
 	}
-	
+
 	private void openWorkpageForNewEntity(Map<String, String> paramMap) {
 		WorkpageStartInfo wpsi = new WorkpageStartInfo();
 		wpsi.setId(SearchPB.this.entity.name() + ":" + "NEW");
@@ -353,14 +377,14 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		wpsi.setPageBeanName("PartnerPB");
 		openWorkpage(wpsi);
 	}
-	
+
 	private void openWorkpageForNewEntity() {
-		openWorkpageForNewEntity(Collections.<String, String> emptyMap()); 
+		openWorkpageForNewEntity(Collections.<String, String> emptyMap());
 	}
 
-//	public void onInit(ActionEvent event) throws Exception {
-//		init();
-//	}
+	// public void onInit(ActionEvent event) throws Exception {
+	// init();
+	// }
 
 	public void onSearch(ActionEvent event) throws Exception {
 		getGridResult().getItems().clear();
@@ -380,7 +404,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			duplicateSelectionRow(id);
 		} catch (Exception ex) {
 			logger.error(ex);
-			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex)).setLeftTopReferenceCentered();
+			Statusbar.outputAlert(ex.toString() + " / " + ex.getMessage(), "ERROR", Helper.getStackTraceAsString(ex))
+					.setLeftTopReferenceCentered();
 		}
 	}
 
@@ -447,7 +472,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		SelectionRowObject selectionRowObjectToCopy = getSelectionRowObjects().get(idToCopy);
 		int index = selectionRowObjects.indexOf(idToCopy);
 		String newId = UUID.randomUUID().toString().replaceAll("-", "");
-		SelectionRowObject newSelectionRowObject = new SelectionRowObject(newId, selectionRowObjectToCopy.getField(), selectionRowObjectToCopy.getOperator());
+		SelectionRowObject newSelectionRowObject = new SelectionRowObject(newId, selectionRowObjectToCopy.getField(),
+				selectionRowObjectToCopy.getOperator());
 		newSelectionRowObject.focus();
 		selectionRowObjects.put(index + 1, newId, newSelectionRowObject);
 	}
@@ -661,9 +687,9 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		}
 		return value;
 	}
-	
+
 	public ComponentNode createComponentNodeForName(String name, Metadata metadate) {
-		if(metadate!=null) {
+		if (metadate != null) {
 			boolean isVvb = StringUtils.isNotBlank(metadate.getVvb());
 			boolean isDom = StringUtils.isNotBlank(metadate.getDomain());
 
@@ -683,15 +709,15 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 				combobox.setWidth(150);
 				return combobox;
 			}
-		}		
+		}
 
 		LABELNode label = new LABELNode();
 		label.setText(".{data." + name + "}");
 		return label;
 	}
-	
+
 	public ComponentNode createComponentNodeForIdValue(String id, String value, Metadata metadate) {
-		if(metadate!=null) {
+		if (metadate != null) {
 			boolean isVvb = StringUtils.isNotBlank(metadate.getVvb());
 			boolean isDom = StringUtils.isNotBlank(metadate.getDomain());
 
@@ -712,7 +738,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 				combobox.setWidth(200);
 				return combobox;
 			}
-		}		
+		}
 
 		FIELDNode field = new FIELDNode();
 		field.setText("#{d.SearchPB.selectionRowObjects." + id + "." + value + "}");
@@ -720,7 +746,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		field.setWidth(200);
 		return field;
 	}
-	
+
 	private ComponentNode createComponentNodeForSelectionRow(String id, String field, String type, String value) {
 		ComponentNode component = null;
 		if ("java.util.Date".equals(type)) {
@@ -834,7 +860,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			this.colSynchedRow = createSelectionRow(this);
 		}
 
-		public SelectionRowObject(String id, String field, Operator operator, Object valueLow, Object valueHigh) throws Exception {
+		public SelectionRowObject(String id, String field, Operator operator, Object valueLow, Object valueHigh)
+				throws Exception {
 			super();
 			this.id = id;
 			this.field = field;

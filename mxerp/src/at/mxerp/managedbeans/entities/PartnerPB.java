@@ -10,6 +10,7 @@ import org.eclnt.jsfserver.defaultscreens.Statusbar;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDItem;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDListBinding;
 import org.eclnt.workplace.IWorkpageDispatcher;
+import org.eclnt.workplace.WorkpageStartInfo;
 
 import at.mxerp.db.erp.Contacts;
 import at.mxerp.db.erp.Groupings;
@@ -17,6 +18,8 @@ import at.mxerp.db.erp.NumberRanges;
 import at.mxerp.db.erp.PartnerViews;
 import at.mxerp.db.erp.Partners;
 import at.mxerp.managedbeans.commons.DetailPB;
+import at.mxerp.managedbeans.commons.SearchPB;
+import at.mxerp.services.entities.Entity;
 import at.mxerp.services.entities.NumberRangeManager;
 import at.mxerp.utils.Constants;
 
@@ -58,7 +61,20 @@ public class PartnerPB extends DetailPB {
 			this.contact = contact;
 			this.partner2 = Partners.getById(getLocalContext(), contact.getPartner2());
 			System.out.println(partner2.getName());
+		}
+
+		@Override
+		public void onRowExecute() {
+			WorkpageStartInfo wpsi = new WorkpageStartInfo();
+			wpsi.setId(Entity.PARTNER.name() + ":" + getId());
+			wpsi.setParam(Constants.WP_PARAMS_ENTITY, Entity.PARTNER.name());
+			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, getId());
+			wpsi.setOpenMultipleInstances(false);
+			wpsi.setPageBeanName("PartnerPB");		
+			openWorkpage(wpsi);
 		}		
+		
+		
 	}
 	
 	private void loadContacts() {

@@ -1,6 +1,7 @@
 package at.mxerp.managedbeans.misc;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import org.eclnt.jsfserver.elements.impl.FIXGRIDItem;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDListBinding;
 import org.eclnt.workplace.IWorkpageDispatcher;
 
+import at.mxerp.db.erp.SavedSearches;
 import at.mxerp.db.erp.UserPresets;
 import at.mxerp.managedbeans.WorkpageDispatchedPageBean;
 import at.mxerp.utils.CayenneUtils;
@@ -25,6 +27,10 @@ import at.mxerp.utils.Helper;
 public class UserSettingsPB extends WorkpageDispatchedPageBean implements Serializable {
 	public void onRefreshUserPresets(ActionEvent event) {
 		loadDataUserPresets();
+	}
+	
+	public void onRefreshSavedSearches(ActionEvent event) {
+		loadDataSavedSearches();
 	}
 
 	public void onAddUserPreset(ActionEvent event) {
@@ -47,17 +53,24 @@ public class UserSettingsPB extends WorkpageDispatchedPageBean implements Serial
 		}
 	}
 
+	@SuppressWarnings({ "rawtypes", "unchecked" })
 	public void onCommit(ActionEvent event) {
 		try {
-			Collection<?> newObjects = localContext.newObjects();
-			for(Object newObject : newObjects) {
+			boolean reloadSavedSearches = false;
+			for(Object newObject : localContext.newObjects()) {
 				if(checkMandatory(newObject)==false) {
 					Statusbar.outputWarningWithPopup("Es müssen alle Mußfelder befüllt sein!").setLeftTopReferenceCentered();					
 					return;
 				}
-			}			
-			
+			}	
+			List changedObjects = new ArrayList();
+			changedObjects.addAll(localContext.deletedObjects());
+			changedObjects.addAll(localContext.modifiedObjects());
+			for(Object changedObject : changedObjects) {
+				if(changedObject instanceof SavedSearches) reloadSavedSearches = true;
+			}
 			localContext.commitChanges();
+			if(reloadSavedSearches) getMainUI().reloadSavedSearches();
 			Statusbar.outputSuccess(Helper.getMessage("data_write_succ"));
 		} catch (Exception ex) {
 			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
@@ -67,11 +80,64 @@ public class UserSettingsPB extends WorkpageDispatchedPageBean implements Serial
 	private boolean checkMandatory(Object object) {
 		if(object instanceof UserPresets) {
 			return ((UserPresets)object).checkMandatory();
+		} else if(object instanceof SavedSearches) {
+			return ((SavedSearches)object).checkMandatory();
 		}
 		return true;
 	}
 	
-	
+	private FIXGRIDListBinding<GridSavedSearchesItem> gridSavedSearches = new FIXGRIDListBinding<GridSavedSearchesItem>();
+
+	public FIXGRIDListBinding<GridSavedSearchesItem> getGridSavedSearches() {
+		return gridSavedSearches;
+	}
+
+	public void setGridSavedSearches(FIXGRIDListBinding<GridSavedSearchesItem> value) {
+		this.gridSavedSearches = value;
+	}
+
+	public class GridSavedSearchesItem extends FIXGRIDItem implements java.io.Serializable {
+		private SavedSearches search;
+
+		public SavedSearches getSearch() {
+			return search;
+		}
+
+		public GridSavedSearchesItem(SavedSearches search) {
+			super();
+			this.search = search;
+		}
+		
+		
+		public void onDelete(ActionEvent event) {
+			// Confirmation dialog
+			YESNOPopup ynp = YESNOPopup.createInstance(Helper.getLiteral("delete"), Helper.getMessage("del_date"), new IYesNoCancelListener() {
+				public void reactOnCancel() {
+				}
+
+				public void reactOnNo() {
+				}
+
+				public void reactOnYes() {
+					try {
+						localContext.deleteObjects(search);
+						localContext.commitChanges();
+						getGridSavedSearches().getItems().remove(this);
+						Statusbar.outputSuccessWithPopup(Helper.getMessage("date_del_succ")).setLeftTopReferenceCentered();
+					} catch (Exception ex) {
+						logger.error(ex, ex);
+						Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
+					}
+					loadDataSavedSearches();
+				}
+			});
+			ynp.getModalPopup().setLeftTopReferenceCentered();
+
+		}
+
+		
+	}
+
 
 	private FIXGRIDListBinding<GridUserPresetsItem> gridUserPresets = new FIXGRIDListBinding<GridUserPresetsItem>();
 
@@ -144,6 +210,7 @@ public class UserSettingsPB extends WorkpageDispatchedPageBean implements Serial
 	
 	private void loadData() {
 		loadDataUserPresets();
+		loadDataSavedSearches();
 	}
 
 	private void loadDataUserPresets() {
@@ -152,6 +219,16 @@ public class UserSettingsPB extends WorkpageDispatchedPageBean implements Serial
 		List<UserPresets> presets = UserPresets.getByUser(localContext, Helper.getUserName());
 		for(UserPresets preset : presets) {
 			getGridUserPresets().getItems().add(new GridUserPresetsItem(preset));
+		}
+
+	}
+	
+	private void loadDataSavedSearches() {
+		getGridSavedSearches().getItems().clear();
+		
+		List<SavedSearches> searches = SavedSearches.findByUserExclGlobal(Helper.getUserName(), localContext);
+		for(SavedSearches search : searches) {
+			getGridSavedSearches().getItems().add(new GridSavedSearchesItem(search));
 		}
 
 	}

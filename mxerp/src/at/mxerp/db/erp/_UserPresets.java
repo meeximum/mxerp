@@ -12,35 +12,35 @@ import org.apache.cayenne.exp.Property;
 public abstract class _UserPresets extends CayenneDataObject {
 
     @Deprecated
-    public static final String ENTITY_PROPERTY = "entity";
-    @Deprecated
     public static final String FIELD_PROPERTY = "field";
+    @Deprecated
+    public static final String OBJECT_PROPERTY = "object";
     @Deprecated
     public static final String USER_PROPERTY = "user";
     @Deprecated
     public static final String VALUE_PROPERTY = "value";
 
-    public static final String ENTITY_PK_COLUMN = "entity";
     public static final String FIELD_PK_COLUMN = "field";
+    public static final String OBJECT_PK_COLUMN = "object";
     public static final String USER_PK_COLUMN = "user";
 
-    public static final Property<String> ENTITY = new Property<String>("entity");
     public static final Property<String> FIELD = new Property<String>("field");
+    public static final Property<String> OBJECT = new Property<String>("object");
     public static final Property<String> USER = new Property<String>("user");
     public static final Property<String> VALUE = new Property<String>("value");
-
-    public void setEntity(String entity) {
-        writeProperty("entity", entity);
-    }
-    public String getEntity() {
-        return (String)readProperty("entity");
-    }
 
     public void setField(String field) {
         writeProperty("field", field);
     }
     public String getField() {
         return (String)readProperty("field");
+    }
+
+    public void setObject(String object) {
+        writeProperty("object", object);
+    }
+    public String getObject() {
+        return (String)readProperty("object");
     }
 
     public void setUser(String user) {
