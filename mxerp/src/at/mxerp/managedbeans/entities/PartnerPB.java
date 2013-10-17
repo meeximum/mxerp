@@ -18,7 +18,6 @@ import at.mxerp.db.erp.NumberRanges;
 import at.mxerp.db.erp.PartnerViews;
 import at.mxerp.db.erp.Partners;
 import at.mxerp.managedbeans.commons.DetailPB;
-import at.mxerp.managedbeans.commons.SearchPB;
 import at.mxerp.services.entities.Entity;
 import at.mxerp.services.entities.NumberRangeManager;
 import at.mxerp.utils.Constants;

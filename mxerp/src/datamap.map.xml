@@ -105,6 +105,7 @@
 	</db-entity>
 	<db-entity name="metadata" catalog="mxerp">
 		<db-attribute name="domain" type="VARCHAR" length="50"/>
+		<db-attribute name="entity_path" type="VARCHAR" length="100"/>
 		<db-attribute name="field" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="50"/>
 		<db-attribute name="mandatory" type="BIT" isMandatory="true"/>
 		<db-attribute name="object" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="40"/>
@@ -327,6 +328,7 @@
 	</obj-entity>
 	<obj-entity name="Metadata" className="at.mxerp.db.erp.Metadata" dbEntityName="metadata">
 		<obj-attribute name="domain" type="java.lang.String" db-attribute-path="domain"/>
+		<obj-attribute name="entityPath" type="java.lang.String" db-attribute-path="entity_path"/>
 		<obj-attribute name="field" type="java.lang.String" db-attribute-path="field"/>
 		<obj-attribute name="mandatory" type="java.lang.Boolean" db-attribute-path="mandatory"/>
 		<obj-attribute name="object" type="java.lang.String" db-attribute-path="object"/>

@@ -14,6 +14,8 @@ public abstract class _Metadata extends CayenneDataObject {
     @Deprecated
     public static final String DOMAIN_PROPERTY = "domain";
     @Deprecated
+    public static final String ENTITY_PATH_PROPERTY = "entityPath";
+    @Deprecated
     public static final String FIELD_PROPERTY = "field";
     @Deprecated
     public static final String MANDATORY_PROPERTY = "mandatory";
@@ -30,6 +32,7 @@ public abstract class _Metadata extends CayenneDataObject {
     public static final String OBJECT_PK_COLUMN = "object";
 
     public static final Property<String> DOMAIN = new Property<String>("domain");
+    public static final Property<String> ENTITY_PATH = new Property<String>("entityPath");
     public static final Property<String> FIELD = new Property<String>("field");
     public static final Property<Boolean> MANDATORY = new Property<Boolean>("mandatory");
     public static final Property<String> OBJECT = new Property<String>("object");
@@ -42,6 +45,13 @@ public abstract class _Metadata extends CayenneDataObject {
     }
     public String getDomain() {
         return (String)readProperty("domain");
+    }
+
+    public void setEntityPath(String entityPath) {
+        writeProperty("entityPath", entityPath);
+    }
+    public String getEntityPath() {
+        return (String)readProperty("entityPath");
     }
 
     public void setField(String field) {

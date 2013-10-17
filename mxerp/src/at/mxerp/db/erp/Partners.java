@@ -38,4 +38,9 @@ public class Partners extends _Partners implements IEntity {
 	
 	}
 
+	@Override
+	public String getEntityDescription() {
+		return getName();
+	}
+
 }

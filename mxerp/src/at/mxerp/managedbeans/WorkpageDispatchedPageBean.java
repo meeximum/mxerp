@@ -36,6 +36,7 @@ import org.eclnt.workplace.IWorkpageStarter;
 import org.eclnt.workplace.WorkpageStartInfo;
 import org.eclnt.workplace.WorkpageStarterFactory;
 
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 import at.mxerp.managedbeans.commons.VariantsConfigPB;
 import at.mxerp.managedbeans.trees.MasterDataFT;
 import at.mxerp.managedbeans.utils.Beanhelper;
@@ -44,10 +45,9 @@ import at.mxerp.managedbeans.utils.UserAccess;
 import at.mxerp.services.variants.IVariants;
 import at.mxerp.services.variants.Variant;
 import at.mxerp.services.variants.VariantsManager;
-import at.mxerp.services.variants.VariantsService;
 import at.mxerp.services.variants.VariantsManager.VariantType;
+import at.mxerp.services.variants.VariantsService;
 import at.mxerp.utils.Helper;
-import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 @SuppressWarnings("serial")
 public class WorkpageDispatchedPageBean extends org.eclnt.workplace.WorkpageDispatchedPageBean {
@@ -273,7 +273,7 @@ public class WorkpageDispatchedPageBean extends org.eclnt.workplace.WorkpageDisp
 	protected DataContext getDataContext() {
 		return (DataContext) BaseContext.getThreadObjectContext();
 	}
-	
+		
 	protected void openWorkpage(WorkpageStartInfo wpsi) {
 		IWorkpageStarter wps = WorkpageStarterFactory.getWorkpageStarter();		
 		IWorkpageDispatcher wpd = (IWorkpageDispatcher) getOwningDispatcher().getTopOwner();

@@ -138,7 +138,10 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 			// set global lock
 			mode = Mode.EDIT;
 		} catch (EntityLockedException ele) {
-			Statusbar.outputWarningWithPopup(String.format("Datensatz ist druch %s gesperrt!", ele.getUser())).setLeftTopReferenceCentered();
+			Statusbar.outputWarningWithPopup(String.format("Datensatz ist durch %s gesperrt!", ele.getUser())).setLeftTopReferenceCentered();
+		} catch (Exception ex) {
+			logger.error(Helper.getStackTraceAsString(ex), ex);
+			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
 		}
 	}
 
@@ -231,7 +234,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 
 	}
 
-	private void loadEntity() {
+	private void loadEntity() throws Exception {
 		Expression expression = IEntity.ID.eq(entityId);			
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);
 		data = (IEntity) localContext.performQuery(query).get(0);

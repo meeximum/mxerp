@@ -24,6 +24,7 @@ import org.eclnt.editor.annotations.CCGenClass;
 import org.eclnt.jsfserver.defaultscreens.ModelessPopup;
 import org.eclnt.jsfserver.defaultscreens.ModelessPopup.IModelessPopupListener;
 import org.eclnt.jsfserver.defaultscreens.Statusbar;
+import org.eclnt.jsfserver.elements.BaseActionEvent;
 import org.eclnt.jsfserver.elements.BaseComponent;
 import org.eclnt.jsfserver.elements.componentnodes.CALENDARFIELDNode;
 import org.eclnt.jsfserver.elements.componentnodes.CHECKBOXNode;
@@ -37,6 +38,7 @@ import org.eclnt.jsfserver.elements.componentnodes.FORMATTEDFIELDNode;
 import org.eclnt.jsfserver.elements.componentnodes.GRIDCOLNode;
 import org.eclnt.jsfserver.elements.componentnodes.ICONNode;
 import org.eclnt.jsfserver.elements.componentnodes.LABELNode;
+import org.eclnt.jsfserver.elements.componentnodes.LINKNode;
 import org.eclnt.jsfserver.elements.impl.COLSYNCHEDROWComponent;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDItem;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDListBinding;
@@ -92,8 +94,6 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 	private Entity entity;
 
-	private String pageBean;
-
 	private String savedSearchName;
 
 	public String getSavedSearchName() {
@@ -148,7 +148,22 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entity.name());
 			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, getId());
 			wpsi.setOpenMultipleInstances(false);
-			wpsi.setPageBeanName(SearchPB.this.pageBean);
+			wpsi.setPageBeanName(SearchPB.this.entity.getDetailPB());
+			openWorkpage(wpsi);
+		}
+		
+		public void onLink(ActionEvent event) {
+			BaseActionEvent bae = (BaseActionEvent)event;
+			String configInfo = bae.getSourceConfiginfo();
+			String[] entityField = configInfo.split(":");
+			Entity entity = Entity.valueOf(entityField[0]);
+			String id = Reflect.on(data).call("get" + StringUtils.capitalize(entityField[1])).get();
+			WorkpageStartInfo wpsi = new WorkpageStartInfo();
+			wpsi.setId(entity.name() + ":" + id);
+			wpsi.setParam(Constants.WP_PARAMS_ENTITY, entity.name());
+			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, id);
+			wpsi.setOpenMultipleInstances(false);
+			wpsi.setPageBeanName(SearchPB.this.entity.getDetailPB());
 			openWorkpage(wpsi);
 		}
 
@@ -173,7 +188,6 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		super(workpageDispatcher);
 		try {
 			entity = Entity.valueOf(workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITY));
-			pageBean = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_PAGEBEAN);
 
 			objEntity = getLocalContext().getEntityResolver().getObjEntity(entity.getObjName());
 			assert objEntity != null;
@@ -372,7 +386,6 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		wpsi.getParamMap().putAll(paramMap);
 		wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entity.name());
 		wpsi.setParam(Constants.WP_PARAMS_ENTITYID, "NEW");
-		wpsi.setParam(Constants.WP_PARAMS_PAGEBEAN, SearchPB.this.pageBean);
 		wpsi.setOpenMultipleInstances(false);
 		wpsi.setPageBeanName("PartnerPB");
 		openWorkpage(wpsi);
@@ -629,7 +642,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 				gridcol.setWidth(100);
 				// gridcol.setDynamicwidthsizing(true);
 
-				ComponentNode value = createComponentNodeForResultColumn(objAttribute);
+				ComponentNode value = createComponentNodeForResultColumn(objAttribute, metadate);
 				gridcol.addSubNode(value);
 
 				ICONNode icon = new ICONNode();
@@ -657,9 +670,9 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		return content;
 	}
 
-	private ComponentNode createComponentNodeForResultColumn(ObjAttribute objAttribute) {
+	private ComponentNode createComponentNodeForResultColumn(ObjAttribute objAttribute, Metadata metadate) {
 		String type = objAttribute.getType();
-		String field = objAttribute.getName();
+		//String field = objAttribute.getName();
 
 		ComponentNode value = null;
 
@@ -681,8 +694,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 			label.setFormat("int");
 			label.setAlign("right");
 			value = label;
-		} else {
-			Metadata metadate = metadataMap.get(field);
+		} else {			
 			value = createComponentNodeForName(objAttribute.getName(), metadate);
 		}
 		return value;
@@ -692,6 +704,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		if (metadate != null) {
 			boolean isVvb = StringUtils.isNotBlank(metadate.getVvb());
 			boolean isDom = StringUtils.isNotBlank(metadate.getDomain());
+			String entityPath = metadate.getEntityPath();			
 
 			String validValuesbinding = null;
 
@@ -708,6 +721,18 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 				combobox.setEnabled(false);
 				combobox.setWidth(150);
 				return combobox;
+			} else {
+				if(StringUtils.isNotBlank(entityPath)) {
+					String[] entityPathArr = entityPath.split(":");
+					Entity entity = Entity.valueOf(entityPathArr[0]);
+					String path = entityPathArr.length>1?entityPathArr[1]:"";
+					path = (".{data." + path + ".entityDescription}").replaceAll("\\.\\.", "\\.");
+					LINKNode link = new LINKNode();					
+					link.setText(path);
+					link.setActionListener(".{onLink}");
+					link.setConfiginfo(entity.name() + ":" + name);
+					return link;
+				}
 			}
 		}
 

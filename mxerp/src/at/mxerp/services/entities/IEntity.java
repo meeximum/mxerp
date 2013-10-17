@@ -25,4 +25,7 @@ public interface IEntity {
 
     public void setDeleted(Boolean deleted);
     public Boolean getDeleted();	
+    
+    public String getEntityDescription();
+   
 }
