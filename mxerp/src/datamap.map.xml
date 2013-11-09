@@ -110,6 +110,7 @@
 		<db-attribute name="mandatory" type="BIT" isMandatory="true"/>
 		<db-attribute name="object" type="VARCHAR" isPrimaryKey="true" isMandatory="true" length="40"/>
 		<db-attribute name="read_only" type="BIT" isMandatory="true"/>
+		<db-attribute name="search_index" type="BIT" isMandatory="true"/>
 		<db-attribute name="technical" type="BIT" isMandatory="true"/>
 		<db-attribute name="vvb" type="VARCHAR" length="50"/>
 	</db-entity>
@@ -333,6 +334,7 @@
 		<obj-attribute name="mandatory" type="java.lang.Boolean" db-attribute-path="mandatory"/>
 		<obj-attribute name="object" type="java.lang.String" db-attribute-path="object"/>
 		<obj-attribute name="readOnly" type="java.lang.Boolean" db-attribute-path="read_only"/>
+		<obj-attribute name="searchIndex" type="java.lang.Boolean" db-attribute-path="search_index"/>
 		<obj-attribute name="technical" type="java.lang.Boolean" db-attribute-path="technical"/>
 		<obj-attribute name="vvb" type="java.lang.String" db-attribute-path="vvb"/>
 	</obj-entity>

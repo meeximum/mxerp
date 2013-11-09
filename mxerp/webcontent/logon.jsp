@@ -58,7 +58,7 @@
 <t:rowdistance id="g_38" height="50%" />
 </t:rowbodypane>
 <t:beanprocessing id="g_39" >
-<t:clientconfig id="g_40" language="#{d.LogonUI.language}" />
+<t:clientconfig id="g_40" language="#{d.LogonUI.language}" rendered="false" />
 </t:beanprocessing>
 <t:pageaddons id="g_pa"/>
 </f:subview>

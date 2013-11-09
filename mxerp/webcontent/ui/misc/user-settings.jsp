@@ -11,11 +11,11 @@
 <f:view>
 <h:form>
 <f:subview id="ui_misc_user-settingsg_sv">
-<t:rowdistance id="g_5" />
+<t:rowdistance id="g_1" />
 <t:row id="g_2" >
 <t:button id="g_3" actionListener="#{d.UserSettingsPB.onCommit}" stylevariant="commit" text="#{rr.literals[&#39;commit&#39;]}" />
 <t:coldistance id="g_4" />
-<t:button id="g_46" actionListener="#{d.UserSettingsPB.onRollback}" stylevariant="rollback" text="#{rr.literals[&#39;rollback&#39;]}" />
+<t:button id="g_5" actionListener="#{d.UserSettingsPB.onRollback}" stylevariant="rollback" text="#{rr.literals[&#39;rollback&#39;]}" />
 <t:coldistance id="g_6" width="100%" />
 <t:icon id="g_7" image="/images/history_16_16.png" />
 </t:row>
@@ -60,7 +60,7 @@
 <t:icon id="g_36" actionListener=".{onDelete}" image="/eclntjsfserver/images/cross.png" />
 </t:gridcol>
 <t:gridcol id="g_37" text="#{rr.literals[&#39;entity&#39;]}" width="150" >
-<t:field id="g_38" bgpaint="mandatory()" text=".{preset.entity}" />
+<t:field id="g_38" bgpaint="mandatory()" text=".{preset.object}" />
 </t:gridcol>
 <t:gridcol id="g_39" text="#{rr.literals[&#39;field&#39;]}" width="150" >
 <t:field id="g_40" bgpaint="mandatory()" text=".{preset.field}" />

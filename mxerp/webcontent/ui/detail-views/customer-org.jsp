@@ -35,22 +35,25 @@
 </t:row>
 </t:foldablepane>
 </t:row>
-<t:row id="g_20" >
-<t:foldablepane id="g_21" text="Ansprechpersonen" width="100%" >
-<t:foldablepaneheaderrow id="g_34" >
-<t:icon id="g_35" actionListener="#{d.PartnerPB.onAddContact}" image="/images/add_document_16_16.png" tooltip="Neu Beziehung erstellen" />
-<t:coldistance id="g_37" width="10" />
+<t:row id="g_19" >
+<t:foldablepane id="g_20" text="Ansprechpersonen" width="100%" >
+<t:foldablepaneheaderrow id="g_21" >
+<t:icon id="g_22" actionListener="#{d.PartnerPB.onAddContact}" enabled="#{d.PartnerPB.inEditMode}" image="/images/add_document_16_16.png" tooltip="Neu Beziehung erstellen" />
+<t:coldistance id="g_23" width="10" />
 </t:foldablepaneheaderrow>
-<t:row id="g_22" >
-<t:fixgrid id="g_39" avoidroundtrips="true" objectbinding="#{d.PartnerPB.gridContacts}" selectorcolumn="1" width="100%" >
-<t:gridcol id="g_40" text="Name" width="200" >
-<t:label id="g_42" text=".{partner2.name}" />
+<t:row id="g_24" >
+<t:fixgrid id="g_25" avoidroundtrips="true" objectbinding="#{d.PartnerPB.gridContacts}" width="100%" >
+<t:gridcol id="g_26" width="25" >
+<t:icon id="g_27" actionListener=".{onDelete}" enabled="#{d.PartnerPB.inEditMode}" image="/eclntjsfserver/images/cross.png" />
 </t:gridcol>
-<t:gridcol id="g_44" text="Abteilung" width="200" >
-<t:combobox id="g_48" enabled="#{d.PartnerPB.inEditMode}" validvaluesbinding="#{h.vvb.departments}" value=".{contact.department}" />
+<t:gridcol id="g_28" text="Name" width="200" >
+<t:label id="g_29" text=".{partner2.name}" />
 </t:gridcol>
-<t:gridcol id="g_47" text="Funktion" width="200" >
-<t:combobox id="g_50" enabled="#{d.PartnerPB.inEditMode}" validvaluesbinding="#{h.vvb.functions}" value=".{contact.function}" />
+<t:gridcol id="g_30" text="Abteilung" width="200" >
+<t:combobox id="g_31" enabled="#{d.PartnerPB.inEditMode}" validvaluesbinding="#{h.vvb.departments}" value=".{contact.department}" />
+</t:gridcol>
+<t:gridcol id="g_32" text="Funktion" width="200" >
+<t:combobox id="g_33" enabled="#{d.PartnerPB.inEditMode}" validvaluesbinding="#{h.vvb.functions}" value=".{contact.function}" />
 </t:gridcol>
 </t:fixgrid>
 </t:row>

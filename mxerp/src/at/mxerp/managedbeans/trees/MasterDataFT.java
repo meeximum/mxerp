@@ -34,6 +34,7 @@ public class MasterDataFT extends WorkplaceFunctionTree implements IWPFunctionTr
 	    node = new FormattedFunctionNode(getFtree().getRootNode(), Constants.UI_COMMONS_PATH + "search.jsp");
 	    node.setId("partners");
 	    node.setParam(Constants.WP_PARAMS_ENTITY, Entity.PARTNER.name());
+	    node.setParam(Constants.WP_PARAMS_ENTITY, Entity.PARTNER.name());
 	    node.setPageBeanName("SearchPB");
 	    node.setOpenMultipleInstances(false);
 	    node.setText(Helper.getLiteral("partners"));

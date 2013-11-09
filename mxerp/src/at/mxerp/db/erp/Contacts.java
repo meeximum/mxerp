@@ -2,6 +2,7 @@ package at.mxerp.db.erp;
 
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
@@ -15,6 +16,7 @@ import at.mxerp.utils.Helper;
 public class Contacts extends _Contacts {
 	public Contacts() {
 		super();
+		setId(UUID.randomUUID().toString());
 		setValidFrom(Helper.getMinDate());	
 		setValidTo(Helper.getMaxDate());		
 		setCreatedAt(new Date());

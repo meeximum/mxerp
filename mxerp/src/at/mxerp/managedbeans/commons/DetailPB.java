@@ -8,6 +8,7 @@ import java.util.UUID;
 
 import javax.faces.event.ActionEvent;
 
+import org.apache.cayenne.Cayenne;
 import org.apache.cayenne.CayenneDataObject;
 import org.apache.cayenne.ObjectContext;
 import org.apache.cayenne.exp.Expression;
@@ -37,27 +38,26 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	public enum Mode {
 		EDIT, READ
 	}
-	
+
 	public boolean getRenderDeleteInfo() {
 		return data.getDeleted();
 	}
-	
+
 	public boolean getRenderDeleteBtn() {
-		return data.getDeleted()==false && isInReadMode();
+		return data.getDeleted() == false && isInReadMode();
 	}
-	
+
 	public boolean getRenderCommitBtn() {
 		return isInEditMode();
 	}
-	
+
 	public boolean getRenderRollbackBtn() {
 		return isInEditMode();
 	}
-	
+
 	public boolean getRenderEditBtn() {
-		return data.getDeleted()==false && isInReadMode();
+		return data.getDeleted() == false && isInReadMode();
 	}
-	
 
 	public void onDelete(ActionEvent event) {
 
@@ -79,7 +79,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 					LockManager.unlockEntity(entity.name() + entityId);
 				} catch (EntityLockedException ele) {
 					Statusbar.outputWarningWithPopup(String.format("Datensatz ist druch %s gesperrt!", ele.getUser())).setLeftTopReferenceCentered();
-				}  catch (Exception ex) {
+				} catch (Exception ex) {
 					logger.error(Helper.getStackTraceAsString(ex), ex);
 					Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
 				}
@@ -88,23 +88,29 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 		ynp.getModalPopup().setLeftTopReferenceCentered();
 
 	}
-	
+
 	public String getId() {
 		return entity.name() + ":" + entityId;
 	}
 
 	public void onRollback(ActionEvent event) {
-		localContext.rollbackChanges();
-		if (newEntity) {
-			closeWorkpage(true);
-		} else {
-			mode = Mode.READ;
+		try {
+			localContext.rollbackChanges();
+			afterRollback();
+			if (newEntity) {
+				closeWorkpage(true);
+			} else {
+				mode = Mode.READ;
+			}
+			LockManager.unlockEntity(getId());
+		} catch (Exception ex) {
+			logger.error(Helper.getStackTraceAsString(ex), ex);
+			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
 		}
-		LockManager.unlockEntity(getId());
 	}
 
 	public void onCommit(ActionEvent event) {
-		try {		
+		try {
 			checkMandatoryFields();
 			// when created then no change date is filled
 			if (data.getChangedAt() == null) {
@@ -114,19 +120,20 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 				data.setChangedAt(new Date());
 				data.setChangedBy(Helper.getUserName());
 			}
-			beforeSave();
+			beforeCommit();
 			localContext.commitChanges();
-			afterSave();
+			afterCommit();
 			mode = Mode.READ;
 			newEntity = false;
-			getWorkpage().setTitle(data.toString());			
+			getWorkpage().setTitle(data.toString());
 			Statusbar.outputSuccess("Daten erfolgreich gesichert!");
 			LockManager.unlockEntity(getId());
+		} catch (ValidationException ve) {
+			Statusbar.outputAlert(String.format("Das Feld %s ist ein Muﬂfeld!", ve.getField())).setLeftTopReferenceCentered();
+
 		} catch (Exception ex) {
 			logger.error(Helper.getStackTraceAsString(ex), ex);
 			Statusbar.outputAlert(Helper.getStackTraceAsString(ex), ex.toString()).setLeftTopReferenceCentered();
-		} catch (ValidationException ve) {
-			Statusbar.outputAlert(String.format("Das Feld %s ist ein Muﬂfeld!", ve.getField())).setLeftTopReferenceCentered();
 		}
 	}
 
@@ -155,7 +162,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 		return data;
 	}
 
-	//private String entityName;
+	// private String entityName;
 	private Entity entity;
 	private String entityId;
 
@@ -165,7 +172,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	private Map<String, Metadata> metadataMap;
 
 	private ObjectContext localContext;
-	
+
 	protected ObjectContext getLocalContext() {
 		return localContext;
 	}
@@ -173,7 +180,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	private Mode mode;
 
 	private boolean newEntity = false;
-	
+
 	protected boolean isNewEntity() {
 		return newEntity;
 	}
@@ -193,7 +200,7 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 		localContext = CayenneUtils.createNewContext();
 
 		entity = Entity.valueOf(workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITY));
-		entityId = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITYID);		
+		entityId = workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITYID);
 
 		objEntity = getLocalContext().getEntityResolver().getObjEntity(entity.getObjName());
 		entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
@@ -215,13 +222,14 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 
 			// prefill
 			List<UserPresets> presets = UserPresets.getByUserAndEntity(localContext, Helper.getUserName(), entity);
-			for(UserPresets preset : presets) {
+			for (UserPresets preset : presets) {
 				try {
 					Reflect.on(data).call("set" + StringUtils.capitalize(preset.getField()), preset.getValue());
 				} catch (Exception ex) {
-					//logger.error(String.format("Field s% not valid for entity %s", preset.getField(), preset.getEntity()));
+					// logger.error(String.format("Field s% not valid for entity %s",
+					// preset.getField(), preset.getEntity()));
 				}
-			}			
+			}
 
 			getWorkpage().setTitle("NEW");
 		} else {
@@ -235,9 +243,11 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	}
 
 	private void loadEntity() throws Exception {
-		Expression expression = IEntity.ID.eq(entityId);			
+		Expression expression = IEntity.ID.eq(entityId);
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);
-		data = (IEntity) localContext.performQuery(query).get(0);
+		data = (IEntity) Cayenne.objectForSelect(localContext, query);
+		if (data == null)
+			throw new Exception(String.format("No entity for id %s found!", entityId));
 	}
 
 	private void checkMandatoryFields() throws ValidationException {
@@ -269,13 +279,17 @@ public abstract class DetailPB extends WorkpageDispatchedPageBean implements Ser
 	protected boolean beforeHideWorkpage() {
 		return isCloseHideOfWorkpagePossible();
 	}
-	
-	protected void beforeSave() throws Exception {
-		
+
+	protected void beforeCommit() throws Exception {
+
 	}
-	
-	protected void afterSave() throws Exception {
-		
+
+	protected void afterCommit() throws Exception {
+
+	}
+
+	protected void afterRollback() throws Exception {
+
 	}
 
 }

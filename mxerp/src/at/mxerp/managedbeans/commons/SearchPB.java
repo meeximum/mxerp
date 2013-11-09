@@ -53,7 +53,6 @@ import org.joor.Reflect;
 import at.mxerp.db.erp.Metadata;
 import at.mxerp.db.erp.SavedSearches;
 import at.mxerp.managedbeans.WorkpageDispatchedPageBean;
-import at.mxerp.managedbeans.commons.PartnerGroupingPopupPB.ICallback;
 import at.mxerp.services.entities.Entity;
 import at.mxerp.services.entities.IEntity;
 import at.mxerp.services.savedsearches.SavedSearch;
@@ -70,7 +69,52 @@ import at.mxerp.utils.Helper;
 @SuppressWarnings("serial")
 @CCGenClass(expressionBase = "#{d.SearchPB}")
 public class SearchPB extends WorkpageDispatchedPageBean implements Serializable, IVariants {
-
+	
+	private Expression staticExpression;
+	
+	public void setStaticExpression(Expression staticExpression) {
+		this.staticExpression = staticExpression;
+	}
+	
+	private ICallback callback;
+	
+	public static interface ICallback {
+		public void rowExecute(String id);		
+	}
+	
+	public void setCallback(ICallback callback) {
+		this.callback = callback;
+	}
+	
+	public String getIndexHint() {
+		return StringUtils.join(listIndex, ", ");
+	}
+ 
+	private String indexField;
+	public String getIndexField()  {
+		return indexField;
+	}
+	
+	public void setIndexField(String indexField) {
+		this.indexField = indexField;
+	}
+	
+	private Expression buildExpressionForIndex() {
+		if(StringUtils.isBlank(indexField)||listIndex.size() <= 0) return ExpressionFactory.expTrue(); 
+		
+		List<Expression> expressions = new ArrayList<Expression>(listIndex.size());		
+		
+		for(String field : listIndex) {
+			String dbName = objEntity.getAttributeMap().get(field).getDbAttributeName();
+			Reflect refField = Reflect.on(SearchPB.this.entityClazz).field(dbName.toUpperCase());
+			Reflect refMethod = refField.call(Operator.likeInsensitive.name(),"%" + indexField + "%");
+			Expression expression = refMethod.get();
+			expressions.add(expression);
+		}
+		
+		return ExpressionFactory.joinExp(Expression.OR, expressions);
+	}
+	
 	private boolean selectDeleted = false;
 
 	public boolean isSelectDeleted() {
@@ -83,8 +127,10 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 	private Map<String, Metadata> metadataMap;
 
+	private List<String> listIndex;
+	
 	private enum Operator {
-		eq, like, gt, gte, lt, lte, between;
+		eq, like, likeInsensitive, gt, gte, lt, lte, between;
 
 		public String getDescription() {
 			return Helper.getLiteral(this.name());
@@ -142,14 +188,17 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 		@Override
 		public void onRowExecute() {
-			// super.onRowExecute();
-			WorkpageStartInfo wpsi = new WorkpageStartInfo();
-			wpsi.setId(SearchPB.this.entity.name() + ":" + getId());
-			wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entity.name());
-			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, getId());
-			wpsi.setOpenMultipleInstances(false);
-			wpsi.setPageBeanName(SearchPB.this.entity.getDetailPB());
-			openWorkpage(wpsi);
+			if(callback==null) {
+				WorkpageStartInfo wpsi = new WorkpageStartInfo();
+				wpsi.setId(SearchPB.this.entity.name() + ":" + getId());
+				wpsi.setParam(Constants.WP_PARAMS_ENTITY, SearchPB.this.entity.name());
+				wpsi.setParam(Constants.WP_PARAMS_ENTITYID, getId());
+				wpsi.setOpenMultipleInstances(false);
+				wpsi.setPageBeanName(SearchPB.this.entity.getDetailPB());
+				openWorkpage(wpsi);
+			} else {
+				callback.rowExecute(getId());
+			}
 		}
 		
 		public void onLink(ActionEvent event) {
@@ -183,26 +232,34 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 	// constructors & initialization
 	// ------------------------------------------------------------------------
 
-	@SuppressWarnings("unchecked")
+
 	public SearchPB(IWorkpageDispatcher workpageDispatcher) {
+		this(workpageDispatcher, false);
+	}
+	
+	@SuppressWarnings("unchecked")
+	public SearchPB(IWorkpageDispatcher workpageDispatcher, boolean asPopup) {
 		super(workpageDispatcher);
 		try {
+			pageName = asPopup?"/ui/commons/search-popup.jsp":"/ui/commons/search.jsp";
+			
 			entity = Entity.valueOf(workpageDispatcher.getWorkpage().getParam(Constants.WP_PARAMS_ENTITY));
 
 			objEntity = getLocalContext().getEntityResolver().getObjEntity(entity.getObjName());
 			assert objEntity != null;
 
 			metadataMap = Metadata.getByObjectAsMap(getLocalContext(), entity.getObjName());
+			listIndex = new ArrayList<String>();
 
 			fieldsVVB = new ValidValuesBinding();
 			for (ObjAttribute objAttribute : objEntity.getAttributes()) {
 				String field = objAttribute.getName();
 				Metadata metadate = metadataMap.get(field);
-				if (metadate != null && metadate.getTechnical())
-					continue;
+				if (metadate != null && metadate.getSearchIndex()) listIndex.add(field);
+				if (metadate != null && metadate.getTechnical()) continue;
 				String description = Helper.getColumnNameForObject(entity.getObjName(),
 						objAttribute.getDbAttributeName());
-				fieldsVVB.addValidValue(field, description);
+				fieldsVVB.addValidValue(field, description);				
 			}
 			entityClazz = (Class<CayenneDataObject>) Class.forName(objEntity.getClassName());
 			assert entityClazz != null;
@@ -259,9 +316,11 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		if (!isSavedSearchSet)
 			addSelectionRow(0);
 	}
+	
+	private String pageName;
 
 	public String getPageName() {
-		return "/ui/commons/search.jsp";
+		return pageName;
 	}
 
 	public String getRootExpressionUsedInPage() {
@@ -359,7 +418,7 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 				}
 			});
 
-			popupPB.prepare(new ICallback() {
+			popupPB.prepare(new PartnerGroupingPopupPB.ICallback() {
 
 				@Override
 				public void onSelect(String grouping, String type) {
@@ -511,7 +570,9 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 
 		}
 
-		List<Expression> expressions = new ArrayList<Expression>(expressionsMap.size());
+		List<Expression> expressions = new ArrayList<Expression>(expressionsMap.size() + 1);
+		expressions.add(buildExpressionForIndex());
+						
 		for (String key : expressionsMap.keySet()) {
 			Expression expression = ExpressionFactory.joinExp(Expression.OR, expressionsMap.get(key));
 			expressions.add(expression);
@@ -520,6 +581,8 @@ public class SearchPB extends WorkpageDispatchedPageBean implements Serializable
 		if (!selectDeleted)
 			expressions.add(IEntity.DELETED.eq(false));
 
+		if(staticExpression!=null) expressions.add(staticExpression);
+		
 		Expression expression = ExpressionFactory.joinExp(Expression.AND, expressions);
 
 		SelectQuery<CayenneDataObject> query = SelectQuery.query(entityClazz, expression);

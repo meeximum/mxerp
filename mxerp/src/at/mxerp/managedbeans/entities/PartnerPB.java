@@ -6,6 +6,8 @@ import javax.faces.event.ActionEvent;
 
 import org.apache.commons.lang3.StringUtils;
 import org.eclnt.editor.annotations.CCGenClass;
+import org.eclnt.jsfserver.defaultscreens.ModelessPopup;
+import org.eclnt.jsfserver.defaultscreens.ModelessPopup.IModelessPopupListener;
 import org.eclnt.jsfserver.defaultscreens.Statusbar;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDItem;
 import org.eclnt.jsfserver.elements.impl.FIXGRIDListBinding;
@@ -18,6 +20,7 @@ import at.mxerp.db.erp.NumberRanges;
 import at.mxerp.db.erp.PartnerViews;
 import at.mxerp.db.erp.Partners;
 import at.mxerp.managedbeans.commons.DetailPB;
+import at.mxerp.managedbeans.commons.SearchPB;
 import at.mxerp.services.entities.Entity;
 import at.mxerp.services.entities.NumberRangeManager;
 import at.mxerp.utils.Constants;
@@ -26,10 +29,35 @@ import at.mxerp.utils.Constants;
 @CCGenClass(expressionBase = "#{d.PartnerPB}")
 public class PartnerPB extends DetailPB {
 	
-	public void onAddContact(ActionEvent event) {
-		// call PopUp
-		Contacts contact = getLocalContext().newObject(Contacts.class);
-		getGridContacts().getItems().add(new GridContactsItem(contact));
+	public void onAddContact(ActionEvent event) {			
+		final SearchPB popupPB = new SearchPB(getOwningDispatcher(), true);
+		final ModelessPopup mp = openModelessPopup(popupPB, "Kontakt suchen", 0, 0, null);
+		mp.setPopupListener(new IModelessPopupListener() {
+
+			@Override
+			public void reactOnPopupClosedByUser() {
+				mp.close();
+			}
+		});
+		
+		popupPB.setStaticExpression(Partners.TYPE.eq("P"));
+		
+		popupPB.setCallback(new SearchPB.ICallback() {
+			
+			@Override
+			public void rowExecute(String id) {
+				Contacts contact = getLocalContext().newObject(Contacts.class);
+				contact.setPartner1(getPartner().getId());
+				contact.setPartner2(id);				
+				getGridContacts().getItems().add(new GridContactsItem(contact));
+				mp.close();
+			}
+		});
+
+
+		mp.setLeftTopReferenceCentered();		
+		
+		
 	}
 	
 	private FIXGRIDListBinding<GridContactsItem> gridContacts = new FIXGRIDListBinding<GridContactsItem>();
@@ -65,13 +93,19 @@ public class PartnerPB extends DetailPB {
 		@Override
 		public void onRowExecute() {
 			WorkpageStartInfo wpsi = new WorkpageStartInfo();
-			wpsi.setId(Entity.PARTNER.name() + ":" + getId());
+			wpsi.setId(Entity.PARTNER.name() + ":" + partner2.getId());
 			wpsi.setParam(Constants.WP_PARAMS_ENTITY, Entity.PARTNER.name());
-			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, getId());
+			wpsi.setParam(Constants.WP_PARAMS_ENTITYID, partner2.getId());
 			wpsi.setOpenMultipleInstances(false);
 			wpsi.setPageBeanName("PartnerPB");		
 			openWorkpage(wpsi);
-		}		
+		}	
+		
+		public void onDelete(ActionEvent event) {
+			getLocalContext().deleteObjects(contact);
+			getGridContacts().getItems().remove(contact);
+			getChangeIndex();
+		}
 		
 		
 	}
@@ -116,8 +150,8 @@ public class PartnerPB extends DetailPB {
 	}
 
 	@Override
-	protected void beforeSave() throws Exception {
-		super.beforeSave();
+	protected void beforeCommit() throws Exception {
+		super.beforeCommit();
 		if(StringUtils.isBlank(getPartner().getPartnerNo())) {
 			Groupings grouping = Groupings.getById(getLocalContext(), getPartner().getGrouping());
 			NumberRanges numberRange = NumberRangeManager.get(grouping.getNumberRange());
@@ -129,7 +163,18 @@ public class PartnerPB extends DetailPB {
 		// concatenate name
 		getPartner().generateName();
 	}	
+	
+	@Override
+	protected void afterCommit() throws Exception {
+		super.afterCommit();
+		loadContacts();
+	}
 		
+	@Override
+	protected void afterRollback() throws Exception {
+		super.afterRollback();
+		loadContacts();
+	}
 	
 
 }

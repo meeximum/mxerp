@@ -24,6 +24,8 @@ public abstract class _Metadata extends CayenneDataObject {
     @Deprecated
     public static final String READ_ONLY_PROPERTY = "readOnly";
     @Deprecated
+    public static final String SEARCH_INDEX_PROPERTY = "searchIndex";
+    @Deprecated
     public static final String TECHNICAL_PROPERTY = "technical";
     @Deprecated
     public static final String VVB_PROPERTY = "vvb";
@@ -37,6 +39,7 @@ public abstract class _Metadata extends CayenneDataObject {
     public static final Property<Boolean> MANDATORY = new Property<Boolean>("mandatory");
     public static final Property<String> OBJECT = new Property<String>("object");
     public static final Property<Boolean> READ_ONLY = new Property<Boolean>("readOnly");
+    public static final Property<Boolean> SEARCH_INDEX = new Property<Boolean>("searchIndex");
     public static final Property<Boolean> TECHNICAL = new Property<Boolean>("technical");
     public static final Property<String> VVB = new Property<String>("vvb");
 
@@ -80,6 +83,13 @@ public abstract class _Metadata extends CayenneDataObject {
     }
     public Boolean getReadOnly() {
         return (Boolean)readProperty("readOnly");
+    }
+
+    public void setSearchIndex(Boolean searchIndex) {
+        writeProperty("searchIndex", searchIndex);
+    }
+    public Boolean getSearchIndex() {
+        return (Boolean)readProperty("searchIndex");
     }
 
     public void setTechnical(Boolean technical) {
